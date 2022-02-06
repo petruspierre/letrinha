@@ -3,6 +3,7 @@ import { FaPalette, FaQuestionCircle } from "react-icons/fa";
 
 import { useTheme } from "~/styles/theme";
 import { Container, Content, Header } from "./styles";
+import SimpleGame from "./SimpleGame";
 
 const Home = () => {
   const { showThemeSelection } = useTheme();
@@ -23,6 +24,7 @@ const Home = () => {
               <FaPalette size="1.5rem" />
             </button>
           </Header>
+          <SimpleGame />
         </Content>
       </Container>
     </>

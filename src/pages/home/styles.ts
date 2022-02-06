@@ -12,6 +12,7 @@ export const Content = styled.main`
   width: 100%;
   max-width: 1120px;
   margin: 0 auto;
+  height: 100%;
 `;
 
 export const Header = styled.header`

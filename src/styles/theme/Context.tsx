@@ -25,7 +25,7 @@ interface ThemeProviderProps {
   themes: Record<string, ColorTheme>;
 }
 
-const LOCAL_STORAGE_KEY = "@CB/theme";
+const LOCAL_STORAGE_KEY = "@LETRINHA/theme";
 const DEFAULT_THEME = "default";
 
 const ThemeContext = createContext<ThemeContextProps>({} as ThemeContextProps);

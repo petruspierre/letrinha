@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Overlay = styled.div`
   position: fixed;
@@ -36,7 +36,7 @@ export const Title = styled.h3`
   font-weight: 400;
   text-align: center;
 
-  color: ${({ theme }) => theme.colors.text};
+  color: ${({ theme }) => theme.colors.primary};
   border-bottom: 2px solid ${({ theme }) => theme.colors.primary};
   margin-bottom: 2rem;
   padding-bottom: 0.75rem;

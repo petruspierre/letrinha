@@ -50,13 +50,6 @@ const themes: Record<string, ColorTheme> = {
     },
     name: "Brasil",
   },
-  lighthouse: {
-    colors: {
-      primary: "#368DF4",
-      secondary: "#DB2A2A",
-    },
-    name: "Farol",
-  },
   tumblr: {
     colors: {
       primary: "#f72585",
@@ -66,8 +59,8 @@ const themes: Record<string, ColorTheme> = {
   },
   default: {
     colors: {
-      primary: "#F46036",
-      secondary: "#18A999",
+      primary: "#63ADF2",
+      secondary: "#304D6D",
     },
     name: "Padrão",
   },
@@ -75,7 +68,7 @@ const themes: Record<string, ColorTheme> = {
 
 const defaultTheme: DefaultTheme = {
   colors: {
-    background: "#0B3C49",
+    background: "#2F2D2E",
     text: "#F5F9E9",
     white: "#fff",
     overlay: "rgba(0, 0, 0, 0.5)",

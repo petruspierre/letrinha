@@ -1,4 +1,4 @@
-import { Container, Preview } from './styles';
+import { Container, Preview } from "./styles";
 
 interface OptionProps {
   active: boolean;

@@ -9,7 +9,6 @@ export default createGlobalStyle`
 
   body {
     background-color: ${({ theme }) => theme.colors.background};
-    color: ${({ theme }) => theme.colors.text};
   }
 
   a {

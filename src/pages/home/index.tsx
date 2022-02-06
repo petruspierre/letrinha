@@ -1,9 +1,12 @@
 import Head from "next/head";
 import { FaPalette, FaQuestionCircle } from "react-icons/fa";
 
+import { useTheme } from "~/styles/theme";
 import { Container, Content, Header } from "./styles";
 
 const Home = () => {
+  const { showThemeSelection } = useTheme();
+
   return (
     <>
       <Head>
@@ -16,7 +19,7 @@ const Home = () => {
               <FaQuestionCircle size="1.5rem" />
             </button>
             <h1>Letrinha</h1>
-            <button>
+            <button onClick={showThemeSelection}>
               <FaPalette size="1.5rem" />
             </button>
           </Header>

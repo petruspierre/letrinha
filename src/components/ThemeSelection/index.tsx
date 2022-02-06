@@ -1,7 +1,7 @@
-import { useTheme } from '~/styles/theme';
+import { useTheme } from "~/styles/theme";
 
-import { Overlay, Content, Title } from './styles';
-import Option from './Option';
+import { Overlay, Content, Title } from "./styles";
+import Option from "./Option";
 
 interface ThemeSelecionProps {
   dismiss: () => void;
@@ -16,7 +16,7 @@ const ThemeSelection = ({ dismiss }: ThemeSelecionProps) => {
       <Content role="menu">
         <Title>Mudar tema</Title>
 
-        {Object.keys(themes).map(themeName => {
+        {Object.keys(themes).map((themeName) => {
           const theme = themes[themeName];
           const isActive = colorTheme === themeName;
 

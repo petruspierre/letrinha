@@ -20,14 +20,16 @@ export const Header = styled.header`
   justify-content: space-between;
   width: 100%;
   max-width: 1120px;
-  padding: 2rem;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.primary};
 
   h1 {
     font-size: 2.25rem;
     margin: 0 1rem;
+    color: ${({ theme }) => theme.colors.white};
   }
 
   svg {
-    color: ${({ theme }) => theme.colors.text};
+    color: ${({ theme }) => theme.colors.primary};
   }
 `;

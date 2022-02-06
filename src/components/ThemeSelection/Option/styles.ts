@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 interface PreviewProps {
   color: string;
@@ -28,7 +28,7 @@ export const Container = styled.button<ContainerProps>`
     font-size: 2.25rem;
     font-weight: 300;
     font-family: ${({ theme }) => theme.font.primary};
-    ${props =>
+    ${(props) =>
       props.active && `border-bottom: 5px solid ${props.theme.colors.primary};`}
   }
 `;
@@ -37,5 +37,5 @@ export const Preview = styled.div<PreviewProps>`
   width: 40px;
   height: 40px;
   border-radius: 6px;
-  background: ${props => props.color};
+  background: ${(props) => props.color};
 `;

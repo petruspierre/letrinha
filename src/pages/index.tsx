@@ -1,12 +1,5 @@
-import Head from "next/head";
+import HomePage from "./home";
 
 export default function Home() {
-  return (
-    <>
-      <Head>
-        <title>Letrinha</title>
-      </Head>
-      <h1>Letrinha</h1>
-    </>
-  );
+  return <HomePage />;
 }

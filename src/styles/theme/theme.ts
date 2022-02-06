@@ -75,15 +75,15 @@ const themes: Record<string, ColorTheme> = {
 
 const defaultTheme: DefaultTheme = {
   colors: {
-    background: "#2F2D2E",
-    text: "#2F2D2E",
+    background: "#0B3C49",
+    text: "#F5F9E9",
     white: "#fff",
     overlay: "rgba(0, 0, 0, 0.5)",
     ...themes.default.colors,
   },
   font: {
-    primary: "Bebas Neue",
-    secondary: "Bungee",
+    primary: "Rowdies",
+    secondary: "Roboto Condensed",
   },
   breakpoints: {
     sm: 768,

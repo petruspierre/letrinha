@@ -7,6 +7,11 @@ export default createGlobalStyle`
     box-sizing: border-box;
   }
 
+  body {
+    background-color: ${({ theme }) => theme.colors.background};
+    color: ${({ theme }) => theme.colors.text};
+  }
+
   a {
     text-decoration: none;
   }
@@ -15,6 +20,14 @@ export default createGlobalStyle`
     border: 0;
     background-color: transparent;
     cursor: pointer;
+  }
+
+  h1, h2, label, a, p, span, input, li {
+    font-family: ${(props) => props.theme.font.primary};
+  }
+
+  button {
+    font-family: ${(props) => props.theme.font.secondary};
   }
 
   fieldset {

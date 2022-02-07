@@ -23,6 +23,7 @@ export default createGlobalStyle`
 
   h1, h2, label, a, p, span, input, li {
     font-family: ${(props) => props.theme.font.primary};
+    font-weight: 300;
   }
 
   button {

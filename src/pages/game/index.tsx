@@ -6,6 +6,8 @@ import { useTheme } from "~/styles/theme";
 import SimpleGame from "~/components/SimpleGame";
 import api from "~/services/api";
 import { Container, Content, Header } from "./styles";
+import { useState } from "react";
+import HowToPlay from "~/components/HowToPlay";
 
 interface GameProps {
   dailyWord: string;
@@ -13,6 +15,11 @@ interface GameProps {
 
 const Game = ({ dailyWord }: GameProps) => {
   const { showThemeSelection } = useTheme();
+  const [showHowToPlay, setShowHowToPlay] = useState(false);
+
+  const toggleInstructions = () => {
+    setShowHowToPlay(!showHowToPlay);
+  };
 
   return (
     <>
@@ -20,9 +27,10 @@ const Game = ({ dailyWord }: GameProps) => {
         <title>Letrinha</title>
       </Head>
       <Container>
+        {showHowToPlay && <HowToPlay dismiss={toggleInstructions} />}
         <Content>
           <Header>
-            <button>
+            <button onClick={toggleInstructions}>
               <FaQuestionCircle size="1.5rem" />
             </button>
             <h1>Letrinha</h1>

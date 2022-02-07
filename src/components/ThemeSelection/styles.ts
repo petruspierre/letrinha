@@ -24,7 +24,7 @@ export const Content = styled.div`
   width: calc(100% - 2rem);
   max-width: 420px;
   border-radius: 15px;
-  padding: 20px;
+  padding: 2rem;
   margin: 0 1rem;
 
   background: ${({ theme }) => theme.colors.white}; ;

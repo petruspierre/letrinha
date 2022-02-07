@@ -1,3 +1,4 @@
+import Keyboard from "../Keyboard";
 import useGame from "./hook";
 import {
   FieldWrapper,
@@ -12,7 +13,7 @@ interface SimpleGameProps {
 }
 
 const SimpleGame = ({ dailyWord }: SimpleGameProps) => {
-  const { state } = useGame(dailyWord);
+  const { state, submitGuess, popLetter, appendLetter } = useGame(dailyWord);
 
   return (
     <Container>
@@ -45,6 +46,11 @@ const SimpleGame = ({ dailyWord }: SimpleGameProps) => {
       </FieldsContainer>
 
       <Footer>
+        <Keyboard
+          submit={submitGuess}
+          addLetter={appendLetter}
+          popLetter={popLetter}
+        />
         <p>Tentativas restantes: {state.attempts}</p>
       </Footer>
     </Container>

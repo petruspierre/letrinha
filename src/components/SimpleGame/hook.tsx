@@ -79,29 +79,36 @@ const useGame = (dailyWord: string) => {
     }
   }, [dailyWord, gameState]);
 
-  const popLetter = (guessId: number) =>
+  const popLetter = useCallback(() => {
+    const lastGuess = gameState.guesses.length - 1;
     dispatchGame({
       type: ActionTypes.PopLetter,
       payload: {
-        guessId,
+        guessId: lastGuess,
       },
     });
+  }, [gameState]);
 
-  const appendLetter = (letter: string, guessId: number) =>
-    dispatchGame({
-      type: ActionTypes.AppendLetter,
-      payload: {
-        letter,
-        guessId,
-      },
-    });
+  const appendLetter = useCallback(
+    (letter: string) => {
+      const lastGuess = gameState.guesses.length - 1;
+      dispatchGame({
+        type: ActionTypes.AppendLetter,
+        payload: {
+          letter,
+          guessId: lastGuess,
+        },
+      });
+    },
+    [gameState]
+  );
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
       const currentGuess = gameState.guesses.length - 1;
 
       if (event.key === "Backspace") {
-        popLetter(currentGuess);
+        popLetter();
         return;
       }
 
@@ -111,10 +118,10 @@ const useGame = (dailyWord: string) => {
       }
 
       if (LETTERS.includes(event.key)) {
-        appendLetter(event.key, currentGuess);
+        appendLetter(event.key);
       }
     },
-    [gameState, submitGuess]
+    [gameState, submitGuess, appendLetter, popLetter]
   );
 
   useEffect(() => {
@@ -126,6 +133,9 @@ const useGame = (dailyWord: string) => {
   return {
     state: gameState,
     isLoading: !dailyWord,
+    submitGuess,
+    popLetter,
+    appendLetter,
   };
 };
 

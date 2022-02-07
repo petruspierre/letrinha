@@ -20,12 +20,17 @@ const fadeIn = keyframes`
 `;
 
 export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   padding: 2rem 1rem;
   height: 100%;
 `;
 
 export const FieldsContainer = styled.section`
-  height: calc(100% - 2rem);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 `;
 
 export const FieldWrapper = styled.div`
@@ -71,6 +76,7 @@ export const Field = styled.div<FieldProps>`
 
 export const Footer = styled.section`
   display: flex;
+  flex-direction: column;
   width: 100%;
 
   p {

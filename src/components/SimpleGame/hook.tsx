@@ -50,7 +50,9 @@ const useGame = (dailyWord: string) => {
 
   const submitGuess = useCallback(() => {
     const lastGuess = gameState.guesses[gameState.guesses.length - 1];
-    if (lastGuess.length !== gameState.wordLength) {
+    if (
+      lastGuess.filter((item) => item.letter).length !== gameState.wordLength
+    ) {
       return;
     }
 
@@ -109,6 +111,8 @@ const useGame = (dailyWord: string) => {
       type: ActionTypes.UpdateKeyboard,
     });
 
+    setSelectedIndex(0);
+
     const isWordCorrect = newGuess.every((item) => item.correctPlace);
 
     if (!isWordCorrect) {
@@ -149,7 +153,7 @@ const useGame = (dailyWord: string) => {
         },
       });
 
-      if (selectedIndex < gameState.wordLength) {
+      if (selectedIndex < gameState.wordLength - 1) {
         setSelectedIndex(selectedIndex + 1);
       }
     },
@@ -176,7 +180,7 @@ const useGame = (dailyWord: string) => {
       }
 
       if (event.key === "ArrowRight") {
-        if (selectedIndex < gameState.wordLength) {
+        if (selectedIndex < gameState.wordLength - 1) {
           setSelectedIndex(selectedIndex + 1);
         }
         return;
@@ -215,7 +219,9 @@ const useGame = (dailyWord: string) => {
 
       console.log(lastIndex);
 
-      setSelectedIndex(lastIndex);
+      setSelectedIndex(
+        lastIndex >= state.wordLength ? state.wordLength - 1 : lastIndex
+      );
 
       dispatchGame({
         type: ActionTypes.UpdateGame,

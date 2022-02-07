@@ -23,6 +23,8 @@ export const gameReducer = (state: IGameState, action: GameActions) => {
 
       if (!guess) throw new Error("guess not found");
 
+      if (letterId >= state.wordLength) return state;
+
       const newLetter = {
         letter: letter.toLowerCase(),
         exists: false,
@@ -44,6 +46,8 @@ export const gameReducer = (state: IGameState, action: GameActions) => {
       const guess = newGuesses[guessId];
 
       if (!guess) throw new Error("guess not found");
+
+      if (letterId >= state.wordLength) return state;
 
       const newGuess = [...guess] as any[];
       newGuess[letterId] = {};

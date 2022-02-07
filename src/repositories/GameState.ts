@@ -8,7 +8,7 @@ const getStoragedGameState = () => {
   if (IS_SERVER) return;
   const state = localStorage.getItem(STORAGE_KEY);
 
-  return (state ? JSON.parse(state) : {}) as IGameState;
+  return state ? (JSON.parse(state) as IGameState) : null;
 };
 
 const setStoragedGameState = (state: IGameState) => {

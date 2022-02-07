@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { GetStaticProps } from "next";
+import { GetServerSideProps } from "next";
 import { FaPalette, FaQuestionCircle } from "react-icons/fa";
 
 import { useTheme } from "~/styles/theme";
@@ -37,7 +37,7 @@ const Game = ({ dailyWord }: GameProps) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const response = await api.get("/daily-word");
 
   const word = response.data.word;
@@ -46,7 +46,6 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       dailyWord: word,
     },
-    revalidate: 60 * 60 * 24, // 24 hours
   };
 };
 

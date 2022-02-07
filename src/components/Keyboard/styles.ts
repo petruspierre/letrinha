@@ -70,10 +70,12 @@ export const KeyboardButton = styled.button<IKeyboardButtonProps>`
   ${is("exists")`
     border-color: yellow;
     background-color: yellow;
+    color: black;
   `}
 
   ${is("correctPlace")`
     border-color: green;
     background-color: green;
+    color: ${({ theme }) => theme.colors.white};
   `}
 `;

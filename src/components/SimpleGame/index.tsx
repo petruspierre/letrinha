@@ -26,6 +26,7 @@ const SimpleGame = ({ dailyWord }: SimpleGameProps) => {
     setSelectedIndex,
   } = useGame(dailyWord);
   const [dismissOverlay, setDismissOverlay] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const handleShare = () => {
     const {
@@ -50,9 +51,14 @@ const SimpleGame = ({ dailyWord }: SimpleGameProps) => {
       "Jogue também em https://bit.ly/jogue-letrinha",
     ];
 
-    navigator.share({
-      text: content.join("\n"),
-    });
+    if (typeof navigator.share !== "undefined") {
+      navigator.share({
+        text: content.join("\n"),
+      });
+    } else {
+      navigator.clipboard.writeText(content.join("\n"));
+      setCopied(true);
+    }
   };
 
   const renderResult = () => {
@@ -87,7 +93,9 @@ const SimpleGame = ({ dailyWord }: SimpleGameProps) => {
         <p>
           com <span>{accuracy.toFixed(0)}%</span> de precisão
         </p>
-        <button onClick={handleShare}>Compartilhar</button>
+        <button onClick={handleShare}>
+          {copied ? "Copiado" : "Compartilhar"}
+        </button>
         <button onClick={() => setDismissOverlay(true)}>Ver jogo</button>
       </GameOverWarning>
     );

@@ -1,4 +1,5 @@
-import { IGameState, GameActions, ActionTypes } from "./types";
+import { GameActions, ActionTypes } from "./types";
+import { IGameState } from "~/model/SimpleGame";
 
 export const gameReducer = (state: IGameState, action: GameActions) => {
   switch (action.type) {

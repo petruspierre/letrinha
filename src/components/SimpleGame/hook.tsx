@@ -1,8 +1,14 @@
-import { useCallback, useEffect, useReducer, useState } from "react";
+import { useCallback, useEffect, useReducer } from "react";
+import { endOfToday, isAfter } from "date-fns";
 
-import { ActionTypes, IGuess } from "./types";
+import { ActionTypes } from "./types";
 import { gameReducer } from "./reducer";
 import wordData from "~/wordData/pt-br/wordData";
+import { IGuess } from "~/model/SimpleGame";
+import {
+  getStoragedGameState,
+  setStoragedGameState,
+} from "~/repositories/GameState";
 
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 
@@ -12,10 +18,27 @@ const INITIAL_STATE = {
   guesses: [[]],
   wordLength: 6,
   keyBoardState: {},
+  gameStart: new Date(),
+  gameExpires: endOfToday(),
 };
 
 const useGame = (dailyWord: string) => {
   const [gameState, dispatchGame] = useReducer(gameReducer, INITIAL_STATE);
+
+  const endGame = (win: boolean) => {
+    dispatchGame({
+      type: ActionTypes.UpdateGame,
+      payload: {
+        isGameOver: true,
+      },
+    });
+
+    if (win) {
+      alert("ganhou");
+    } else {
+      alert("perdeu");
+    }
+  };
 
   const submitGuess = useCallback(() => {
     const lastGuess = gameState.guesses[gameState.guesses.length - 1];
@@ -84,10 +107,10 @@ const useGame = (dailyWord: string) => {
       if (gameState.attempts > 1) {
         dispatchGame({ type: ActionTypes.NewGuess });
       } else {
-        alert("perdeu");
+        endGame(false);
       }
     } else {
-      alert("ganhou");
+      endGame(true);
     }
   }, [dailyWord, gameState]);
 
@@ -141,6 +164,29 @@ const useGame = (dailyWord: string) => {
 
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
+
+  useEffect(() => {
+    if (gameState.attempts !== INITIAL_STATE.attempts) {
+      setStoragedGameState(gameState);
+    }
+  }, [gameState]);
+
+  useEffect(() => {
+    const state = getStoragedGameState();
+
+    if (state) {
+      if (state.isGameOver) {
+        if (isAfter(state.gameExpires, new Date())) {
+          return;
+        }
+      }
+
+      dispatchGame({
+        type: ActionTypes.UpdateGame,
+        payload: state,
+      });
+    }
+  }, []);
 
   return {
     state: gameState,

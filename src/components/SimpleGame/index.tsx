@@ -1,3 +1,5 @@
+import { formatISO, formatDistance } from "date-fns";
+import { ptBR } from "date-fns/locale";
 import Keyboard from "../Keyboard";
 import useGame from "./hook";
 import {
@@ -6,6 +8,7 @@ import {
   Container,
   Footer,
   FieldsContainer,
+  GameOverWarning,
 } from "./styles";
 
 interface SimpleGameProps {
@@ -17,6 +20,17 @@ const SimpleGame = ({ dailyWord }: SimpleGameProps) => {
 
   return (
     <Container>
+      {state.isGameOver && (
+        <GameOverWarning>
+          <h2>
+            Acabaram suas tentativas de hoje. Aguarde a nova palavra em{" "}
+            {formatDistance(new Date(), new Date(state.gameExpires), {
+              locale: ptBR,
+            })}
+          </h2>
+        </GameOverWarning>
+      )}
+
       <FieldsContainer>
         {state.guesses.map((guess, index) => (
           <FieldWrapper key={String(index)}>

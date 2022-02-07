@@ -21,7 +21,8 @@ export const Header = styled.header`
   justify-content: space-between;
   width: 100%;
   max-width: 1120px;
-  padding: 1.5rem 2rem;
+  padding: 0 2rem;
+  height: 5rem;
   border-bottom: 1px solid ${({ theme }) => theme.colors.primary};
 
   h1 {

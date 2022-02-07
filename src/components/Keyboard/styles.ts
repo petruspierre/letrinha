@@ -6,6 +6,7 @@ export const Container = styled.div`
   align-items: center;
   box-sizing: border-box;
   width: 100%;
+  height: 12.5rem;
 
   button {
     height: 2.5rem;

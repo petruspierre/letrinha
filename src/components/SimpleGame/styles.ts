@@ -24,13 +24,18 @@ export const Container = styled.div`
   flex-direction: column;
   flex: 1;
   padding: 2rem 1rem;
-  height: 100%;
 `;
 
 export const FieldsContainer = styled.section`
   display: flex;
   flex-direction: column;
   flex: 1;
+  padding-bottom: 1rem;
+
+  @media screen and (max-width: 768px) {
+    overflow-y: scroll;
+    max-height: calc(100vh - 24rem);
+  }
 `;
 
 export const FieldWrapper = styled.div`
@@ -77,7 +82,19 @@ export const Field = styled.div<FieldProps>`
 export const Footer = styled.section`
   display: flex;
   flex-direction: column;
+  height: 16rem;
   width: 100%;
+  background-color: ${({ theme }) => theme.colors.background};
+  border-top: 1px solid ${({ theme }) => theme.colors.primary};
+  padding-top: 1rem;
+
+  @media screen and (max-width: 768px) {
+    width: calc(100% - 2rem);
+    position: fixed;
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+  }
 
   p {
     font-size: 1.25rem;

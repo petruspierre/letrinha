@@ -1,17 +1,17 @@
 import Head from "next/head";
+import { GetServerSideProps } from "next";
 import { FaPalette, FaQuestionCircle } from "react-icons/fa";
 
 import { useTheme } from "~/styles/theme";
-import { Container, Content, Header } from "./styles";
-import SimpleGame from "./SimpleGame";
-import { GetServerSideProps } from "next";
+import SimpleGame from "~/components/SimpleGame";
 import api from "~/services/api";
+import { Container, Content, Header } from "./styles";
 
-interface HomeProps {
+interface GameProps {
   dailyWord: string;
 }
 
-const Home = ({ dailyWord }) => {
+const Game = ({ dailyWord }: GameProps) => {
   const { showThemeSelection } = useTheme();
 
   return (
@@ -49,4 +49,4 @@ export const getServerSideProps: GetServerSideProps = async () => {
   };
 };
 
-export default Home;
+export default Game;

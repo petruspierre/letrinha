@@ -43,13 +43,6 @@ const themes: Record<string, ColorTheme> = {
     },
     name: "Fofo",
   },
-  brazil: {
-    colors: {
-      primary: "#F4BF36",
-      secondary: "#188FA9",
-    },
-    name: "Brasil",
-  },
   tumblr: {
     colors: {
       primary: "#f72585",

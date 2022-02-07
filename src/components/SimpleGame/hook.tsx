@@ -3,7 +3,6 @@ import { useCallback, useEffect, useReducer, useState } from "react";
 import { ActionTypes, IGuess } from "./types";
 import { gameReducer } from "./reducer";
 import wordData from "~/wordData/pt-br/wordData";
-import api from "~/services/api";
 
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 
@@ -12,6 +11,7 @@ const INITIAL_STATE = {
   isGameOver: false,
   guesses: [[]],
   wordLength: 6,
+  keyBoardState: {},
 };
 
 const useGame = (dailyWord: string) => {
@@ -72,6 +72,10 @@ const useGame = (dailyWord: string) => {
         guessId: gameState.guesses.length - 1,
         guesses: newGuess,
       },
+    });
+
+    dispatchGame({
+      type: ActionTypes.UpdateKeyboard,
     });
 
     const isWordCorrect = newGuess.every((item) => item.correctPlace);

@@ -50,6 +50,7 @@ const SimpleGame = ({ dailyWord }: SimpleGameProps) => {
           submit={submitGuess}
           addLetter={appendLetter}
           popLetter={popLetter}
+          state={state.keyBoardState}
         />
         <p>Tentativas restantes: {state.attempts}</p>
       </Footer>

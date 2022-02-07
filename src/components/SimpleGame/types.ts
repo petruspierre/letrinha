@@ -4,6 +4,10 @@ interface ILetter {
   correctPlace: boolean;
 }
 
+interface IKeyboardLetter extends ILetter {
+  used: boolean;
+}
+
 export interface IGuess extends Array<ILetter> {}
 
 export interface IGameState {
@@ -11,6 +15,7 @@ export interface IGameState {
   isGameOver: boolean;
   guesses: IGuess[];
   wordLength: number;
+  keyBoardState: Record<string, IKeyboardLetter>;
 }
 
 export enum ActionTypes {
@@ -19,6 +24,7 @@ export enum ActionTypes {
   PopLetter = "POP_LETTER",
   UpdateGame = "UPDATE_GAME",
   UpdateGuesses = "UPDATE_GUESSES",
+  UpdateKeyboard = "UPDATE_KEYBOARD",
 }
 
 type AppendLetterAction = {
@@ -51,7 +57,7 @@ type UpdateGuessesAction = {
 
 export type GameActions =
   | {
-      type: ActionTypes.NewGuess;
+      type: ActionTypes.NewGuess | ActionTypes.UpdateKeyboard;
     }
   | AppendLetterAction
   | PopLetterAction

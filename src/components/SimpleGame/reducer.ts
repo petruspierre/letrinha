@@ -75,5 +75,36 @@ export const gameReducer = (state: IGameState, action: GameActions) => {
         guesses: newGuesses,
       };
     }
+    case ActionTypes.UpdateKeyboard: {
+      const { guesses, keyBoardState } = state;
+      const newKeyboardState = { ...keyBoardState };
+
+      guesses.forEach((guess) => {
+        guess.forEach((letterItem) => {
+          const { letter } = letterItem;
+          const existingLetter = newKeyboardState[letter];
+
+          if (existingLetter) {
+            newKeyboardState[letter] = {
+              exists: existingLetter.exists || letterItem.exists,
+              correctPlace:
+                existingLetter.correctPlace || letterItem.correctPlace,
+              used: true,
+              letter: letterItem.letter,
+            };
+          } else {
+            newKeyboardState[letter] = {
+              ...letterItem,
+              used: true,
+            };
+          }
+        });
+      });
+
+      return {
+        ...state,
+        keyBoardState: newKeyboardState,
+      };
+    }
   }
 };

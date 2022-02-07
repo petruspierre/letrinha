@@ -1,4 +1,11 @@
 import styled from "styled-components";
+import is from "styled-is";
+
+interface IKeyboardButtonProps {
+  exists: boolean;
+  correctPlace: boolean;
+  used: boolean;
+}
 
 export const Container = styled.div`
   display: flex;
@@ -7,14 +14,6 @@ export const Container = styled.div`
   box-sizing: border-box;
   width: 100%;
   height: 12.5rem;
-
-  button {
-    height: 2.5rem;
-    background-color: ${({ theme }) => theme.colors.secondary};
-    border: 2px solid ${({ theme }) => theme.colors.primary};
-    border-radius: 8px;
-    text-align: center;
-  }
 
   .actions {
     margin-bottom: 1rem;
@@ -41,10 +40,6 @@ export const Container = styled.div`
     }
 
     button {
-      color: ${({ theme }) => theme.colors.white};
-      font-family: ${({ theme }) => theme.font.secondary};
-      font-size: 1rem;
-
       width: 8%;
 
       & + button {
@@ -52,4 +47,33 @@ export const Container = styled.div`
       }
     }
   }
+`;
+
+export const KeyboardButton = styled.button<IKeyboardButtonProps>`
+  height: 2.5rem;
+  border-radius: 8px;
+  text-align: center;
+  text-transform: uppercase;
+
+  background-color: ${({ theme }) => theme.colors.secondary};
+  border: 2px solid ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.white};
+  font-family: ${({ theme }) => theme.font.secondary};
+  font-size: 1.25rem;
+
+  transition: all 0.2s;
+
+  ${is("used")`
+    background-color: ${({ theme }) => theme.colors.primary};
+  `}
+
+  ${is("exists")`
+    border-color: yellow;
+    background-color: yellow;
+  `}
+
+  ${is("correctPlace")`
+    border-color: green;
+    background-color: green;
+  `}
 `;

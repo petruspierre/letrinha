@@ -49,7 +49,7 @@ export const FieldWrapper = styled.div`
   }
 `;
 
-export const Field = styled.div<FieldProps>`
+export const Field = styled.button<FieldProps>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -58,6 +58,7 @@ export const Field = styled.div<FieldProps>`
   border-radius: 8px;
   height: 3.5rem;
   width: 3.5rem;
+  outline: none;
 
   color: ${({ theme }) => theme.colors.white};
   font-family: ${({ theme }) => theme.font.primary};

@@ -16,7 +16,14 @@ interface SimpleGameProps {
 }
 
 const SimpleGame = ({ dailyWord }: SimpleGameProps) => {
-  const { state, submitGuess, popLetter, appendLetter } = useGame(dailyWord);
+  const {
+    state,
+    submitGuess,
+    popLetter,
+    appendLetter,
+    selectedIndex,
+    setSelectedIndex,
+  } = useGame(dailyWord);
 
   return (
     <Container>
@@ -38,18 +45,21 @@ const SimpleGame = ({ dailyWord }: SimpleGameProps) => {
               .fill(null)
               .map((_, letterIndex) => {
                 const letterExists = guess[letterIndex];
+                const isLastGuess = state.guesses.length - 1 === index;
 
                 return (
                   <Field
-                    isActive={
-                      guess.length === letterIndex &&
-                      state.guesses.length - 1 === index
-                    }
+                    isActive={isLastGuess && selectedIndex === letterIndex}
                     exists={letterExists ? letterExists.exists : false}
                     correctPlace={
                       letterExists ? letterExists.correctPlace : false
                     }
                     key={String(letterIndex)}
+                    onClick={
+                      isLastGuess
+                        ? () => setSelectedIndex(letterIndex)
+                        : () => {}
+                    }
                   >
                     {letterExists ? letterExists.letter : ""}
                   </Field>

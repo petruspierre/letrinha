@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useReducer } from "react";
+import { useCallback, useEffect, useReducer, useState } from "react";
 import { endOfToday, isAfter } from "date-fns";
 
 import { ActionTypes } from "./types";
@@ -12,11 +12,13 @@ import {
 
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 
+const WORD_LENGTH = 6;
+
 const INITIAL_STATE = {
-  attempts: 6,
+  attempts: WORD_LENGTH + 1,
   isGameOver: false,
-  guesses: [[]],
-  wordLength: 6,
+  guesses: [new Array(WORD_LENGTH).fill({})],
+  wordLength: WORD_LENGTH,
   keyBoardState: {},
   gameStart: new Date(),
   gameExpires: endOfToday(),
@@ -24,21 +26,27 @@ const INITIAL_STATE = {
 
 const useGame = (dailyWord: string) => {
   const [gameState, dispatchGame] = useReducer(gameReducer, INITIAL_STATE);
+  const [showStatistcs, setShowStatistics] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const endGame = (win: boolean) => {
-    dispatchGame({
-      type: ActionTypes.UpdateGame,
-      payload: {
-        isGameOver: true,
-      },
-    });
+  const toggleStatistics = useCallback(() => {
+    setShowStatistics(!showStatistcs);
+  }, [showStatistcs]);
 
-    if (win) {
-      alert("ganhou");
-    } else {
-      alert("perdeu");
-    }
-  };
+  const endGame = useCallback(
+    (win: boolean) => {
+      dispatchGame({
+        type: ActionTypes.UpdateGame,
+        payload: {
+          isGameOver: true,
+          attempts: win ? gameState.attempts : 0,
+        },
+      });
+
+      toggleStatistics();
+    },
+    [gameState, toggleStatistics]
+  );
 
   const submitGuess = useCallback(() => {
     const lastGuess = gameState.guesses[gameState.guesses.length - 1];
@@ -112,7 +120,7 @@ const useGame = (dailyWord: string) => {
     } else {
       endGame(true);
     }
-  }, [dailyWord, gameState]);
+  }, [dailyWord, gameState, endGame]);
 
   const popLetter = useCallback(() => {
     const lastGuess = gameState.guesses.length - 1;
@@ -120,9 +128,14 @@ const useGame = (dailyWord: string) => {
       type: ActionTypes.PopLetter,
       payload: {
         guessId: lastGuess,
+        letterId: selectedIndex,
       },
     });
-  }, [gameState]);
+
+    if (selectedIndex > 0) {
+      setSelectedIndex(selectedIndex - 1);
+    }
+  }, [gameState, selectedIndex]);
 
   const appendLetter = useCallback(
     (letter: string) => {
@@ -132,16 +145,19 @@ const useGame = (dailyWord: string) => {
         payload: {
           letter,
           guessId: lastGuess,
+          letterId: selectedIndex,
         },
       });
+
+      if (selectedIndex < gameState.wordLength) {
+        setSelectedIndex(selectedIndex + 1);
+      }
     },
-    [gameState]
+    [gameState, selectedIndex]
   );
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
-      const currentGuess = gameState.guesses.length - 1;
-
       if (event.key === "Backspace") {
         popLetter();
         return;
@@ -152,11 +168,25 @@ const useGame = (dailyWord: string) => {
         return;
       }
 
+      if (event.key === "ArrowLeft") {
+        if (selectedIndex > 0) {
+          setSelectedIndex(selectedIndex - 1);
+        }
+        return;
+      }
+
+      if (event.key === "ArrowRight") {
+        if (selectedIndex < gameState.wordLength) {
+          setSelectedIndex(selectedIndex + 1);
+        }
+        return;
+      }
+
       if (LETTERS.includes(event.key)) {
         appendLetter(event.key);
       }
     },
-    [gameState, submitGuess, appendLetter, popLetter]
+    [submitGuess, appendLetter, popLetter, selectedIndex, gameState]
   );
 
   useEffect(() => {
@@ -180,6 +210,12 @@ const useGame = (dailyWord: string) => {
           return;
         }
       }
+      const lastGuess = state.guesses[state.guesses.length - 1];
+      const lastIndex = lastGuess.filter((item) => item.letter).length;
+
+      console.log(lastIndex);
+
+      setSelectedIndex(lastIndex);
 
       dispatchGame({
         type: ActionTypes.UpdateGame,
@@ -194,6 +230,8 @@ const useGame = (dailyWord: string) => {
     submitGuess,
     popLetter,
     appendLetter,
+    selectedIndex,
+    setSelectedIndex,
   };
 };
 

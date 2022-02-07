@@ -14,6 +14,7 @@ type AppendLetterAction = {
   payload: {
     guessId: number;
     letter: string;
+    letterId: number;
   };
 };
 
@@ -21,6 +22,7 @@ type PopLetterAction = {
   type: ActionTypes.PopLetter;
   payload: {
     guessId: number;
+    letterId: number;
   };
 };
 

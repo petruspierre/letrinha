@@ -1,5 +1,5 @@
 import { GameActions, ActionTypes } from "./types";
-import { IGameState } from "~/model/SimpleGame";
+import { IGameState, IGuess } from "~/model/SimpleGame";
 
 export const gameReducer = (state: IGameState, action: GameActions) => {
   switch (action.type) {
@@ -17,17 +17,11 @@ export const gameReducer = (state: IGameState, action: GameActions) => {
       };
     }
     case ActionTypes.AppendLetter: {
-      const { guessId, letter } = action.payload;
+      const { guessId, letter, letterId } = action.payload;
       const newGuesses = [...state.guesses];
       const guess = newGuesses[guessId];
 
       if (!guess) throw new Error("guess not found");
-
-      const guessLength = guess.length;
-
-      if (guessLength >= state.wordLength) {
-        return state;
-      }
 
       const newLetter = {
         letter: letter.toLowerCase(),
@@ -35,7 +29,9 @@ export const gameReducer = (state: IGameState, action: GameActions) => {
         correctPlace: false,
       };
 
-      newGuesses[guessId] = [...guess, newLetter];
+      const newGuess = [...guess];
+      newGuess[letterId] = newLetter;
+      newGuesses[guessId] = [...newGuess];
 
       return {
         ...state,
@@ -43,19 +39,15 @@ export const gameReducer = (state: IGameState, action: GameActions) => {
       };
     }
     case ActionTypes.PopLetter: {
-      const { guessId } = action.payload;
+      const { guessId, letterId } = action.payload;
       const newGuesses = [...state.guesses];
       const guess = newGuesses[guessId];
 
       if (!guess) throw new Error("guess not found");
 
-      const guessLength = guess.length;
-
-      if (guessLength <= 0) {
-        return state;
-      }
-
-      newGuesses[guessId] = [...guess.slice(0, guessLength - 1)];
+      const newGuess = [...guess] as any[];
+      newGuess[letterId] = {};
+      newGuesses[guessId] = [...newGuess];
 
       return {
         ...state,

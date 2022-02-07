@@ -29,7 +29,7 @@ export const gameReducer = (state: IGameState, action: GameActions) => {
       }
 
       const newLetter = {
-        letter,
+        letter: letter.toLowerCase(),
         exists: false,
         correctPlace: false,
       };

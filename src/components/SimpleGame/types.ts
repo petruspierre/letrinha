@@ -4,7 +4,7 @@ interface ILetter {
   correctPlace: boolean;
 }
 
-interface IGuess extends Array<ILetter> {}
+export interface IGuess extends Array<ILetter> {}
 
 export interface IGameState {
   attempts: number;

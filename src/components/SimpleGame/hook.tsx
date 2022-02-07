@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useReducer, useState } from "react";
 
-import { ActionTypes } from "./types";
+import { ActionTypes, IGuess } from "./types";
 import { gameReducer } from "./reducer";
 import wordData from "~/wordData/pt-br/wordData";
 import api from "~/services/api";
@@ -30,33 +30,41 @@ const useGame = (dailyWord: string) => {
     }
 
     const repeatedLetters = {};
-    const newGuess = lastGuess.map((item, index) => {
-      const newLetter = { ...item };
+    const newGuess = lastGuess.reduce((acc, cur, index) => {
+      const newLetter = { ...cur };
 
-      if (dailyWord.includes(item.letter)) {
-        const alreadyRepeated = repeatedLetters[item.letter];
+      if (dailyWord.includes(cur.letter)) {
+        const alreadyRepeated = repeatedLetters[cur.letter];
 
         if (alreadyRepeated) {
           if (
             alreadyRepeated <
-            dailyWord.match(new RegExp(`${item.letter}`, "g")).length
+            dailyWord.match(new RegExp(`${cur.letter}`, "g")).length
           ) {
-            repeatedLetters[item.letter] = alreadyRepeated + 1;
+            repeatedLetters[cur.letter] = alreadyRepeated + 1;
 
             newLetter.exists = true;
+          } else {
+            const otherLetter = acc.find(
+              (query) => query.letter === cur.letter && query.exists === true
+            );
+            const queryId = acc.indexOf(otherLetter);
+            if (queryId) {
+              acc[queryId] = { ...acc[queryId], exists: false };
+            }
           }
         } else {
-          repeatedLetters[item.letter] = 1;
+          repeatedLetters[cur.letter] = 1;
           newLetter.exists = true;
         }
 
-        if (dailyWord[index] === item.letter) {
+        if (dailyWord[index] === cur.letter) {
           newLetter.correctPlace = true;
         }
       }
 
-      return newLetter;
-    });
+      return [...acc, newLetter];
+    }, [] as IGuess);
 
     dispatchGame({
       type: ActionTypes.UpdateGuesses,

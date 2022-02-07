@@ -38,6 +38,7 @@ const SimpleGame = ({ dailyWord }: SimpleGameProps) => {
     const result = win ? "ganhei" : "perdi";
     const content = [
       `Eu acabei de jogar Letrinha e ${result}`,
+      '',
       `${totalGuesses}/${wordLength + 1}`,
       ...guesses.map((item) => {
         return item
@@ -48,6 +49,7 @@ const SimpleGame = ({ dailyWord }: SimpleGameProps) => {
           })
           .join("");
       }),
+      '',
       "Jogue também em https://bit.ly/jogue-letrinha",
     ];
 
@@ -55,10 +57,9 @@ const SimpleGame = ({ dailyWord }: SimpleGameProps) => {
       navigator.share({
         text: content.join("\n"),
       });
-    } else {
-      navigator.clipboard.writeText(content.join("\n"));
-      setCopied(true);
     }
+    navigator.clipboard.writeText(content.join("\n"));
+    setCopied(true);
   };
 
   const renderResult = () => {

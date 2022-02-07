@@ -51,7 +51,7 @@ export default class MyDocument extends Document {
           <meta property="og:title" content="Letrinha" />
           <meta
             property="og:description"
-            content="Divirta-se com seus amigos utilizando cartas um tanto quanto controversas!"
+            content="Letrinha é um jogo online de palavras, venha se desafiar diariamente!"
           />
           <meta property="og:site_name" content="Letrinha" />
           <meta property="og:url" content="https://letrinha.petrus.dev.br" />

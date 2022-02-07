@@ -30,11 +30,19 @@ const Game = ({ dailyWord }: GameProps) => {
         {showHowToPlay && <HowToPlay dismiss={toggleInstructions} />}
         <Content>
           <Header>
-            <button onClick={toggleInstructions}>
+            <button
+              onClick={toggleInstructions}
+              aria-label="Como jogar?"
+              title="Como jogar?"
+            >
               <FaQuestionCircle size="1.5rem" />
             </button>
             <h1>Letrinha</h1>
-            <button onClick={showThemeSelection}>
+            <button
+              onClick={showThemeSelection}
+              aria-label="Mudar tema"
+              title="Mudar tema"
+            >
               <FaPalette size="1.5rem" />
             </button>
           </Header>

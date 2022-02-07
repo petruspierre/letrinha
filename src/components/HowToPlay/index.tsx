@@ -9,7 +9,11 @@ const HowToPlay = ({ dismiss }: HowToPlayProps) => {
     <>
       <Overlay onClick={dismiss} />
       <Container>
-        <button aria-label="Fechar tutorial" onClick={dismiss}>
+        <button
+          aria-label="Fechar tutorial"
+          title="Fechar tutorial"
+          onClick={dismiss}
+        >
           X
         </button>
 

@@ -22,10 +22,18 @@ const Keyboard = ({ addLetter, popLetter, submit, state }: KeyboardProps) => {
   return (
     <Container>
       <div className="actions">
-        <button onClick={popLetter}>
+        <button
+          onClick={popLetter}
+          aria-label="Apagar letra"
+          title="Apagar letra"
+        >
           <FaBackspace size="1.5rem" />
         </button>
-        <button onClick={submit}>
+        <button
+          onClick={submit}
+          aria-label="Enviar palavra"
+          title="Enviar palavra"
+        >
           <FaCheck size="1.5rem" />
         </button>
       </div>
@@ -41,6 +49,8 @@ const Keyboard = ({ addLetter, popLetter, submit, state }: KeyboardProps) => {
                 correctPlace={stateLetter && stateLetter.correctPlace}
                 used={stateLetter && stateLetter.used}
                 onClick={() => addLetter(letter)}
+                aria-label={`Letra ${letter}`}
+                title={`Letra ${letter}`}
               >
                 {letter}
               </KeyboardButton>

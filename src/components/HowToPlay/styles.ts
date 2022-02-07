@@ -1,4 +1,16 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const fadeIn = keyframes`
+  from {
+    transform: translate(-50%, -30%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  }
+`;
 
 export const Container = styled.article`
   position: fixed;
@@ -10,6 +22,8 @@ export const Container = styled.article`
   transform: translate(-50%, -50%);
   z-index: 50;
   text-align: center;
+
+  animation: ${fadeIn} 0.3s ease-in-out;
 
   font-family: ${({ theme }) => theme.font.primary};
 
@@ -24,6 +38,11 @@ export const Container = styled.article`
     font-size: 1rem;
     font-family: ${({ theme }) => theme.font.primary};
     color: ${({ theme }) => theme.colors.primary};
+    transition: filter 0.2s;
+
+    &:hover {
+      filter: brightness(0.8);
+    }
   }
 
   p {

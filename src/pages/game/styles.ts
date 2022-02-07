@@ -34,4 +34,10 @@ export const Header = styled.header`
   svg {
     color: ${({ theme }) => theme.colors.primary};
   }
+
+  button:hover {
+    transition: filter 0.2s;
+
+    filter: brightness(0.8);
+  }
 `;

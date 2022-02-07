@@ -28,6 +28,12 @@ export const Container = styled.div`
       svg {
         color: ${({ theme }) => theme.colors.white};
       }
+
+      transition: all 0.2s;
+
+      &:hover {
+        filter: brightness(0.8);
+      }
     }
   }
 
@@ -62,6 +68,10 @@ export const KeyboardButton = styled.button<IKeyboardButtonProps>`
   font-size: 1.25rem;
 
   transition: all 0.2s;
+
+  &:hover {
+    filter: brightness(0.8);
+  }
 
   ${is("used")`
     background-color: ${({ theme }) => theme.colors.primary};

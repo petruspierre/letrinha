@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useReducer } from "react";
+import { useCallback, useEffect, useReducer, useState } from "react";
 
-import { IGameState, ActionTypes } from "./types";
+import { ActionTypes } from "./types";
 import { gameReducer } from "./reducer";
+import wordData from "~/wordData/pt-br/wordData";
+import api from "~/services/api";
 
-const CODE_INPUTS_QTY = 6;
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 
 const INITIAL_STATE = {
@@ -13,27 +14,70 @@ const INITIAL_STATE = {
   wordLength: 6,
 };
 
-const useGame = () => {
+const useGame = (dailyWord: string) => {
   const [gameState, dispatchGame] = useReducer(gameReducer, INITIAL_STATE);
 
   const submitGuess = useCallback(() => {
-    //check validity
     const lastGuess = gameState.guesses[gameState.guesses.length - 1];
     if (lastGuess.length !== gameState.wordLength) {
       return;
     }
 
-    //check if word is correct
-    const isWordCorrect = false;
+    const lastGuessWord = lastGuess.map((item) => item.letter).join("");
+
+    if (!wordData[gameState.wordLength].includes(lastGuessWord)) {
+      return;
+    }
+
+    const repeatedLetters = {};
+    const newGuess = lastGuess.map((item, index) => {
+      const newLetter = { ...item };
+
+      if (dailyWord.includes(item.letter)) {
+        const alreadyRepeated = repeatedLetters[item.letter];
+
+        if (alreadyRepeated) {
+          if (
+            alreadyRepeated <
+            dailyWord.match(new RegExp(`${item.letter}`, "g")).length
+          ) {
+            repeatedLetters[item.letter] = alreadyRepeated + 1;
+
+            newLetter.exists = true;
+          }
+        } else {
+          repeatedLetters[item.letter] = 1;
+          newLetter.exists = true;
+        }
+
+        if (dailyWord[index] === item.letter) {
+          newLetter.correctPlace = true;
+        }
+      }
+
+      return newLetter;
+    });
+
+    dispatchGame({
+      type: ActionTypes.UpdateGuesses,
+      payload: {
+        guessId: gameState.guesses.length - 1,
+        guesses: newGuess,
+      },
+    });
+
+    const isWordCorrect = newGuess.every((item) => item.correctPlace);
 
     if (!isWordCorrect) {
       if (gameState.attempts > 1) {
         dispatchGame({ type: ActionTypes.NewGuess });
       } else {
-        //game over
+        alert("perdeu");
       }
+    } else {
+      alert("ganhou");
     }
-  }, [gameState]);
+  }, [dailyWord, gameState]);
 
   const popLetter = (guessId: number) =>
     dispatchGame({
@@ -81,6 +125,7 @@ const useGame = () => {
 
   return {
     state: gameState,
+    isLoading: !dailyWord,
   };
 };
 

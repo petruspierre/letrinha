@@ -61,5 +61,19 @@ export const gameReducer = (state: IGameState, action: GameActions) => {
         guesses: newGuesses,
       };
     }
+    case ActionTypes.UpdateGuesses: {
+      const { guessId, guesses } = action.payload;
+      const guess = state.guesses[guessId];
+
+      if (!guess) throw new Error("guess not found");
+
+      const newGuesses = [...state.guesses];
+      newGuesses[guessId] = guesses;
+
+      return {
+        ...state,
+        guesses: newGuesses,
+      };
+    }
   }
 };

@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 import useGame from "./hook";
 import {
   FieldWrapper,
@@ -9,8 +7,12 @@ import {
   FieldsContainer,
 } from "./styles";
 
-const SimpleGame = () => {
-  const { state } = useGame();
+interface SimpleGameProps {
+  dailyWord: string;
+}
+
+const SimpleGame = ({ dailyWord }: SimpleGameProps) => {
+  const { state } = useGame(dailyWord);
 
   return (
     <Container>

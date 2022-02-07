@@ -59,6 +59,14 @@ export const Field = styled.div<FieldProps>`
   ${is("isActive")`
     border-bottom-width: 6px;
   `}
+
+  ${is("exists")`
+    border-color: yellow;
+  `}
+
+  ${is("correctPlace")`
+    border-color: green;
+  `}
 `;
 
 export const Footer = styled.section`

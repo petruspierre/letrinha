@@ -18,6 +18,7 @@ export enum ActionTypes {
   AppendLetter = "APPEND_GUESS",
   PopLetter = "POP_LETTER",
   UpdateGame = "UPDATE_GAME",
+  UpdateGuesses = "UPDATE_GUESSES",
 }
 
 type AppendLetterAction = {
@@ -40,10 +41,19 @@ type UpdateGameAction = {
   payload: Partial<IGameState>;
 };
 
+type UpdateGuessesAction = {
+  type: ActionTypes.UpdateGuesses;
+  payload: {
+    guessId: number;
+    guesses: IGuess;
+  };
+};
+
 export type GameActions =
   | {
       type: ActionTypes.NewGuess;
     }
   | AppendLetterAction
   | PopLetterAction
-  | UpdateGameAction;
+  | UpdateGameAction
+  | UpdateGuessesAction;

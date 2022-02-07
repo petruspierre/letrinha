@@ -7,6 +7,7 @@ interface KeyboardProps {
   addLetter: (letter: string) => void;
   popLetter: () => void;
   submit: () => void;
+  disable: boolean;
   state: Record<
     string,
     {
@@ -18,12 +19,19 @@ interface KeyboardProps {
   >;
 }
 
-const Keyboard = ({ addLetter, popLetter, submit, state }: KeyboardProps) => {
+const Keyboard = ({
+  addLetter,
+  popLetter,
+  submit,
+  state,
+  disable,
+}: KeyboardProps) => {
   return (
     <Container>
       <div className="actions">
         <button
           onClick={popLetter}
+          disabled={disable}
           aria-label="Apagar letra"
           title="Apagar letra"
         >
@@ -31,6 +39,7 @@ const Keyboard = ({ addLetter, popLetter, submit, state }: KeyboardProps) => {
         </button>
         <button
           onClick={submit}
+          disabled={disable}
           aria-label="Enviar palavra"
           title="Enviar palavra"
         >
@@ -51,6 +60,7 @@ const Keyboard = ({ addLetter, popLetter, submit, state }: KeyboardProps) => {
                 onClick={() => addLetter(letter)}
                 aria-label={`Letra ${letter}`}
                 title={`Letra ${letter}`}
+                disabled={disable}
               >
                 {letter}
               </KeyboardButton>

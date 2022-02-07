@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useReducer, useState } from "react";
-import { endOfToday, isAfter } from "date-fns";
+import { endOfToday, isAfter, intervalToDuration } from "date-fns";
 
 import { ActionTypes } from "./types";
 import { gameReducer } from "./reducer";
@@ -29,9 +29,32 @@ const useGame = (dailyWord: string) => {
   const [showStatistcs, setShowStatistics] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const toggleStatistics = useCallback(() => {
-    setShowStatistics(!showStatistcs);
-  }, [showStatistcs]);
+  const getStatistics = useCallback(() => {
+    const { attempts, guesses, wordLength, gameStart, win } = gameState;
+
+    const totalGuesses = wordLength + 2 - attempts;
+    const totalTimeSpent = intervalToDuration({
+      start: gameStart,
+      end: new Date(),
+    });
+    const totalCorrect = guesses.reduce((acc, cur) => {
+      return (
+        acc +
+        cur.reduce((_acc, _cur) => {
+          return _acc + (_cur.correctPlace ? 1 : 0);
+        }, 0)
+      );
+    }, 0);
+    const accuracy = (totalCorrect / (totalGuesses * wordLength)) * 100;
+
+    return {
+      totalGuesses,
+      totalCorrect,
+      totalTimeSpent,
+      accuracy,
+      correctWord: dailyWord,
+    };
+  }, [gameState, dailyWord]);
 
   const endGame = useCallback(
     (win: boolean) => {
@@ -40,12 +63,11 @@ const useGame = (dailyWord: string) => {
         payload: {
           isGameOver: true,
           attempts: win ? gameState.attempts : 0,
+          win,
         },
       });
-
-      toggleStatistics();
     },
-    [gameState, toggleStatistics]
+    [gameState]
   );
 
   const submitGuess = useCallback(() => {
@@ -162,6 +184,8 @@ const useGame = (dailyWord: string) => {
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
+      if (gameState.isGameOver) return;
+
       if (event.key === "Backspace") {
         popLetter();
         return;
@@ -204,6 +228,19 @@ const useGame = (dailyWord: string) => {
       setStoragedGameState(gameState);
     }
   }, [gameState]);
+
+  useEffect(() => {
+    if (gameState.isGameOver && !gameState.statistics) {
+      const statistics = getStatistics();
+
+      dispatchGame({
+        type: ActionTypes.UpdateGame,
+        payload: {
+          statistics,
+        },
+      });
+    }
+  }, [gameState, getStatistics]);
 
   useEffect(() => {
     const state = getStoragedGameState();

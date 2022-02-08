@@ -1,14 +1,16 @@
 import { useCallback, useEffect, useReducer, useState } from "react";
-import { endOfToday, isAfter, intervalToDuration } from "date-fns";
+import { endOfToday, intervalToDuration } from "date-fns";
+import { useQuery } from "react-query";
 
 import { ActionTypes } from "./types";
 import { gameReducer } from "./reducer";
-import wordData from "~/wordData/pt-br/wordData";
+
 import { IGuess } from "~/model/SimpleGame";
 import {
   getStoragedGameState,
   setStoragedGameState,
 } from "~/repositories/GameState";
+import { getWordList } from "~/services/words";
 
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 
@@ -34,12 +36,15 @@ const useGame = (dailyWord: string) => {
     attempts: dailyWord.length + 1,
     guesses: [new Array(dailyWord.length).fill({})],
   });
+  const wordListQuery = useQuery<string[]>("wordList", () =>
+    getWordList(dailyWord.length)
+  );
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const getStatistics = useCallback(() => {
-    const { attempts, guesses, wordLength, gameStart } = gameState;
+    const { attempts, guesses, wordLength, gameStart, win } = gameState;
 
-    const totalGuesses = wordLength + 2 - attempts;
+    const totalGuesses = win ? wordLength + 2 - attempts : wordLength + 1;
     const totalTimeSpent = intervalToDuration({
       start: new Date(gameStart),
       end: new Date(),
@@ -85,9 +90,19 @@ const useGame = (dailyWord: string) => {
       return;
     }
 
+    if (wordListQuery.isLoading) {
+      alert("carregando dados");
+      return;
+    }
+
+    if (wordListQuery.isError) {
+      alert("erro ao carregar banco de palavras");
+      return;
+    }
+
     const lastGuessWord = lastGuess.map((item) => item.letter).join("");
 
-    if (!wordData[gameState.wordLength].includes(lastGuessWord)) {
+    if (!wordListQuery.data.includes(lastGuessWord)) {
       return;
     }
 

@@ -1,5 +1,12 @@
 import { Duration } from "date-fns";
 
+export type DailyWord = Record<
+  string,
+  {
+    word: string;
+  }
+>;
+
 interface ILetter {
   letter: string;
   exists: boolean;

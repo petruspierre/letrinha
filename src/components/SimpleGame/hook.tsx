@@ -11,6 +11,7 @@ import {
   setStoragedGameState,
 } from "~/repositories/GameState";
 import { getWordList } from "~/services/words";
+import { useAlerts } from "~/hooks/useAlert";
 
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 
@@ -40,6 +41,7 @@ const useGame = (dailyWord: string) => {
     getWordList(dailyWord.length)
   );
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const { newAlert } = useAlerts();
 
   const getStatistics = useCallback(() => {
     const { attempts, guesses, wordLength, gameStart, win } = gameState;
@@ -91,18 +93,28 @@ const useGame = (dailyWord: string) => {
     }
 
     if (wordListQuery.isLoading) {
-      alert("carregando dados");
+      newAlert({
+        message:
+          "Carregando banco de palavras, por favor aguarde e tente novamente.",
+      });
       return;
     }
 
     if (wordListQuery.isError) {
-      alert("erro ao carregar banco de palavras");
+      newAlert({
+        title: "Erro",
+        message:
+          "Não foi possível carregar banco de palavras, por favor reinicie a página e tente novamente",
+      });
       return;
     }
 
     const lastGuessWord = lastGuess.map((item) => item.letter).join("");
 
     if (!wordListQuery.data.includes(lastGuessWord)) {
+      newAlert({
+        message: "Palavra não consta no dicionário, tente novamente.",
+      });
       return;
     }
 

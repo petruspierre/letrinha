@@ -123,11 +123,19 @@ const useGame = (dailyWord: string) => {
             newLetter.exists = true;
           } else {
             const otherLetter = acc.find(
-              (query) => query.letter === cur.letter && query.exists === true
+              (query) =>
+                query.letter === cur.letter &&
+                query.correctPlace === false &&
+                query.exists === true
             );
             const queryId = acc.indexOf(otherLetter);
-            if (queryId) {
-              acc[queryId] = { ...acc[queryId], exists: false };
+
+            if (otherLetter) {
+              if (queryId) {
+                acc[queryId] = { ...acc[queryId], exists: false };
+              }
+
+              newLetter.exists = true;
             }
           }
         } else {
@@ -168,7 +176,7 @@ const useGame = (dailyWord: string) => {
     } else {
       endGame(true);
     }
-  }, [dailyWord, gameState, endGame]);
+  }, [dailyWord, gameState, endGame, wordListQuery]);
 
   const popLetter = useCallback(() => {
     const lastGuess = gameState.guesses.length - 1;
@@ -180,8 +188,20 @@ const useGame = (dailyWord: string) => {
       },
     });
 
-    if (selectedIndex > 0) {
-      setSelectedIndex(selectedIndex - 1);
+    const selectedLetter = gameState.guesses[lastGuess][selectedIndex].letter;
+    if (!selectedLetter) {
+      if (selectedIndex > 0) {
+        const newIndex = selectedIndex - 1;
+        setSelectedIndex(newIndex);
+
+        dispatchGame({
+          type: ActionTypes.PopLetter,
+          payload: {
+            guessId: lastGuess,
+            letterId: newIndex,
+          },
+        });
+      }
     }
   }, [gameState, selectedIndex]);
 

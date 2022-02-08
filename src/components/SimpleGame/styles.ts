@@ -27,6 +27,10 @@ export const Container = styled.div`
   min-width: 25rem;
   max-width: 100%;
   align-items: center;
+
+  @media screen and (min-width: 1024px) {
+    width: 100%;
+  }
 `;
 
 export const FieldsContainer = styled.section`
@@ -50,6 +54,10 @@ export const FieldWrapper = styled.div`
   & + div {
     margin-top: 1rem;
   }
+
+  @media screen and (min-width: 1024px) {
+    gap: 1rem;
+  }
 `;
 
 export const Field = styled.button<FieldProps>`
@@ -61,7 +69,6 @@ export const Field = styled.button<FieldProps>`
   border-radius: 8px;
   height: 3.5rem;
   width: 3.5rem;
-  outline: none;
 
   color: ${({ theme }) => theme.colors.white};
   font-family: ${({ theme }) => theme.font.primary};
@@ -69,6 +76,10 @@ export const Field = styled.button<FieldProps>`
   font-size: 2rem;
 
   transition: all 0.1s ease-in-out;
+
+  &:focus {
+    outline: 0;
+  }
 
   ${is("isActive")`
     border-bottom-width: 6px;
@@ -81,12 +92,18 @@ export const Field = styled.button<FieldProps>`
   ${is("correctPlace")`
     border-color: green;
   `}
+
+  @media screen and (min-width: 1024px) {
+    height: 5rem;
+    width: 5rem;
+  }
 `;
 
 export const Footer = styled.section`
   display: flex;
   flex-direction: column;
-  height: 16rem;
+  align-items: center;
+  height: auto;
   width: 100%;
   background-color: ${({ theme }) => theme.colors.background};
   border-top: 1px solid ${({ theme }) => theme.colors.primary};

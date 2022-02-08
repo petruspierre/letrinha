@@ -1,5 +1,6 @@
-import { FaBackspace, FaCheck } from "react-icons/fa";
-import { Container, KeyboardButton } from "./styles";
+import { useState } from "react";
+import { FaBackspace, FaCheck, FaKeyboard } from "react-icons/fa";
+import { Container, KeyboardButton, KeyboardWrapper } from "./styles";
 
 const KEYBOARD_KEYS = ["qwertyuiop", "asdfghjkl", "zxcvbnm"];
 
@@ -26,6 +27,8 @@ const Keyboard = ({
   state,
   disable,
 }: KeyboardProps) => {
+  const [isVisible, setIsVisible] = useState(true);
+
   return (
     <Container>
       <div className="actions">
@@ -38,6 +41,13 @@ const Keyboard = ({
           <FaBackspace size="1.5rem" />
         </button>
         <button
+          onClick={() => setIsVisible(!isVisible)}
+          aria-label={`${isVisible ? "Esconder" : "Mostrar"} teclado`}
+          title={`${isVisible ? "Esconder" : "Mostrar"} teclado`}
+        >
+          <FaKeyboard size="1.5rem" />
+        </button>
+        <button
           onClick={submit}
           disabled={disable}
           aria-label="Enviar palavra"
@@ -46,28 +56,30 @@ const Keyboard = ({
           <FaCheck size="1.5rem" />
         </button>
       </div>
-      {KEYBOARD_KEYS.map((row, index) => (
-        <div className="row" key={String(index)}>
-          {row.split("").map((letter) => {
-            const stateLetter = state[letter];
+      <KeyboardWrapper isVisible={isVisible}>
+        {KEYBOARD_KEYS.map((row, index) => (
+          <div className="row" key={String(index)}>
+            {row.split("").map((letter) => {
+              const stateLetter = state[letter];
 
-            return (
-              <KeyboardButton
-                key={letter}
-                exists={stateLetter && stateLetter.exists}
-                correctPlace={stateLetter && stateLetter.correctPlace}
-                used={stateLetter && stateLetter.used}
-                onClick={() => addLetter(letter)}
-                aria-label={`Letra ${letter}`}
-                title={`Letra ${letter}`}
-                disabled={disable}
-              >
-                {letter}
-              </KeyboardButton>
-            );
-          })}
-        </div>
-      ))}
+              return (
+                <KeyboardButton
+                  key={letter}
+                  exists={stateLetter && stateLetter.exists}
+                  correctPlace={stateLetter && stateLetter.correctPlace}
+                  used={stateLetter && stateLetter.used}
+                  onClick={() => addLetter(letter)}
+                  aria-label={`Letra ${letter}`}
+                  title={`Letra ${letter}`}
+                  disabled={disable}
+                >
+                  {letter}
+                </KeyboardButton>
+              );
+            })}
+          </div>
+        ))}
+      </KeyboardWrapper>
       .
     </Container>
   );

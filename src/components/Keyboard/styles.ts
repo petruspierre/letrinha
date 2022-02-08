@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import is from "styled-is";
 
+interface IKeyboardWrapperProps {
+  isVisible: boolean;
+}
+
 interface IKeyboardButtonProps {
   exists: boolean;
   correctPlace: boolean;
@@ -13,11 +17,9 @@ export const Container = styled.div`
   align-items: center;
   box-sizing: border-box;
   width: 100%;
-  height: 12.5rem;
+  height: auto;
 
   .actions {
-    margin-bottom: 1rem;
-
     button {
       width: 6rem;
 
@@ -53,6 +55,20 @@ export const Container = styled.div`
       }
     }
   }
+`;
+
+export const KeyboardWrapper = styled.div<IKeyboardWrapperProps>`
+  max-height: 0;
+  overflow: hidden;
+  width: 100%;
+  margin-top: 0rem;
+
+  transition: all 0.2s ease-in-out;
+
+  ${is("isVisible")`
+    max-height: 12.5rem;
+    margin-top: 1rem;
+  `}
 `;
 
 export const KeyboardButton = styled.button<IKeyboardButtonProps>`

@@ -1,17 +1,19 @@
 import { NextApiResponse, NextApiRequest } from "next";
+import { getDatabase, ref, child, get } from "firebase/database";
 
-const ResponseMock = {
-  "2022-02-08": {
-    word: "papel",
-  },
-  "2022-02-09": {
-    word: "numero",
-  },
-  "2022-02-10": {
-    word: "nausea",
-  },
-};
+import firebase from "~/services/firebase";
 
-export default function DailyWord(req: NextApiRequest, res: NextApiResponse) {
-  return res.status(200).json(ResponseMock);
+const dbRef = ref(getDatabase(firebase));
+
+export default async function DailyWord(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const wordData = await get(child(dbRef, "daily-words"));
+
+  if (wordData.exists()) {
+    return res.status(200).json(wordData.val());
+  } else {
+    return res.status(404).json({ error: "no data found" });
+  }
 }

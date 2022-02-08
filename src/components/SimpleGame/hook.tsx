@@ -85,155 +85,171 @@ const useGame = (dailyWord: string) => {
   );
 
   const submitGuess = useCallback(() => {
-    const lastGuess = gameState.guesses[gameState.guesses.length - 1];
-    if (
-      lastGuess.filter((item) => item.letter).length !== gameState.wordLength
-    ) {
-      return;
-    }
+    try {
+      const lastGuess = gameState.guesses[gameState.guesses.length - 1];
+      if (
+        lastGuess.filter((item) => item.letter).length !== gameState.wordLength
+      ) {
+        return;
+      }
 
-    if (wordListQuery.isLoading) {
-      newAlert({
-        message:
-          "Carregando banco de palavras, por favor aguarde e tente novamente.",
-      });
-      return;
-    }
+      if (wordListQuery.isLoading) {
+        newAlert({
+          message:
+            "Carregando banco de palavras, por favor aguarde e tente novamente.",
+        });
+        return;
+      }
 
-    if (wordListQuery.isError) {
-      newAlert({
-        title: "Erro",
-        message:
-          "Não foi possível carregar banco de palavras, por favor reinicie a página e tente novamente",
-      });
-      return;
-    }
+      if (wordListQuery.isError) {
+        newAlert({
+          title: "Erro",
+          message:
+            "Não foi possível carregar banco de palavras, por favor reinicie a página e tente novamente",
+        });
+        return;
+      }
 
-    const lastGuessWord = lastGuess.map((item) => item.letter).join("");
+      const lastGuessWord = lastGuess.map((item) => item.letter).join("");
 
-    if (!wordListQuery.data.includes(lastGuessWord)) {
-      newAlert({
-        message: "Palavra não consta no dicionário, tente novamente.",
-      });
-      return;
-    }
+      if (!wordListQuery.data.includes(lastGuessWord)) {
+        newAlert({
+          message: "Palavra não consta no dicionário, tente novamente.",
+        });
+        return;
+      }
 
-    const repeatedLetters = {};
-    const newGuess = lastGuess.reduce((acc, cur, index) => {
-      const newLetter = { ...cur };
+      const repeatedLetters = {};
+      const newGuess = lastGuess.reduce((acc, cur, index) => {
+        const newLetter = { ...cur };
 
-      if (dailyWord.includes(cur.letter)) {
-        const alreadyRepeated = repeatedLetters[cur.letter];
+        if (dailyWord.includes(cur.letter)) {
+          const alreadyRepeated = repeatedLetters[cur.letter];
 
-        if (alreadyRepeated) {
-          if (
-            alreadyRepeated <
-            dailyWord.match(new RegExp(`${cur.letter}`, "g")).length
-          ) {
-            repeatedLetters[cur.letter] = alreadyRepeated + 1;
-
-            newLetter.exists = true;
-          } else {
-            const otherLetter = acc.find(
-              (query) =>
-                query.letter === cur.letter &&
-                query.correctPlace === false &&
-                query.exists === true
-            );
-            const queryId = acc.indexOf(otherLetter);
-
-            if (otherLetter) {
-              if (queryId) {
-                acc[queryId] = { ...acc[queryId], exists: false };
-              }
+          if (alreadyRepeated) {
+            if (
+              alreadyRepeated <
+              dailyWord.match(new RegExp(`${cur.letter}`, "g")).length
+            ) {
+              repeatedLetters[cur.letter] = alreadyRepeated + 1;
 
               newLetter.exists = true;
+            } else {
+              const otherLetter = acc.find(
+                (query) =>
+                  query.letter === cur.letter &&
+                  query.correctPlace === false &&
+                  query.exists === true
+              );
+              const queryId = acc.indexOf(otherLetter);
+
+              if (otherLetter) {
+                if (queryId) {
+                  acc[queryId] = { ...acc[queryId], exists: false };
+                }
+
+                newLetter.exists = true;
+              }
             }
+          } else {
+            repeatedLetters[cur.letter] = 1;
+            newLetter.exists = true;
           }
+
+          if (dailyWord[index] === cur.letter) {
+            newLetter.correctPlace = true;
+          }
+        }
+
+        return [...acc, newLetter];
+      }, [] as IGuess);
+
+      dispatchGame({
+        type: ActionTypes.UpdateGuesses,
+        payload: {
+          guessId: gameState.guesses.length - 1,
+          guesses: newGuess,
+        },
+      });
+
+      dispatchGame({
+        type: ActionTypes.UpdateKeyboard,
+      });
+
+      setSelectedIndex(0);
+
+      const isWordCorrect = newGuess.every((item) => item.correctPlace);
+
+      if (!isWordCorrect) {
+        if (gameState.attempts > 1) {
+          dispatchGame({ type: ActionTypes.NewGuess });
         } else {
-          repeatedLetters[cur.letter] = 1;
-          newLetter.exists = true;
+          endGame(false);
         }
-
-        if (dailyWord[index] === cur.letter) {
-          newLetter.correctPlace = true;
-        }
-      }
-
-      return [...acc, newLetter];
-    }, [] as IGuess);
-
-    dispatchGame({
-      type: ActionTypes.UpdateGuesses,
-      payload: {
-        guessId: gameState.guesses.length - 1,
-        guesses: newGuess,
-      },
-    });
-
-    dispatchGame({
-      type: ActionTypes.UpdateKeyboard,
-    });
-
-    setSelectedIndex(0);
-
-    const isWordCorrect = newGuess.every((item) => item.correctPlace);
-
-    if (!isWordCorrect) {
-      if (gameState.attempts > 1) {
-        dispatchGame({ type: ActionTypes.NewGuess });
       } else {
-        endGame(false);
+        endGame(true);
       }
-    } else {
-      endGame(true);
+    } catch {
+      newAlert({ message: "Erro ao enviar a palavra. Tente novamente." });
     }
-  }, [dailyWord, gameState, endGame, wordListQuery]);
+  }, [dailyWord, gameState, endGame, wordListQuery, newAlert]);
 
   const popLetter = useCallback(() => {
-    const lastGuess = gameState.guesses.length - 1;
-    dispatchGame({
-      type: ActionTypes.PopLetter,
-      payload: {
-        guessId: lastGuess,
-        letterId: selectedIndex,
-      },
-    });
-
-    const selectedLetter = gameState.guesses[lastGuess][selectedIndex].letter;
-    if (!selectedLetter) {
-      if (selectedIndex > 0) {
-        const newIndex = selectedIndex - 1;
-        setSelectedIndex(newIndex);
-
-        dispatchGame({
-          type: ActionTypes.PopLetter,
-          payload: {
-            guessId: lastGuess,
-            letterId: newIndex,
-          },
-        });
-      }
-    }
-  }, [gameState, selectedIndex]);
-
-  const appendLetter = useCallback(
-    (letter: string) => {
+    try {
       const lastGuess = gameState.guesses.length - 1;
       dispatchGame({
-        type: ActionTypes.AppendLetter,
+        type: ActionTypes.PopLetter,
         payload: {
-          letter,
           guessId: lastGuess,
           letterId: selectedIndex,
         },
       });
 
-      if (selectedIndex < gameState.wordLength - 1) {
-        setSelectedIndex(selectedIndex + 1);
+      const lastLetter = gameState.guesses[lastGuess][selectedIndex];
+      if (lastLetter) {
+        const selectedLetter =
+          gameState.guesses[lastGuess][selectedIndex].letter;
+        if (!selectedLetter) {
+          if (selectedIndex > 0) {
+            const newIndex = selectedIndex - 1;
+            setSelectedIndex(newIndex);
+
+            dispatchGame({
+              type: ActionTypes.PopLetter,
+              payload: {
+                guessId: lastGuess,
+                letterId: newIndex,
+              },
+            });
+          }
+        }
+      }
+    } catch {
+      newAlert({ message: "Erro ao apagar a letra. Tente novamente" });
+    }
+  }, [gameState, selectedIndex, newAlert]);
+
+  const appendLetter = useCallback(
+    (letter: string) => {
+      try {
+        const lastGuess = gameState.guesses.length - 1;
+        dispatchGame({
+          type: ActionTypes.AppendLetter,
+          payload: {
+            letter,
+            guessId: lastGuess,
+            letterId: selectedIndex,
+          },
+        });
+
+        if (selectedIndex < gameState.wordLength - 1) {
+          setSelectedIndex(selectedIndex + 1);
+        }
+      } catch {
+        newAlert({ message: "Erro ao inserir a letra. Tente novamente" });
       }
     },
-    [gameState, selectedIndex]
+    [gameState, selectedIndex, newAlert]
   );
 
   const handleKeyDown = useCallback(

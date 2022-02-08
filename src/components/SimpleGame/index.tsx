@@ -111,7 +111,7 @@ const SimpleGame = ({ dailyWord }: SimpleGameProps) => {
       <FieldsContainer>
         {state.guesses.map((guess, index) => (
           <FieldWrapper key={String(index)}>
-            {Array(6)
+            {Array(dailyWord.length)
               .fill(null)
               .map((_, letterIndex) => {
                 const letterExists = guess[letterIndex];

@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { GetServerSideProps } from "next";
 import { FaPalette, FaQuestionCircle } from "react-icons/fa";
+import { startOfDay, format } from "date-fns";
 
 import { useTheme } from "~/styles/theme";
 import SimpleGame from "~/components/SimpleGame";
@@ -56,7 +57,8 @@ const Game = ({ dailyWord }: GameProps) => {
 export const getServerSideProps: GetServerSideProps = async () => {
   const response = await api.get("/daily-word");
 
-  const word = response.data.word;
+  const today = format(startOfDay(new Date()), "yyyy-MM-dd");
+  const word = response.data[today].word;
 
   return {
     props: {

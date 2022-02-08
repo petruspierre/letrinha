@@ -22,19 +22,26 @@ const INITIAL_STATE = {
   keyBoardState: {},
   gameStart: new Date(),
   gameExpires: endOfToday(),
+  word: "",
 };
 
 const useGame = (dailyWord: string) => {
-  const [gameState, dispatchGame] = useReducer(gameReducer, INITIAL_STATE);
-  const [showStatistcs, setShowStatistics] = useState(false);
+  const [gameState, dispatchGame] = useReducer(gameReducer, {
+    ...INITIAL_STATE,
+    word: dailyWord,
+    gameStart: new Date(),
+    wordLength: dailyWord.length,
+    attempts: dailyWord.length + 1,
+    guesses: [new Array(dailyWord.length).fill({})],
+  });
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const getStatistics = useCallback(() => {
-    const { attempts, guesses, wordLength, gameStart, win } = gameState;
+    const { attempts, guesses, wordLength, gameStart } = gameState;
 
     const totalGuesses = wordLength + 2 - attempts;
     const totalTimeSpent = intervalToDuration({
-      start: gameStart,
+      start: new Date(gameStart),
       end: new Date(),
     });
     const totalCorrect = guesses.reduce((acc, cur) => {
@@ -224,7 +231,7 @@ const useGame = (dailyWord: string) => {
   }, [handleKeyDown]);
 
   useEffect(() => {
-    if (gameState.attempts !== INITIAL_STATE.attempts) {
+    if (gameState.attempts !== gameState.wordLength + 1) {
       setStoragedGameState(gameState);
     }
   }, [gameState]);
@@ -246,15 +253,10 @@ const useGame = (dailyWord: string) => {
     const state = getStoragedGameState();
 
     if (state) {
-      if (state.isGameOver) {
-        if (isAfter(state.gameExpires, new Date())) {
-          return;
-        }
-      }
+      if (!state.word || state.word !== dailyWord) return;
+
       const lastGuess = state.guesses[state.guesses.length - 1];
       const lastIndex = lastGuess.filter((item) => item.letter).length;
-
-      console.log(lastIndex);
 
       setSelectedIndex(
         lastIndex >= state.wordLength ? state.wordLength - 1 : lastIndex
@@ -265,7 +267,7 @@ const useGame = (dailyWord: string) => {
         payload: state,
       });
     }
-  }, []);
+  }, [dailyWord]);
 
   return {
     state: gameState,

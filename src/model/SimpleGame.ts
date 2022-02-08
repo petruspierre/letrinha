@@ -30,4 +30,5 @@ export interface IGameState {
   gameExpires: Date;
   statistics?: IStatistics;
   win?: boolean;
+  word: string;
 }

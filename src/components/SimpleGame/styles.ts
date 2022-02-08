@@ -24,6 +24,9 @@ export const Container = styled.div`
   flex-direction: column;
   flex: 1;
   padding: 2rem 1rem;
+  min-width: 25rem;
+  max-width: 100%;
+  align-items: center;
 `;
 
 export const FieldsContainer = styled.section`

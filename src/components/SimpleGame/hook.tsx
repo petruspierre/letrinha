@@ -147,9 +147,9 @@ const useGame = (dailyWord: string) => {
 
                 if (queryId !== -1) {
                   acc[queryId] = { ...acc[queryId], exists: false };
-                }
 
-                newLetter.exists = true;
+                  newLetter.exists = true;
+                }
               }
             }
           } else {
@@ -314,24 +314,31 @@ const useGame = (dailyWord: string) => {
   }, [gameState, getStatistics]);
 
   useEffect(() => {
-    const state = getStoragedGameState();
+    try {
+      const state = getStoragedGameState();
 
-    if (state) {
-      if (!state.word || state.word !== dailyWord) return;
+      if (state) {
+        if (!state.word || state.word !== dailyWord) return;
 
-      const lastGuess = state.guesses[state.guesses.length - 1];
-      const lastIndex = lastGuess.filter((item) => item.letter).length;
+        const lastGuess = state.guesses[state.guesses.length - 1];
 
-      setSelectedIndex(
-        lastIndex >= state.wordLength ? state.wordLength - 1 : lastIndex
-      );
+        if (lastGuess) {
+          const lastIndex = lastGuess.filter((item) => item.letter).length;
 
-      dispatchGame({
-        type: ActionTypes.UpdateGame,
-        payload: state,
-      });
+          setSelectedIndex(
+            lastIndex >= state.wordLength ? state.wordLength - 1 : lastIndex
+          );
+
+          dispatchGame({
+            type: ActionTypes.UpdateGame,
+            payload: state,
+          });
+        }
+      }
+    } catch {
+      newAlert({ message: "Erro ao carregar o jogo salvo." });
     }
-  }, [dailyWord]);
+  }, [dailyWord, newAlert]);
 
   return {
     state: gameState,

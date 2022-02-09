@@ -131,6 +131,7 @@ const SimpleGame = ({ dailyWord }: SimpleGameProps) => {
                         ? () => setSelectedIndex(letterIndex)
                         : () => {}
                     }
+                    data-testid={`field-${index}-${letterIndex}`}
                   >
                     {letterExists ? letterExists.letter : ""}
                   </Field>

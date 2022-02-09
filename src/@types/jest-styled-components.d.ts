@@ -13,6 +13,10 @@ declare namespace jest {
   }
 
   interface Matchers<R> {
-    toHaveStyleRule(property: string, value?: Value, options?: Options): R;
+    toHaveStyleRule(
+      property: Record<string, Value> | string,
+      value?: string,
+      options?: Options
+    ): R;
   }
 }

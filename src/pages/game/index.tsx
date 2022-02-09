@@ -29,9 +29,7 @@ const Game = ({ dailyWord }: GameProps) => {
   };
 
   useEffect(() => {
-    console.log("teste");
     if (wordListQuery.isFetched) {
-      console.log("teste 2");
       if (wordListQuery.isError) {
         toast(
           "Não foi possível carregar banco de palavras, por favor reinicie a página e tente novamente",

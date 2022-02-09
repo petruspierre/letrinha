@@ -141,10 +141,11 @@ const useGame = (dailyWord: string) => {
                   query.correctPlace === false &&
                   query.exists === true
               );
-              const queryId = acc.indexOf(otherLetter);
 
               if (otherLetter) {
-                if (queryId) {
+                const queryId = acc.indexOf(otherLetter);
+
+                if (queryId !== -1) {
                   acc[queryId] = { ...acc[queryId], exists: false };
                 }
 

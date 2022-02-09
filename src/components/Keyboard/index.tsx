@@ -56,7 +56,7 @@ const Keyboard = ({
           <FaCheck size="1.5rem" />
         </button>
       </div>
-      <KeyboardWrapper isVisible={isVisible}>
+      <KeyboardWrapper isVisible={isVisible} aria-hidden={!isVisible}>
         {KEYBOARD_KEYS.map((row, index) => (
           <div className="row" key={String(index)}>
             {row.split("").map((letter) => {

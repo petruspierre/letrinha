@@ -61,8 +61,8 @@ const defaultTheme: DefaultTheme = {
     ...themes.default.colors,
   },
   font: {
-    primary: "Bebas Neue",
-    secondary: "Bungee",
+    primary: "Rowdies",
+    secondary: "Roboto Condensed",
   },
   breakpoints: {
     sm: 768,

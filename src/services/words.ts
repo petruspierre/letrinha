@@ -1,15 +1,14 @@
-import { format, startOfDay } from "date-fns";
-import { utcToZonedTime } from "date-fns-tz";
+import { format, formatISO } from "date-fns";
 
 import { DailyWord } from "~/model/SimpleGame";
 import api from "./api";
 
 const getDailyWord = async () => {
   const response = await api.get<DailyWord>("word/daily-word");
-  const todayUTC = startOfDay(new Date());
+  const now = new Date();
 
   const today = format(
-    utcToZonedTime(todayUTC, "America/Fortaleza"),
+    new Date(now.toLocaleString("en-US", { timeZone: "America/Fortaleza" })),
     "yyyy-MM-dd"
   );
 

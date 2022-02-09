@@ -1,13 +1,14 @@
 import Head from "next/head";
 import { GetServerSideProps } from "next";
 import { FaPalette, FaQuestionCircle } from "react-icons/fa";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import { useQuery } from "react-query";
 
 import { useTheme } from "~/styles/theme";
 import SimpleGame from "~/components/SimpleGame";
-import { getDailyWord } from "~/services/words";
+import { getDailyWord, getWordList } from "~/services/words";
 import { Container, Content, Header } from "./styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HowToPlay from "~/components/HowToPlay";
 
 import "react-toastify/dist/ReactToastify.min.css";
@@ -19,10 +20,26 @@ interface GameProps {
 const Game = ({ dailyWord }: GameProps) => {
   const { showThemeSelection } = useTheme();
   const [showHowToPlay, setShowHowToPlay] = useState(false);
+  const wordListQuery = useQuery<string[]>("wordList", () =>
+    getWordList(dailyWord.length)
+  );
 
   const toggleInstructions = () => {
     setShowHowToPlay(!showHowToPlay);
   };
+
+  useEffect(() => {
+    console.log("teste");
+    if (wordListQuery.isFetched) {
+      console.log("teste 2");
+      if (wordListQuery.isError) {
+        toast(
+          "Não foi possível carregar banco de palavras, por favor reinicie a página e tente novamente",
+          { type: toast.TYPE.ERROR }
+        );
+      }
+    }
+  }, [wordListQuery]);
 
   return (
     <>
@@ -60,7 +77,7 @@ const Game = ({ dailyWord }: GameProps) => {
             draggable
             pauseOnHover
           />
-          <SimpleGame dailyWord={dailyWord} />
+          <SimpleGame wordList={wordListQuery.data} dailyWord={dailyWord} />
         </Content>
       </Container>
     </>

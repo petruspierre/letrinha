@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useReducer, useState } from "react";
 import { endOfToday, intervalToDuration } from "date-fns";
-import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 
 import { ActionTypes } from "./types";
@@ -11,7 +10,6 @@ import {
   getStoragedGameState,
   setStoragedGameState,
 } from "~/repositories/GameState";
-import { getWordList } from "~/services/words";
 
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 
@@ -28,7 +26,7 @@ const INITIAL_STATE = {
   word: "",
 };
 
-const useGame = (dailyWord: string) => {
+const useGame = (dailyWord: string, wordList: string[]) => {
   const [gameState, dispatchGame] = useReducer(gameReducer, {
     ...INITIAL_STATE,
     word: dailyWord,
@@ -37,9 +35,6 @@ const useGame = (dailyWord: string) => {
     attempts: dailyWord.length + 1,
     guesses: [new Array(dailyWord.length).fill({})],
   });
-  const wordListQuery = useQuery<string[]>("wordList", () =>
-    getWordList(dailyWord.length)
-  );
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const getStatistics = useCallback(() => {
@@ -92,24 +87,16 @@ const useGame = (dailyWord: string) => {
         return;
       }
 
-      if (wordListQuery.isLoading) {
+      if (wordList.length === 0) {
         toast(
           "Carregando banco de palavras, por favor aguarde e tente novamente."
         );
         return;
       }
 
-      if (wordListQuery.isError) {
-        toast(
-          "Não foi possível carregar banco de palavras, por favor reinicie a página e tente novamente",
-          { type: toast.TYPE.ERROR }
-        );
-        return;
-      }
-
       const lastGuessWord = lastGuess.map((item) => item.letter).join("");
 
-      if (!wordListQuery.data.includes(lastGuessWord)) {
+      if (!wordList.includes(lastGuessWord)) {
         toast("Palavra não consta no dicionário, tente novamente.");
         return;
       }
@@ -190,7 +177,7 @@ const useGame = (dailyWord: string) => {
         type: toast.TYPE.ERROR,
       });
     }
-  }, [dailyWord, gameState, endGame, wordListQuery]);
+  }, [dailyWord, gameState, endGame, wordList]);
 
   const popLetter = useCallback(() => {
     try {

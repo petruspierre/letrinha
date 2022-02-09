@@ -1,6 +1,7 @@
-import { formatISO, formatDistance } from "date-fns";
-import { ptBR } from "date-fns/locale";
 import { useState } from "react";
+import { formatDistance } from "date-fns";
+import { ptBR } from "date-fns/locale";
+
 import Keyboard from "../Keyboard";
 import useGame from "./hook";
 import {
@@ -14,9 +15,10 @@ import {
 
 interface SimpleGameProps {
   dailyWord: string;
+  wordList: string[];
 }
 
-const SimpleGame = ({ dailyWord }: SimpleGameProps) => {
+const SimpleGame = ({ dailyWord, wordList }: SimpleGameProps) => {
   const {
     state,
     submitGuess,
@@ -24,7 +26,7 @@ const SimpleGame = ({ dailyWord }: SimpleGameProps) => {
     appendLetter,
     selectedIndex,
     setSelectedIndex,
-  } = useGame(dailyWord);
+  } = useGame(dailyWord, wordList);
   const [dismissOverlay, setDismissOverlay] = useState(false);
   const [copied, setCopied] = useState(false);
 

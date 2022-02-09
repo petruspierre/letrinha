@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { GetServerSideProps } from "next";
 import { FaPalette, FaQuestionCircle } from "react-icons/fa";
+import { ToastContainer } from "react-toastify";
 
 import { useTheme } from "~/styles/theme";
 import SimpleGame from "~/components/SimpleGame";
@@ -8,6 +9,8 @@ import { getDailyWord } from "~/services/words";
 import { Container, Content, Header } from "./styles";
 import { useState } from "react";
 import HowToPlay from "~/components/HowToPlay";
+
+import "react-toastify/dist/ReactToastify.min.css";
 
 interface GameProps {
   dailyWord: string;
@@ -46,6 +49,17 @@ const Game = ({ dailyWord }: GameProps) => {
               <FaPalette size="1.5rem" />
             </button>
           </Header>
+          <ToastContainer
+            position="top-right"
+            autoClose={1500}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            className="toast"
+            draggable
+            pauseOnHover
+          />
           <SimpleGame dailyWord={dailyWord} />
         </Content>
       </Container>

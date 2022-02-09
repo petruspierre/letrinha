@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useReducer, useState } from "react";
 import { endOfToday, intervalToDuration } from "date-fns";
 import { useQuery } from "react-query";
+import { toast } from "react-toastify";
 
 import { ActionTypes } from "./types";
 import { gameReducer } from "./reducer";
@@ -11,7 +12,6 @@ import {
   setStoragedGameState,
 } from "~/repositories/GameState";
 import { getWordList } from "~/services/words";
-import { useAlerts } from "~/hooks/useAlert";
 
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 
@@ -41,7 +41,6 @@ const useGame = (dailyWord: string) => {
     getWordList(dailyWord.length)
   );
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const { newAlert } = useAlerts();
 
   const getStatistics = useCallback(() => {
     const { attempts, guesses, wordLength, gameStart, win } = gameState;
@@ -94,28 +93,24 @@ const useGame = (dailyWord: string) => {
       }
 
       if (wordListQuery.isLoading) {
-        newAlert({
-          message:
-            "Carregando banco de palavras, por favor aguarde e tente novamente.",
-        });
+        toast(
+          "Carregando banco de palavras, por favor aguarde e tente novamente."
+        );
         return;
       }
 
       if (wordListQuery.isError) {
-        newAlert({
-          title: "Erro",
-          message:
-            "Não foi possível carregar banco de palavras, por favor reinicie a página e tente novamente",
-        });
+        toast(
+          "Não foi possível carregar banco de palavras, por favor reinicie a página e tente novamente",
+          { type: toast.TYPE.ERROR }
+        );
         return;
       }
 
       const lastGuessWord = lastGuess.map((item) => item.letter).join("");
 
       if (!wordListQuery.data.includes(lastGuessWord)) {
-        newAlert({
-          message: "Palavra não consta no dicionário, tente novamente.",
-        });
+        toast("Palavra não consta no dicionário, tente novamente.");
         return;
       }
 
@@ -191,9 +186,11 @@ const useGame = (dailyWord: string) => {
         endGame(true);
       }
     } catch {
-      newAlert({ message: "Erro ao enviar a palavra. Tente novamente." });
+      toast("Erro ao enviar a palavra. Tente novamente.", {
+        type: toast.TYPE.ERROR,
+      });
     }
-  }, [dailyWord, gameState, endGame, wordListQuery, newAlert]);
+  }, [dailyWord, gameState, endGame, wordListQuery]);
 
   const popLetter = useCallback(() => {
     try {
@@ -226,9 +223,11 @@ const useGame = (dailyWord: string) => {
         }
       }
     } catch {
-      newAlert({ message: "Erro ao apagar a letra. Tente novamente" });
+      toast("Erro ao apagar a letra. Tente novamente", {
+        type: toast.TYPE.ERROR,
+      });
     }
-  }, [gameState, selectedIndex, newAlert]);
+  }, [gameState, selectedIndex]);
 
   const appendLetter = useCallback(
     (letter: string) => {
@@ -247,10 +246,12 @@ const useGame = (dailyWord: string) => {
           setSelectedIndex(selectedIndex + 1);
         }
       } catch {
-        newAlert({ message: "Erro ao inserir a letra. Tente novamente" });
+        toast("Erro ao inserir a letra. Tente novamente", {
+          type: toast.TYPE.ERROR,
+        });
       }
     },
-    [gameState, selectedIndex, newAlert]
+    [gameState, selectedIndex]
   );
 
   const handleKeyDown = useCallback(
@@ -336,9 +337,12 @@ const useGame = (dailyWord: string) => {
         }
       }
     } catch {
-      newAlert({ message: "Erro ao carregar o jogo salvo." });
+      toast("Erro ao carregar o jogo salvo.", {
+        type: toast.TYPE.ERROR,
+        autoClose: 4000,
+      });
     }
-  }, [dailyWord, newAlert]);
+  }, [dailyWord]);
 
   return {
     state: gameState,

@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import HowToPlay from "~/components/HowToPlay";
 
 import "react-toastify/dist/ReactToastify.min.css";
+import Logo from "~/components/Logo";
 
 interface GameProps {
   dailyWord: string;
@@ -55,7 +56,7 @@ const Game = ({ dailyWord }: GameProps) => {
             >
               <FaQuestionCircle size="1.5rem" />
             </button>
-            <h1>Letrinha</h1>
+            <Logo />
             <button
               onClick={showThemeSelection}
               aria-label="Mudar tema"

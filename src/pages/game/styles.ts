@@ -17,7 +17,7 @@ export const Content = styled.main`
 
   .toast .Toastify__toast {
     height: 5rem;
-    background-color: ${({ theme }) => darken(0.05, theme.colors.background)};
+    background-color: ${({ theme }) => darken(0.05, theme.colors.primary)};
     color: ${({ theme }) => theme.colors.white};
 
     button svg {
@@ -35,10 +35,9 @@ export const Header = styled.header`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  max-width: 1120px;
+  max-width: 415px;
   padding: 0 2rem;
   height: 5rem;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.primary};
 
   h1 {
     font-size: 2.25rem;
@@ -46,13 +45,20 @@ export const Header = styled.header`
     color: ${({ theme }) => theme.colors.white};
   }
 
-  svg {
-    color: ${({ theme }) => theme.colors.primary};
+  > svg {
+    height: 3rem;
   }
 
-  button:hover {
+  svg {
+    color: ${({ theme }) => theme.colors.white};
+  }
+
+  button {
+    filter: brightness(0.75);
     transition: filter 0.2s;
 
-    filter: brightness(0.8);
+    &:hover {
+      filter: brightness(1);
+    }
   }
 `;

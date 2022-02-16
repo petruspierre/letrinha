@@ -8,6 +8,8 @@ export type Theme = {
     text: string;
     overlay: string;
     white: string;
+    green: string;
+    yellow: string;
   };
   font: {
     primary: string;
@@ -29,31 +31,31 @@ export type ColorTheme = {
 };
 
 const themes: Record<string, ColorTheme> = {
-  hot: {
+  barbie: {
     colors: {
-      primary: "#F4364D",
-      secondary: "#C00045",
+      primary: "#A64071",
+      secondary: "#DB73BE",
     },
-    name: "Quente",
+    name: "Barbie",
   },
-  cute: {
+  grass: {
     colors: {
-      primary: "#5136F4",
-      secondary: "#9518A9",
+      primary: "#2F4A22",
+      secondary: "#598028",
     },
-    name: "Fofo",
+    name: "Mato",
   },
-  tumblr: {
+  tomatoes: {
     colors: {
-      primary: "#f72585",
-      secondary: "#480ca8",
+      primary: "#732929",
+      secondary: "#CF324E",
     },
-    name: "Tumblr",
+    name: "Tomate",
   },
   default: {
     colors: {
-      primary: "#63ADF2",
-      secondary: "#304D6D",
+      primary: "#423E4F",
+      secondary: "#59657D",
     },
     name: "Padrão",
   },
@@ -65,10 +67,12 @@ const defaultTheme: DefaultTheme = {
     text: "#F5F9E9",
     white: "#fff",
     overlay: "rgba(0, 0, 0, 0.5)",
+    green: "#27B15E",
+    yellow: "#F4AD23",
     ...themes.default.colors,
   },
   font: {
-    primary: "Rowdies",
+    primary: '"Source Sans 3"',
     secondary: "Roboto Condensed",
   },
   breakpoints: {

@@ -26,6 +26,7 @@ const SimpleGame = ({ dailyWord, wordList }: SimpleGameProps) => {
     appendLetter,
     selectedIndex,
     setSelectedIndex,
+    selectedGuessIndex,
   } = useGame(dailyWord, wordList);
   const [dismissOverlay, setDismissOverlay] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -118,21 +119,29 @@ const SimpleGame = ({ dailyWord, wordList }: SimpleGameProps) => {
               .fill(null)
               .map((_, letterIndex) => {
                 const letterExists = guess[letterIndex];
-                const isLastGuess = state.guesses.length - 1 === index;
+                const isSelectedGuess =
+                  selectedGuessIndex === index && !state.isGameOver;
+
+                const letterProps = {
+                  exists: letterExists ? letterExists.exists : false,
+                  correctPlace: letterExists
+                    ? letterExists.correctPlace
+                    : false,
+                  onClick: isSelectedGuess
+                    ? () => setSelectedIndex(letterIndex)
+                    : () => {},
+                };
 
                 return (
                   <Field
-                    isActive={isLastGuess && selectedIndex === letterIndex}
-                    exists={letterExists ? letterExists.exists : false}
-                    correctPlace={
-                      letterExists ? letterExists.correctPlace : false
+                    blur={
+                      !isSelectedGuess &&
+                      !letterProps.exists &&
+                      !letterProps.correctPlace
                     }
+                    isActive={isSelectedGuess && selectedIndex === letterIndex}
+                    {...letterProps}
                     key={String(letterIndex)}
-                    onClick={
-                      isLastGuess
-                        ? () => setSelectedIndex(letterIndex)
-                        : () => {}
-                    }
                     data-testid={`field-${index}-${letterIndex}`}
                   >
                     {letterExists ? letterExists.letter : ""}

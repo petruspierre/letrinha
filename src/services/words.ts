@@ -14,6 +14,10 @@ interface IDailyWordQueryResponse {
 }
 
 const getDailyWord = async () => {
+  if (process.env.NODE_ENV === "development") {
+    return "teste";
+  }
+
   try {
     const now = new Date();
 

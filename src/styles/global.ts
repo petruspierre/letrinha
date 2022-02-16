@@ -8,7 +8,9 @@ export default createGlobalStyle`
   }
 
   body {
-    background-color: ${({ theme }) => theme.colors.background};
+    transition: all 0.2s;
+
+    background-color: ${({ theme }) => theme.colors.secondary};
   }
 
   a {
@@ -23,7 +25,8 @@ export default createGlobalStyle`
 
   h1, h2, label, a, p, span, input, li {
     font-family: ${(props) => props.theme.font.primary};
-    font-weight: 300;
+    font-weight: 900;
+    font-style: italic;
   }
 
   button {

@@ -5,6 +5,7 @@ interface FieldProps {
   isActive: boolean;
   exists: boolean;
   correctPlace: boolean;
+  blur: boolean;
 }
 
 const fadeIn = keyframes`
@@ -23,7 +24,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding: 2rem 1rem;
+  padding: 1rem;
   min-width: 25rem;
   max-width: 100%;
   align-items: center;
@@ -37,7 +38,6 @@ export const FieldsContainer = styled.section`
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding-bottom: 1rem;
 
   @media screen and (max-width: 768px) {
     overflow-y: scroll;
@@ -64,16 +64,17 @@ export const Field = styled.button<FieldProps>`
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 
-  border: 2px solid ${({ theme }) => theme.colors.primary};
-  border-radius: 8px;
+  border: 0.25rem solid ${({ theme }) => theme.colors.primary};
   height: 3.5rem;
   width: 3.5rem;
 
   color: ${({ theme }) => theme.colors.white};
   font-family: ${({ theme }) => theme.font.primary};
   text-transform: uppercase;
-  font-size: 2rem;
+  font-size: 2.5rem;
+  font-style: italic;
 
   transition: all 0.1s ease-in-out;
 
@@ -81,21 +82,57 @@ export const Field = styled.button<FieldProps>`
     outline: 0;
   }
 
+  &::after {
+    content: "";
+    display: block;
+    width: 1.25rem;
+    height: 0;
+    background-color: ${({ theme }) => theme.colors.primary};
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: all 0.2s;
+  }
+
   ${is("isActive")`
-    border-bottom-width: 6px;
+    padding-bottom: 0.5rem;
+
+    &::after {
+      bottom: 0.25rem;
+      height: 0.35rem;
+    }
+  `}
+
+  ${is("blur")`
+    border: 0;
+    background-color: ${({ theme }) => theme.colors.primary};
+    color: rgba(255, 255, 255, 0.5);
   `}
 
   ${is("exists")`
-    border-color: yellow;
+    border: 0;
+    background-color: ${({ theme }) => theme.colors.yellow};
   `}
 
   ${is("correctPlace")`
-    border-color: green;
+    border: 0;
+    background-color: ${({ theme }) => theme.colors.green};
   `}
 
-  @media screen and (min-width: 1024px) {
+@media screen and (min-width: 1024px) {
     height: 5rem;
     width: 5rem;
+    font-size: 3rem;
+
+    ${is("isActive")`
+      padding-bottom: 0.75rem;
+
+      &::after {
+        bottom: 0.5rem;
+        height: 0.5rem;
+      }
+    `}
   }
 `;
 
@@ -105,8 +142,7 @@ export const Footer = styled.section`
   align-items: center;
   height: auto;
   width: 100%;
-  background-color: ${({ theme }) => theme.colors.background};
-  border-top: 1px solid ${({ theme }) => theme.colors.primary};
+  max-width: 553px;
   padding-top: 1rem;
 
   @media screen and (max-width: 768px) {
@@ -162,7 +198,7 @@ export const GameOverWarning = styled.div`
   button {
     background-color: ${({ theme }) => theme.colors.primary};
     color: ${({ theme }) => theme.colors.white};
-    font-size: 1.5rem;
+    font-size: 1.5rem;~
     font-family: ${({ theme }) => theme.font.primary};
     padding: 0.5rem 1rem;
     margin-top: 1rem;

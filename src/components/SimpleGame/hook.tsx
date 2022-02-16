@@ -286,9 +286,11 @@ const useGame = (dailyWord: string, wordList: string[]) => {
 
   useEffect(() => {
     if (gameState.attempts !== gameState.wordLength + 1) {
-      setStoragedGameState(gameState);
+      if (!gameState.guesses[selectedGuessIndex].some((item) => item.letter)) {
+        setStoragedGameState(gameState);
+      }
     }
-  }, [gameState]);
+  }, [gameState, selectedGuessIndex]);
 
   useEffect(() => {
     if (gameState.isGameOver && !gameState.statistics) {

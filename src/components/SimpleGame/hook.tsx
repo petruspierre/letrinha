@@ -196,26 +196,23 @@ const useGame = (dailyWord: string, wordList: string[]) => {
         },
       });
 
-      const lastLetter = gameState.guesses[selectedGuessIndex][selectedIndex];
-      if (lastLetter) {
-        const selectedLetter =
-          gameState.guesses[selectedGuessIndex][selectedIndex].letter;
-        if (!selectedLetter) {
-          if (selectedIndex > 0) {
-            const newIndex = selectedIndex - 1;
-            setSelectedIndex(newIndex);
+      const selectedLetter =
+        gameState.guesses[selectedGuessIndex][selectedIndex]?.letter;
+      if (!selectedLetter) {
+        if (selectedIndex > 0) {
+          const newIndex = selectedIndex - 1;
+          setSelectedIndex(newIndex);
 
-            dispatchGame({
-              type: ActionTypes.PopLetter,
-              payload: {
-                guessId: selectedGuessIndex,
-                letterId: newIndex,
-              },
-            });
-          }
+          dispatchGame({
+            type: ActionTypes.PopLetter,
+            payload: {
+              guessId: selectedGuessIndex,
+              letterId: newIndex,
+            },
+          });
         }
       }
-    } catch {
+    } catch (err) {
       toast("Erro ao apagar a letra. Tente novamente", {
         type: toast.TYPE.ERROR,
       });

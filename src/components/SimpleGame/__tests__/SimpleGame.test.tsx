@@ -111,7 +111,9 @@ describe("SimpleGame component", () => {
         });
 
         it("can use backspace in the meantime", () => {
-          const { getByTestId } = render(<SimpleGame {...defaultProps} />);
+          const { getByTestId, debug } = render(
+            <SimpleGame {...defaultProps} />
+          );
 
           userEvent.keyboard(
             "d{Backspace}pap{Backspace}pec{Backspace}{Backspace}el"

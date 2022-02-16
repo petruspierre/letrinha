@@ -48,10 +48,8 @@ export const Container = styled.div`
     }
 
     button {
-      width: 8%;
-
       & + button {
-        margin-left: 0.5rem;
+        margin-left: 1.25%;
       }
     }
   }
@@ -72,16 +70,18 @@ export const KeyboardWrapper = styled.div<IKeyboardWrapperProps>`
 `;
 
 export const KeyboardButton = styled.button<IKeyboardButtonProps>`
-  height: 2.5rem;
-  border-radius: 8px;
   text-align: center;
   text-transform: uppercase;
+  vertical-align: middle;
+  line-height: 3.25rem;
+  padding-top: 0.25rem;
 
-  background-color: ${({ theme }) => theme.colors.secondary};
-  border: 2px solid ${({ theme }) => theme.colors.primary};
+  background-color: ${({ theme }) => theme.colors.primary};
   color: ${({ theme }) => theme.colors.white};
-  font-family: ${({ theme }) => theme.font.secondary};
-  font-size: 1.25rem;
+  font-family: ${({ theme }) => theme.font.primary};
+  font-style: italic;
+  font-size: 2.75rem;
+  width: 8%;
 
   transition: all 0.2s;
 
@@ -89,19 +89,39 @@ export const KeyboardButton = styled.button<IKeyboardButtonProps>`
     filter: brightness(0.8);
   }
 
+  &.dual {
+    width: 26.5%;
+    text-transform: none;
+  }
+
   ${is("used")`
     background-color: ${({ theme }) => theme.colors.primary};
+    color: rgba(255, 255, 255, 0.5);
   `}
 
   ${is("exists")`
-    border-color: yellow;
-    background-color: yellow;
-    color: black;
+    border: 0;
+    background-color: ${({ theme }) => theme.colors.yellow};
+    color: ${({ theme }) => theme.colors.white};
   `}
 
   ${is("correctPlace")`
-    border-color: green;
-    background-color: green;
+    border: 0;
+    background-color: ${({ theme }) => theme.colors.green};
     color: ${({ theme }) => theme.colors.white};
   `}
+
+  img {
+    height: 1.75rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    font-size: 2rem;
+    line-height: 2.75rem;
+    padding-top: 0rem;
+
+    img {
+      height: 1.35rem;
+    }
+  }
 `;

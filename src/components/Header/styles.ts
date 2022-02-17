@@ -18,14 +18,14 @@ export const LogoButton = styled.button`
 `;
 
 export const Button = styled.button`
-  filter: brightness(0.75);
-  transition: filter 0.2s;
+  opacity: 0.75;
+  transition: opacity 0.2s;
 
   svg {
     color: ${({ theme }) => theme.colors.white};
   }
 
   &:hover {
-    filter: brightness(1);
+    opacity: 1;
   }
 `;

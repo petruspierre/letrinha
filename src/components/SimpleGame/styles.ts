@@ -192,11 +192,11 @@ export const GameOverWarning = styled.div`
   }
 
   span {
-    color: ${({ theme }) => theme.colors.primary};
+    color: ${({ theme }) => theme.colors.secondary};
   }
 
   button {
-    background-color: ${({ theme }) => theme.colors.primary};
+    background-color: ${({ theme }) => theme.colors.secondary};
     color: ${({ theme }) => theme.colors.white};
     font-size: 1.5rem;~
     font-family: ${({ theme }) => theme.font.primary};
@@ -208,7 +208,7 @@ export const GameOverWarning = styled.div`
 
     & + button {
       background-color: ${({ theme }) => theme.colors.white};
-      color: ${({ theme }) => theme.colors.primary};
+      color: ${({ theme }) => theme.colors.secondary};
       margin-top: 0.5rem;
     }
 

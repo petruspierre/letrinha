@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { darken } from "polished";
 
 export const Container = styled.div`
   height: calc(100vh - 5rem);
@@ -14,18 +13,4 @@ export const Content = styled.main`
   max-width: 1120px;
   margin: 0 auto;
   height: 100%;
-
-  .toast .Toastify__toast {
-    height: 5rem;
-    background-color: ${({ theme }) => darken(0.05, theme.colors.primary)};
-    color: ${({ theme }) => theme.colors.white};
-
-    button svg {
-      color: ${({ theme }) => theme.colors.white};
-    }
-
-    .Toastify__progress-bar {
-      background: ${({ theme }) => theme.colors.secondary};
-    }
-  }
 `;

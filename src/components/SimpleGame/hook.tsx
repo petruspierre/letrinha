@@ -285,9 +285,17 @@ const useGame = (dailyWord: string, wordList: string[]) => {
   }, [handleKeyDown]);
 
   useEffect(() => {
-    if (gameState.attempts !== gameState.wordLength + 1) {
-      if (!gameState.guesses[selectedGuessIndex].some((item) => item.letter)) {
+    const selectedGuess = gameState.guesses[selectedGuessIndex];
+    if (selectedGuess) {
+      if (selectedGuess.every((item) => item.correctPlace)) {
         setStoragedGameState(gameState);
+        return;
+      }
+
+      if (gameState.attempts !== gameState.wordLength + 1) {
+        if (!selectedGuess.some((item) => item.letter)) {
+          setStoragedGameState(gameState);
+        }
       }
     }
   }, [gameState, selectedGuessIndex]);

@@ -1,3 +1,4 @@
+import { darken } from "polished";
 import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
@@ -11,6 +12,20 @@ export default createGlobalStyle`
     transition: all 0.2s;
 
     background-color: ${({ theme }) => theme.colors.secondary};
+
+    .toast .Toastify__toast {
+      height: 5rem;
+      background-color: ${({ theme }) => darken(0.05, theme.colors.primary)};
+      color: ${({ theme }) => theme.colors.white};
+
+      button svg {
+        color: ${({ theme }) => theme.colors.white};
+      }
+
+      .Toastify__progress-bar {
+        background: ${({ theme }) => theme.colors.secondary};
+      }
+    }
   }
 
   a {

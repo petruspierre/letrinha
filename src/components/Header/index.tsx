@@ -8,7 +8,7 @@ import { Button, Container, LogoButton } from "./styles";
 
 interface HeaderProps {
   toggleInstructions: () => void;
-  showLogo: boolean;
+  showLogo?: boolean;
 }
 
 const Header = ({ toggleInstructions, showLogo = true }: HeaderProps) => {

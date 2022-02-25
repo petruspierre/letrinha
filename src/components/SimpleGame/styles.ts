@@ -24,6 +24,17 @@ const fadeIn = keyframes`
   }
 `;
 
+const shake = keyframes`
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+
+  40%, 60% {
+    transform: translate3d(0px, 0, 0);
+  }
+`;
+
 export const GameContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -113,17 +124,19 @@ export const Field = styled.button<FieldProps>`
     height: 0;
     background-color: ${({ theme }) => theme.colors.primary};
     position: absolute;
-    bottom: 0;
-    left: 50%;
+    bottom: 0.25rem;
+    left: 25%;
     transform: translateX(-50%);
-    transition: all 0.2s;
+    transition: left cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.15s;
   }
 
   ${is("isActive")`
     padding-bottom: 0.5rem;
+    animation: ${shake} 0.2s ease-in-out both;
+    transform: translate3d(0, 0, 0);
 
     &::after {
-      bottom: 0.25rem;
+      left: 50%;
       height: 0.35rem;
     }
   `}

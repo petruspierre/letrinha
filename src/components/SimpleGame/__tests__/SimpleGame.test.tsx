@@ -39,24 +39,6 @@ describe("SimpleGame component", () => {
       });
     });
 
-    describe("render the correct amount of attempts", () => {
-      it("renders 6 attempts", () => {
-        const { getByText } = render(
-          <SimpleGame {...defaultProps} dailyWord="aaaaa" />
-        );
-
-        expect(getByText("Tentativas restantes: 6")).toBeInTheDocument();
-      });
-
-      it("renders 7 attempts", () => {
-        const { getByText } = render(
-          <SimpleGame {...defaultProps} dailyWord="aaaaaa" />
-        );
-
-        expect(getByText("Tentativas restantes: 7")).toBeInTheDocument();
-      });
-    });
-
     it("first index is selected", () => {
       const { getByTestId } = render(<SimpleGame {...defaultProps} />);
 

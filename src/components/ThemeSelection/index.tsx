@@ -14,7 +14,13 @@ const ThemeSelection = ({ dismiss }: ThemeSelecionProps) => {
     <>
       <Overlay role="button" onClick={dismiss}></Overlay>
       <Content role="menu">
-        <CloseButton onClick={dismiss}>✕</CloseButton>
+        <CloseButton
+          onClick={dismiss}
+          title="Fechar janela"
+          aria-label="Fechar janela"
+        >
+          ✕
+        </CloseButton>
 
         <Title>Temas</Title>
 

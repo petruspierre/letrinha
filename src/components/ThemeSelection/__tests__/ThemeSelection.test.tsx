@@ -21,9 +21,9 @@ describe("Theme Selection component", () => {
     it("call dismiss function", () => {
       const cb = jest.fn();
 
-      const { getByRole } = render(<ThemeSelection dismiss={cb} />);
+      const { getByTitle } = render(<ThemeSelection dismiss={cb} />);
 
-      fireEvent.click(getByRole("button"));
+      fireEvent.click(getByTitle("Fechar janela"));
 
       expect(cb).toHaveBeenCalledTimes(1);
     });

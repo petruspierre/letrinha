@@ -65,7 +65,7 @@ export const KeyboardWrapper = styled.div<IKeyboardWrapperProps>`
 
   ${is("isVisible")`
     max-height: 12.5rem;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
   `}
 `;
 

@@ -1,11 +1,15 @@
 import styled, { keyframes } from "styled-components";
-import is from "styled-is";
+import is, { isNot } from "styled-is";
 
 interface FieldProps {
   isActive: boolean;
   exists: boolean;
   correctPlace: boolean;
   blur: boolean;
+}
+
+interface FieldsContainerProps {
+  isKeyboardVisible: boolean;
 }
 
 const fadeIn = keyframes`
@@ -20,28 +24,50 @@ const fadeIn = keyframes`
   }
 `;
 
-export const Container = styled.div`
+export const GameContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding: 1rem;
+  padding: 0 1rem;
   min-width: 25rem;
   max-width: 100%;
   align-items: center;
 
-  @media screen and (min-width: 1024px) {
+  @media screen and (min-width: 768px) {
     width: 100%;
   }
 `;
 
-export const FieldsContainer = styled.section`
+export const FieldsContainer = styled.section<FieldsContainerProps>`
   display: flex;
   flex-direction: column;
   flex: 1;
 
-  @media screen and (max-width: 768px) {
-    overflow-y: scroll;
-    max-height: calc(100vh - 24rem);
+  overflow-y: scroll;
+  max-height: calc(100vh - 20.5rem);
+  transition: all 0.3s;
+  padding-right: 0.1rem;
+  max-width: 553px;
+
+  ${isNot("isKeyboardVisible")`
+    max-height: calc(100vh - 6.5rem);
+    padding-right: 0;
+  `}
+
+  @media screen and (min-width: 768px) {
+    &::-webkit-scrollbar {
+      width: 0.5rem;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: transparent;
+      width: 0.25rem;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: ${({ theme }) => theme.colors.primary};
+      border-radius: 1rem;
+    }
   }
 `;
 
@@ -52,11 +78,7 @@ export const FieldWrapper = styled.div`
   animation: ${fadeIn} 0.3s ease-in-out;
 
   & + div {
-    margin-top: 1rem;
-  }
-
-  @media screen and (min-width: 1024px) {
-    gap: 1rem;
+    margin-top: 0.5rem;
   }
 `;
 
@@ -120,9 +142,9 @@ export const Field = styled.button<FieldProps>`
     background-color: ${({ theme }) => theme.colors.green};
   `}
 
-@media screen and (min-width: 1024px) {
-    height: 5rem;
-    width: 5rem;
+@media screen and (min-width: 1367px) {
+    height: 4.5rem;
+    width: 4.5rem;
     font-size: 3rem;
 
     ${is("isActive")`
@@ -141,22 +163,24 @@ export const Footer = styled.section`
   flex-direction: column;
   align-items: center;
   height: auto;
-  width: 100%;
-  max-width: 553px;
   padding-top: 1rem;
 
-  @media screen and (max-width: 768px) {
-    width: calc(100% - 2rem);
-    position: fixed;
-    bottom: 1rem;
-    left: 1rem;
-    right: 1rem;
-  }
+  width: calc(100% - 2rem);
+  position: fixed;
+  bottom: 0.5rem;
+  left: 1rem;
+  right: 1rem;
 
   p {
     font-size: 1.25rem;
     color: ${({ theme }) => theme.colors.white};
     font-family: ${({ theme }) => theme.font.primary};
+  }
+
+  @media screen and (min-width: 768px) {
+    max-width: 553px;
+    left: 50%;
+    transform: translateX(-50%);
   }
 `;
 

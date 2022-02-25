@@ -9,6 +9,8 @@ interface KeyboardProps {
   popLetter: () => void;
   submit: () => void;
   disable: boolean;
+  isVisible: boolean;
+  onClick: () => void;
   state: Record<
     string,
     {
@@ -26,14 +28,14 @@ const Keyboard = ({
   submit,
   state,
   disable,
+  isVisible,
+  onClick,
 }: KeyboardProps) => {
-  const [isVisible, setIsVisible] = useState(true);
-
   return (
     <Container>
       <div className="actions">
         <button
-          onClick={() => setIsVisible(!isVisible)}
+          onClick={onClick}
           aria-label={`${isVisible ? "Esconder" : "Mostrar"} teclado`}
           title={`${isVisible ? "Esconder" : "Mostrar"} teclado`}
         >
@@ -101,7 +103,6 @@ const Keyboard = ({
           </div>
         ))}
       </KeyboardWrapper>
-      .
     </Container>
   );
 };

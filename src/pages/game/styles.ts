@@ -13,4 +13,5 @@ export const Content = styled.main`
   max-width: 1120px;
   margin: 0 auto;
   height: 100%;
+  padding: 0.5rem 0 0;
 `;

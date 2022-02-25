@@ -52,6 +52,13 @@ const themes: Record<string, ColorTheme> = {
     },
     name: "Tomate",
   },
+  contrete: {
+    colors: {
+      primary: "#3A3A40",
+      secondary: "#91999D",
+    },
+    name: "Concreto",
+  },
   default: {
     colors: {
       primary: "#423E4F",

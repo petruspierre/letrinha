@@ -7,7 +7,7 @@ import useGame from "./hook";
 import {
   FieldWrapper,
   Field,
-  Container,
+  GameContainer,
   Footer,
   FieldsContainer,
   GameOverWarning,
@@ -30,6 +30,7 @@ const SimpleGame = ({ dailyWord, wordList }: SimpleGameProps) => {
   } = useGame(dailyWord, wordList);
   const [dismissOverlay, setDismissOverlay] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(true);
 
   const handleShare = () => {
     const {
@@ -39,11 +40,16 @@ const SimpleGame = ({ dailyWord, wordList }: SimpleGameProps) => {
       guesses,
     } = state;
     const result = win ? "ganhei" : "perdi";
+    const filteredGuesses = guesses.filter(
+      (guess) => !guess.some(({ exists }) => exists)
+    );
     const content = [
       `Eu acabei de jogar Letrinha e ${result}`,
       "",
       `${totalGuesses}/${wordLength + 1}`,
-      ...guesses.map((item) => {
+      ...filteredGuesses.map((item, index) => {
+        if (index >= wordLength) return "";
+
         return item
           .map((letter) => {
             if (letter.correctPlace) return "🟩";
@@ -106,13 +112,13 @@ const SimpleGame = ({ dailyWord, wordList }: SimpleGameProps) => {
   };
 
   return (
-    <Container>
+    <GameContainer>
       {state.isGameOver &&
         state.statistics &&
         !dismissOverlay &&
         renderResult()}
 
-      <FieldsContainer>
+      <FieldsContainer isKeyboardVisible={isKeyboardVisible}>
         {state.guesses.map((guess, index) => (
           <FieldWrapper key={String(index)}>
             {Array(dailyWord.length)
@@ -159,10 +165,11 @@ const SimpleGame = ({ dailyWord, wordList }: SimpleGameProps) => {
           popLetter={popLetter}
           state={state.keyBoardState}
           disable={state.isGameOver}
+          isVisible={isKeyboardVisible}
+          onClick={() => setIsKeyboardVisible(!isKeyboardVisible)}
         />
-        <p>Tentativas restantes: {state.attempts}</p>
       </Footer>
-    </Container>
+    </GameContainer>
   );
 };
 

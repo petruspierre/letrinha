@@ -4,7 +4,7 @@ import { query as q } from "faunadb";
 import api from "./api";
 import { fauna } from "./fauna";
 
-const FALLBACK_WORD = "teste";
+const FALLBACK_WORD = "testes";
 
 interface IDailyWordQueryResponse {
   data: {
@@ -15,7 +15,7 @@ interface IDailyWordQueryResponse {
 
 const getDailyWord = async () => {
   if (process.env.NODE_ENV === "development") {
-    return "teste";
+    return FALLBACK_WORD;
   }
 
   try {

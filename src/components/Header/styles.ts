@@ -5,7 +5,7 @@ export const Container = styled.header`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  max-width: 415px;
+  max-width: 374px;
   padding: 0 2rem;
   height: 5rem;
   margin: 0 auto;
@@ -14,6 +14,7 @@ export const Container = styled.header`
 export const LogoButton = styled.button`
   svg {
     height: 3rem;
+    max-width: 2.5rem;
   }
 `;
 
@@ -21,8 +22,9 @@ export const Button = styled.button`
   opacity: 0.75;
   transition: opacity 0.2s;
 
-  svg {
-    color: ${({ theme }) => theme.colors.white};
+  img {
+    max-width: 1.5rem;
+    max-height: 1.5rem;
   }
 
   &:hover {

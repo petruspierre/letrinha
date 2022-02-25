@@ -40,8 +40,8 @@ const SimpleGame = ({ dailyWord, wordList }: SimpleGameProps) => {
       guesses,
     } = state;
     const result = win ? "ganhei" : "perdi";
-    const filteredGuesses = guesses.filter(
-      (guess) => !guess.some(({ exists }) => exists)
+    const filteredGuesses = guesses.filter((guess) =>
+      guess.some(({ exists }) => exists)
     );
     const content = [
       `Eu acabei de jogar Letrinha e ${result}`,
@@ -59,7 +59,7 @@ const SimpleGame = ({ dailyWord, wordList }: SimpleGameProps) => {
           .join("");
       }),
       "",
-      "Jogue também em https://bit.ly/jogue-letrinha",
+      "Jogue também em https://www.letrinha.xyz/",
     ];
 
     if (typeof navigator.share !== "undefined") {

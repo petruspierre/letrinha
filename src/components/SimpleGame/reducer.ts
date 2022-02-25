@@ -46,7 +46,7 @@ export const gameReducer = (state: IGameState, action: GameActions) => {
 
       if (!guess) throw new Error("guess not found");
 
-      if (letterId > state.wordLength) return state;
+      if (letterId >= state.wordLength) return state;
 
       const newGuess = [...guess] as any[];
       newGuess[letterId] = {};

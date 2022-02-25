@@ -1,6 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 const readline = require("readline");
+const wordList = require("./wordData");
+const nameList = require("./nomesProprios");
 
 const result = {};
 
@@ -28,17 +30,29 @@ const reducer = function (acc, [key]) {
 const removeAccents = (text) => [...accentsMap].reduce(reducer, text);
 
 const readInterface = readline.createInterface({
-  input: fs.createReadStream(path.resolve(__dirname, "..", "dicio.txt")),
-  console: false,
+  input: fs.createReadStream(path.resolve(__dirname, "..", "tf.csv")),
 });
 
 readInterface.on("line", function (line) {
-  const name = line.split(",")[0];
-  const wordLength = name.length;
+  const [word, freq] = line.split(",");
+
+  const wordLength = word.length;
   const category = result[wordLength];
-  const parsedWord = removeAccents(name).toLowerCase();
 
   if (wordLength < 5 || wordLength > 6) return;
+
+  if (
+    (wordLength === 5 && freq < 1000000) ||
+    (wordLength === 6 && freq < 1000000)
+  )
+    return;
+
+  if (!wordList[wordLength].includes(word)) return;
+  if (nameList[wordLength].includes(word)) return;
+
+  console.log(word);
+
+  const parsedWord = removeAccents(word);
 
   if (!category) {
     result[wordLength] = [parsedWord];
@@ -48,8 +62,11 @@ readInterface.on("line", function (line) {
 });
 
 readInterface.on("close", function () {
+  console.log("5 LENGTH: ", result["5"].length);
+  console.log("6 LENGTH: ", result["6"].length);
+
   fs.writeFile(
-    path.resolve(__dirname, "wordData.json"),
+    path.resolve(__dirname, "possibleWords.json"),
     JSON.stringify(result),
     { flag: "a+" },
     (err) => {}

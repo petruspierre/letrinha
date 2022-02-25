@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FaBackspace, FaCheck, FaKeyboard } from "react-icons/fa";
-import { Container, KeyboardButton, KeyboardWrapper } from "./styles";
+import { Arrow, Container, KeyboardButton, KeyboardWrapper } from "./styles";
 
 const KEYBOARD_KEYS = ["qwertyuiop", "asdfghjkl-", "zxcvbnm]"];
 
@@ -33,15 +33,6 @@ const Keyboard = ({
 }: KeyboardProps) => {
   return (
     <Container>
-      <div className="actions">
-        <button
-          onClick={onClick}
-          aria-label={`${isVisible ? "Esconder" : "Mostrar"} teclado`}
-          title={`${isVisible ? "Esconder" : "Mostrar"} teclado`}
-        >
-          <FaKeyboard size="1.5rem" />
-        </button>
-      </div>
       <KeyboardWrapper isVisible={isVisible} aria-hidden={!isVisible}>
         {KEYBOARD_KEYS.map((row, index) => (
           <div className="row" key={String(index)}>
@@ -103,6 +94,21 @@ const Keyboard = ({
           </div>
         ))}
       </KeyboardWrapper>
+      <div className="actions">
+        <button
+          onClick={onClick}
+          aria-label={`${isVisible ? "Esconder" : "Mostrar"} teclado`}
+          title={`${isVisible ? "Esconder" : "Mostrar"} teclado`}
+        >
+          <p>{isVisible ? "Esconder" : "Mostrar"} teclado</p>
+          <FaKeyboard size="1.5rem" />
+          <Arrow
+            src="/assets/icons/chevron-up.svg"
+            keyboardVisible={isVisible}
+            alt="Seta indicadora"
+          />
+        </button>
+      </div>
     </Container>
   );
 };

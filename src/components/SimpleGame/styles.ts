@@ -44,7 +44,7 @@ export const FieldsContainer = styled.section<FieldsContainerProps>`
   flex: 1;
 
   overflow-y: scroll;
-  max-height: calc(100vh - 20.5rem);
+  max-height: calc(100vh - 15.5rem);
   transition: all 0.3s;
   padding-right: 0.1rem;
   max-width: 553px;
@@ -55,6 +55,8 @@ export const FieldsContainer = styled.section<FieldsContainerProps>`
   `}
 
   @media screen and (min-width: 768px) {
+    max-height: calc(100vh - 20.5rem);
+
     &::-webkit-scrollbar {
       width: 0.5rem;
     }
@@ -142,7 +144,7 @@ export const Field = styled.button<FieldProps>`
     background-color: ${({ theme }) => theme.colors.green};
   `}
 
-@media screen and (min-width: 1367px) {
+  @media screen and (min-width: 1367px) {
     height: 4.5rem;
     width: 4.5rem;
     font-size: 3rem;

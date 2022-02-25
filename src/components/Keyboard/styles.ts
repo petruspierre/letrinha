@@ -11,6 +11,10 @@ interface IKeyboardButtonProps {
   used: boolean;
 }
 
+interface IArrowProps {
+  keyboardVisible: boolean;
+}
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -21,7 +25,9 @@ export const Container = styled.div`
 
   .actions {
     button {
-      width: 6rem;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
 
       & + button {
         margin-left: 0.5rem;
@@ -55,17 +61,28 @@ export const Container = styled.div`
   }
 `;
 
+export const Arrow = styled.img<IArrowProps>`
+  width: 14px;
+  height: 7px;
+  transform: rotate(0);
+  transition: all 0.3s;
+
+  ${is("keyboardVisible")`
+    transform: rotate(-180deg);
+  `}
+`;
+
 export const KeyboardWrapper = styled.div<IKeyboardWrapperProps>`
   max-height: 0;
   overflow: hidden;
   width: 100%;
-  margin-top: 0rem;
+  margin-bottom: 0rem;
 
   transition: all 0.2s ease-in-out;
 
   ${is("isVisible")`
     max-height: 12.5rem;
-    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
   `}
 `;
 

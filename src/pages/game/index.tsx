@@ -35,9 +35,7 @@ const Game = ({ dailyWord }: GameProps) => {
         <title>Palavra do dia | Letrinha</title>
       </Head>
       <Container>
-        <Content>
-          <SimpleGame wordList={wordListQuery.data} dailyWord={dailyWord} />
-        </Content>
+        <SimpleGame wordList={wordListQuery.data} dailyWord={dailyWord} />
       </Container>
     </>
   );

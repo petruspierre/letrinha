@@ -1,6 +1,6 @@
 import { useTheme } from "~/styles/theme";
 
-import { Overlay, Content, Title } from "./styles";
+import { Overlay, Content, Title, CloseButton } from "./styles";
 import Option from "./Option";
 
 interface ThemeSelecionProps {
@@ -14,7 +14,9 @@ const ThemeSelection = ({ dismiss }: ThemeSelecionProps) => {
     <>
       <Overlay role="button" onClick={dismiss}></Overlay>
       <Content role="menu">
-        <Title>Mudar tema</Title>
+        <CloseButton onClick={dismiss}>✕</CloseButton>
+
+        <Title>Temas</Title>
 
         {Object.keys(themes).map((themeName) => {
           const theme = themes[themeName];

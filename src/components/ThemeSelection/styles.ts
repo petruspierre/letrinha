@@ -1,4 +1,16 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const fadeIn = keyframes`
+  from {
+    transform: translate(-50%, -30%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  }
+`;
 
 export const Overlay = styled.div`
   position: fixed;
@@ -15,29 +27,64 @@ export const Overlay = styled.div`
 `;
 
 export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-55%, -50%);
-  -webkit-transform: translate(-55%, -50%);
+  transform: translate(-50%, -50%);
   z-index: 3;
   width: calc(100% - 2rem);
-  max-width: 420px;
-  border-radius: 15px;
-  padding: 2rem;
-  margin: 0 1rem;
+  max-width: 600px;
+  align-items: center;
+  padding: 4rem 0;
+  animation: ${fadeIn} 0.2s ease-in-out;
 
-  background: ${({ theme }) => theme.colors.white}; ;
+  background: ${({ theme }) => theme.colors.primary};
+
+  button {
+    max-width: 300px;
+
+    + button {
+      margin-top: 2rem;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    padding: 2rem 0;
+
+    button + button {
+      margin-top: 1rem;
+    }
+  }
+`;
+
+export const CloseButton = styled.button`
+  font-size: 1rem;
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  border-radius: 4px;
+  border: 1px solid white;
+  color: white;
+  height: 1.5rem;
+  width: 1.5rem;
+  opacity: 1;
+
+  transition: opacity 0.3s;
+
+  :hover {
+    opacity: 0.8;
+  }
 `;
 
 export const Title = styled.h3`
   font-family: ${({ theme }) => theme.font.primary};
   font-size: 2.25rem;
+  font-style: italic;
   font-weight: 400;
   text-align: center;
 
-  color: ${({ theme }) => theme.colors.primary};
-  border-bottom: 2px solid ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.white};
   margin-bottom: 2rem;
-  padding-bottom: 0.75rem;
 `;

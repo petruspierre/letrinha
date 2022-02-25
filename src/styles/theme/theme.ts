@@ -73,7 +73,7 @@ const defaultTheme: DefaultTheme = {
     background: "#2F2D2E",
     text: "#F5F9E9",
     white: "#fff",
-    overlay: "rgba(0, 0, 0, 0.5)",
+    overlay: "rgba(0, 0, 0, 0.3)",
     green: "#27B15E",
     yellow: "#F4AD23",
     ...themes.default.colors,

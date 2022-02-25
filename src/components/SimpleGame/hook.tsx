@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useReducer, useState } from "react";
 import { endOfToday, intervalToDuration } from "date-fns";
 import { toast } from "react-toastify";
+import useSound from "use-sound";
 
 import { ActionTypes } from "./types";
 import { gameReducer } from "./reducer";
@@ -36,6 +37,15 @@ const useGame = (dailyWord: string, wordList: string[]) => {
     guesses: new Array(dailyWord.length + 1).fill(
       new Array(dailyWord.length).fill({})
     ),
+  });
+  const [playType] = useSound("/assets/sound/type.mp3", {
+    volume: 0.05,
+  });
+  const [playSubmit] = useSound("/assets/sound/submit.mp3", {
+    volume: 0.05,
+  });
+  const [playErase] = useSound("/assets/sound/erase.mp3", {
+    volume: 0.05,
   });
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedGuessIndex, setSelectedGuessIndex] = useState(0);
@@ -248,11 +258,13 @@ const useGame = (dailyWord: string, wordList: string[]) => {
       if (gameState.isGameOver) return;
 
       if (event.key === "Backspace") {
+        playErase();
         popLetter();
         return;
       }
 
       if (event.key === "Enter") {
+        playSubmit();
         submitGuess();
         return;
       }
@@ -272,6 +284,7 @@ const useGame = (dailyWord: string, wordList: string[]) => {
       }
 
       if (LETTERS.includes(event.key)) {
+        playType();
         appendLetter(event.key);
       }
     },

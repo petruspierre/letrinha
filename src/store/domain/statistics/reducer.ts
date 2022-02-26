@@ -1,5 +1,8 @@
 import { Reducer } from "redux";
+import { getStoragedStatistics } from "~/store/infra/repositories/StatisticsRepository";
 import { IStatisticsState } from "./types";
+
+const loadedStatistics = getStoragedStatistics();
 
 const INITIAL_STATE: IStatisticsState = {
   history: {
@@ -16,6 +19,7 @@ const INITIAL_STATE: IStatisticsState = {
       "6": 0,
     },
   },
+  ...loadedStatistics,
 };
 
 const statisticsReducer: Reducer<IStatisticsState> = (

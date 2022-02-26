@@ -127,7 +127,10 @@ describe("SimpleGame component", () => {
                 )
               ).toBeInTheDocument()
             );
-            expect(localStorage.setItem).not.toHaveBeenCalled();
+            expect(localStorage.setItem).not.toHaveBeenCalledWith(
+              "@LETRINHA:gameState",
+              expect.any
+            );
           });
         });
 
@@ -142,7 +145,10 @@ describe("SimpleGame component", () => {
                 getByText("Palavra não consta no dicionário, tente novamente.")
               ).toBeInTheDocument()
             );
-            expect(localStorage.setItem).not.toHaveBeenCalled();
+            expect(localStorage.setItem).not.toHaveBeenCalledWith(
+              "@LETRINHA:gameState",
+              expect.any
+            );
           });
         });
       });

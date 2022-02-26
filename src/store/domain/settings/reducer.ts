@@ -1,11 +1,16 @@
 import { Reducer } from "redux";
+
 import { ISettingsState } from "./types";
+import { getStoragedSettings } from "~/store/infra/repositories/SettingsRepository";
+
+const loadedSettings = getStoragedSettings();
 
 const INITIAL_STATE: ISettingsState = {
   keyboardHidden: false,
   volume: {
     soundEffects: 0.2,
   },
+  ...loadedSettings,
 };
 
 const settingsReducer: Reducer<ISettingsState> = (

@@ -1,7 +1,8 @@
 import { intervalToDuration } from "date-fns";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { IGameState } from "~/model/SimpleGame";
+import { setStoragedStatistics } from "~/store/infra/repositories/StatisticsRepository";
 
 import { statisticsSelector } from "../../selectors";
 import { updateCurrentStatistcs, updateHistoryStatistcs } from "./actions";
@@ -41,6 +42,12 @@ const useStatistics = () => {
     },
     [dispatch]
   );
+
+  useEffect(() => {
+    if (statistics) {
+      setStoragedStatistics(statistics);
+    }
+  }, [statistics]);
 
   return {
     statistics,

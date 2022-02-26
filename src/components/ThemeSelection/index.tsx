@@ -1,7 +1,8 @@
 import { useTheme } from "~/styles/theme";
 
-import { Overlay, Content, Title, CloseButton } from "./styles";
+import { Content, Title } from "./styles";
 import Option from "./Option";
+import Modal from "../Modal";
 
 interface ThemeSelecionProps {
   dismiss: () => void;
@@ -11,17 +12,8 @@ const ThemeSelection = ({ dismiss }: ThemeSelecionProps) => {
   const { changeTheme, colorTheme, themes } = useTheme();
 
   return (
-    <>
-      <Overlay role="button" onClick={dismiss}></Overlay>
-      <Content role="menu">
-        <CloseButton
-          onClick={dismiss}
-          title="Fechar janela"
-          aria-label="Fechar janela"
-        >
-          ✕
-        </CloseButton>
-
+    <Modal dismiss={dismiss}>
+      <Content>
         <Title>Temas</Title>
 
         {Object.keys(themes).map((themeName) => {
@@ -39,7 +31,7 @@ const ThemeSelection = ({ dismiss }: ThemeSelecionProps) => {
           );
         })}
       </Content>
-    </>
+    </Modal>
   );
 };
 

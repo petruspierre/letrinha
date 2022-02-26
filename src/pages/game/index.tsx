@@ -17,7 +17,6 @@ interface GameProps {
 
 const Game = ({ dailyWord }: GameProps) => {
   const decryptedWord = decrypt(dailyWord);
-  const { settings } = useSettings();
 
   const wordListQuery = useQuery<string[]>("wordList", () =>
     getWordList(decryptedWord.length)

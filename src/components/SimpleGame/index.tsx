@@ -13,6 +13,7 @@ import {
   FieldsContainer,
   GameOverWarning,
 } from "./styles";
+import useStatistics from "~/store/domain/statistics";
 
 interface SimpleGameProps {
   dailyWord: string;
@@ -32,14 +33,11 @@ const SimpleGame = ({ dailyWord, wordList }: SimpleGameProps) => {
   const [dismissOverlay, setDismissOverlay] = useState(false);
   const [copied, setCopied] = useState(false);
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(true);
+  const { statistics } = useStatistics();
 
   const handleShare = () => {
-    const {
-      statistics: { totalGuesses },
-      win,
-      wordLength,
-      guesses,
-    } = state;
+    const { win, wordLength, guesses } = state;
+    const { totalGuesses } = statistics.current;
     const result = win ? "ganhei" : "perdi";
     const filteredGuesses = guesses.filter((guess) =>
       guess.some(({ exists }) => exists)
@@ -80,10 +78,9 @@ const SimpleGame = ({ dailyWord, wordList }: SimpleGameProps) => {
   };
 
   const renderResult = () => {
-    const {
-      statistics: { totalTimeSpent, totalGuesses, accuracy },
-      win,
-    } = state;
+    const { totalTimeSpent, totalGuesses, accuracy } = statistics.current;
+
+    const { win } = state;
     const result = win ? "ganhou! 😄" : "perdeu. 😭";
     const time = `${totalTimeSpent.minutes.toLocaleString("pt-BR", {
       minimumIntegerDigits: 2,
@@ -122,7 +119,7 @@ const SimpleGame = ({ dailyWord, wordList }: SimpleGameProps) => {
   return (
     <GameContainer>
       {state.isGameOver &&
-        state.statistics &&
+        statistics.current &&
         !dismissOverlay &&
         renderResult()}
 

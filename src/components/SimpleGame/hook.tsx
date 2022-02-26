@@ -12,6 +12,7 @@ import {
   setStoragedGameState,
 } from "~/repositories/GameState";
 import useSettings from "~/store/domain/settings";
+import useStatistics from "~/store/domain/statistics";
 
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 
@@ -35,6 +36,7 @@ interface ISimpleGameHookProps {
 
 const useGame = ({ dailyWord, wordList }: ISimpleGameHookProps) => {
   const { settings } = useSettings();
+  const { calculateCurrentStatistics } = useStatistics();
   const [gameState, dispatchGame] = useReducer(gameReducer, {
     ...INITIAL_STATE,
     word: dailyWord,
@@ -56,33 +58,6 @@ const useGame = ({ dailyWord, wordList }: ISimpleGameHookProps) => {
   });
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedGuessIndex, setSelectedGuessIndex] = useState(0);
-
-  const getStatistics = useCallback(() => {
-    const { attempts, guesses, wordLength, gameStart, win } = gameState;
-
-    const totalGuesses = win ? wordLength + 2 - attempts : wordLength + 1;
-    const totalTimeSpent = intervalToDuration({
-      start: new Date(gameStart),
-      end: new Date(),
-    });
-    const totalCorrect = guesses.reduce((acc, cur) => {
-      return (
-        acc +
-        cur.reduce((_acc, _cur) => {
-          return _acc + (_cur.correctPlace ? 1 : 0);
-        }, 0)
-      );
-    }, 0);
-    const accuracy = (totalCorrect / (totalGuesses * wordLength)) * 100;
-
-    return {
-      totalGuesses,
-      totalCorrect,
-      totalTimeSpent,
-      accuracy,
-      correctWord: dailyWord,
-    };
-  }, [gameState, dailyWord]);
 
   const endGame = useCallback(
     (win: boolean) => {
@@ -323,17 +298,10 @@ const useGame = ({ dailyWord, wordList }: ISimpleGameHookProps) => {
   }, [gameState, selectedGuessIndex]);
 
   useEffect(() => {
-    if (gameState.isGameOver && !gameState.statistics) {
-      const statistics = getStatistics();
-
-      dispatchGame({
-        type: ActionTypes.UpdateGame,
-        payload: {
-          statistics,
-        },
-      });
+    if (gameState.isGameOver) {
+      calculateCurrentStatistics(gameState, dailyWord);
     }
-  }, [gameState, getStatistics]);
+  }, [gameState, calculateCurrentStatistics, dailyWord]);
 
   useEffect(() => {
     try {

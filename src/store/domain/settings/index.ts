@@ -13,7 +13,6 @@ const useSettings = () => {
 
   useEffect(() => {
     if (settings) {
-      console.log(settings);
       setStoragedSettings(settings);
     }
   }, [settings]);

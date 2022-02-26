@@ -19,7 +19,7 @@ const rootReducer = combineReducers({
   statistics: statisticsReducer,
 });
 
-const store = createStore(rootReducer, applyMiddleware(...middleware));
+export const store = createStore(rootReducer, applyMiddleware(...middleware));
 
 export const configureStore = () => store;
 

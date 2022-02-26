@@ -1,7 +1,4 @@
 import { useState } from "react";
-import { formatDistance } from "date-fns";
-import { ptBR } from "date-fns/locale";
-import * as gtag from "~/services/gtag";
 
 import Keyboard from "../Keyboard";
 import useGame from "./hook";
@@ -11,9 +8,9 @@ import {
   GameContainer,
   Footer,
   FieldsContainer,
-  GameOverWarning,
 } from "./styles";
 import useStatistics from "~/store/domain/statistics";
+import Result from "./Result";
 
 interface SimpleGameProps {
   dailyWord: string;
@@ -31,97 +28,14 @@ const SimpleGame = ({ dailyWord, wordList }: SimpleGameProps) => {
     selectedGuessIndex,
   } = useGame({ dailyWord, wordList });
   const [dismissOverlay, setDismissOverlay] = useState(false);
-  const [copied, setCopied] = useState(false);
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(true);
   const { statistics } = useStatistics();
 
-  const handleShare = () => {
-    const { win, wordLength, guesses } = state;
-    const { totalGuesses } = statistics.current;
-    const result = win ? "ganhei" : "perdi";
-    const filteredGuesses = guesses.filter((guess) =>
-      guess.some(({ exists }) => exists)
-    );
-    const content = [
-      `Eu acabei de jogar Letrinha e ${result}`,
-      "",
-      `${totalGuesses}/${wordLength + 1}`,
-      ...filteredGuesses.map((item, index) => {
-        if (index >= wordLength) return "";
-
-        return item
-          .map((letter) => {
-            if (letter.correctPlace) return "🟩";
-            if (letter.exists) return "🟨";
-            return "🟥";
-          })
-          .join("");
-      }),
-      "",
-      "Jogue também em https://www.letrinha.xyz/",
-    ];
-
-    if (typeof navigator.share !== "undefined") {
-      navigator.share({
-        text: content.join("\n"),
-      });
-    }
-    navigator.clipboard.writeText(content.join("\n"));
-    setCopied(true);
-
-    gtag.event({
-      action: "share",
-      category: "game",
-      label: "method",
-      value: 1,
-    });
-  };
-
-  const renderResult = () => {
-    const { totalTimeSpent, totalGuesses, accuracy } = statistics.current;
-
-    const { win } = state;
-    const result = win ? "ganhou! 😄" : "perdeu. 😭";
-    const time = `${totalTimeSpent.minutes.toLocaleString("pt-BR", {
-      minimumIntegerDigits: 2,
-    })}:${totalTimeSpent.seconds.toLocaleString("pt-BR", {
-      minimumIntegerDigits: 2,
-    })}`;
-
-    return (
-      <GameOverWarning>
-        <h2>
-          Você <span>{result}</span>
-        </h2>
-        <p>
-          Aguarde a nova palavra em{" "}
-          {formatDistance(new Date(), new Date(state.gameExpires), {
-            locale: ptBR,
-          })}
-        </p>
-        <p>
-          Completou o jogo em: <span>{time}</span>
-        </p>
-        <p>
-          em <span>{totalGuesses}</span> tentativas
-        </p>
-        <p>
-          com <span>{accuracy.toFixed(0)}%</span> de precisão
-        </p>
-        <button onClick={handleShare}>
-          {copied ? "Copiado" : "Compartilhar"}
-        </button>
-        <button onClick={() => setDismissOverlay(true)}>Ver jogo</button>
-      </GameOverWarning>
-    );
-  };
-
   return (
     <GameContainer>
-      {state.isGameOver &&
-        statistics.current &&
-        !dismissOverlay &&
-        renderResult()}
+      {state.isGameOver && statistics.current && !dismissOverlay && (
+        <Result gameState={state} dismiss={setDismissOverlay} />
+      )}
 
       <FieldsContainer isKeyboardVisible={isKeyboardVisible}>
         {state.guesses.map((guess, index) => (

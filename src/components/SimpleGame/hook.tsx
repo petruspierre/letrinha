@@ -27,7 +27,12 @@ const INITIAL_STATE = {
   word: "",
 };
 
-const useGame = (dailyWord: string, wordList: string[]) => {
+interface ISimpleGameHookProps {
+  dailyWord: string;
+  wordList: string[];
+}
+
+const useGame = ({ dailyWord, wordList }: ISimpleGameHookProps) => {
   const [gameState, dispatchGame] = useReducer(gameReducer, {
     ...INITIAL_STATE,
     word: dailyWord,

@@ -78,11 +78,11 @@ export const AnimatedContainer = styled.h1`
     display: block;
     position: relative;
 
-    animation: ${move} 1s ease-in-out;
+    animation: ${move} 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     ${getAnimationDelay()}
 
     &:after {
-      animation: ${active} 1s ease-in-out;
+      animation: ${active} 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       content: "";
       display: block;
       width: 1.25rem;

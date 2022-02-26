@@ -7,15 +7,18 @@ import { useQuery } from "react-query";
 import { getDailyWord, getWordList } from "~/services/words";
 import { SimpleGame } from "~/components";
 
-import { Container, Content } from "./styles";
+import { Container } from "./styles";
+import { decrypt } from "~/utils/crypt";
 
 interface GameProps {
-  dailyWord: string;
+  dailyWord: { iv: string; content: string };
 }
 
 const Game = ({ dailyWord }: GameProps) => {
+  const decryptedWord = decrypt(dailyWord);
+
   const wordListQuery = useQuery<string[]>("wordList", () =>
-    getWordList(dailyWord.length)
+    getWordList(decryptedWord.length)
   );
 
   useEffect(() => {
@@ -35,7 +38,7 @@ const Game = ({ dailyWord }: GameProps) => {
         <title>Palavra do dia | Letrinha</title>
       </Head>
       <Container>
-        <SimpleGame wordList={wordListQuery.data} dailyWord={dailyWord} />
+        <SimpleGame wordList={wordListQuery.data} dailyWord={decryptedWord} />
       </Container>
     </>
   );

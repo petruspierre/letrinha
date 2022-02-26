@@ -27,7 +27,7 @@ const SimpleGame = ({ dailyWord, wordList }: SimpleGameProps) => {
     selectedIndex,
     setSelectedIndex,
     selectedGuessIndex,
-  } = useGame(dailyWord, wordList);
+  } = useGame({ dailyWord, wordList });
   const [dismissOverlay, setDismissOverlay] = useState(false);
   const [copied, setCopied] = useState(false);
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(true);

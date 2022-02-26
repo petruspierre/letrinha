@@ -39,3 +39,7 @@ export interface IGameState {
   win?: boolean;
   word: string;
 }
+
+export interface IStoragedGameState extends Omit<IGameState, "word"> {
+  word: { iv: string; content: string };
+}

@@ -1,4 +1,5 @@
-import { Container, Overlay } from "./styles";
+import Modal from "../Modal";
+import { Container } from "./styles";
 
 interface HowToPlayProps {
   dismiss: () => void;
@@ -6,17 +7,8 @@ interface HowToPlayProps {
 
 const HowToPlay = ({ dismiss }: HowToPlayProps) => {
   return (
-    <>
-      <Overlay onClick={dismiss} />
+    <Modal dismiss={dismiss}>
       <Container>
-        <button
-          aria-label="Fechar tutorial"
-          title="Fechar tutorial"
-          onClick={dismiss}
-        >
-          X
-        </button>
-
         <h2>Como jogar?</h2>
 
         <p>
@@ -55,7 +47,7 @@ const HowToPlay = ({ dismiss }: HowToPlayProps) => {
           inventar nem usar nomes próprios.
         </small>
       </Container>
-    </>
+    </Modal>
   );
 };
 

@@ -1,49 +1,16 @@
 import styled, { keyframes } from "styled-components";
 
-const fadeIn = keyframes`
-  from {
-    transform: translate(-50%, -30%);
-    opacity: 0;
-  }
-
-  to {
-    transform: translate(-50%, -50%);
-    opacity: 1;
-  }
-`;
-
 export const Container = styled.article`
-  position: fixed;
-  top: 50%;
-  left: 50%;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  max-width: 550px;
-  background-color: ${({ theme }) => theme.colors.white};
-  transform: translate(-50%, -50%);
-  z-index: 50;
   text-align: center;
-
-  animation: ${fadeIn} 0.3s ease-in-out;
+  color: ${({ theme }) => theme.colors.white};
 
   font-family: ${({ theme }) => theme.font.primary};
-
-  padding: 1rem;
-  border-radius: 15px;
-  border: 3px solid ${({ theme }) => theme.colors.primary};
-
-  button {
-    position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
-    font-size: 1rem;
-    font-family: ${({ theme }) => theme.font.primary};
-    color: ${({ theme }) => theme.colors.primary};
-    transition: filter 0.2s;
-
-    &:hover {
-      filter: brightness(0.8);
-    }
-  }
 
   p {
     font-size: 1.225rem;
@@ -51,12 +18,12 @@ export const Container = styled.article`
 
     strong {
       font-weight: 400;
-      color: ${({ theme }) => theme.colors.primary};
+      color: ${({ theme }) => theme.colors.secondary};
     }
   }
 
   h2 {
-    color: ${({ theme }) => theme.colors.primary};
+    color: ${({ theme }) => theme.colors.white};
     font-size: 2rem;
     font-weight: 400;
   }
@@ -66,12 +33,11 @@ export const Container = styled.article`
     font-weight: 400;
 
     .yellow {
-      background-color: yellow;
+      background-color: ${({ theme }) => theme.colors.yellow};
     }
 
     .green {
-      background-color: green;
-      color: ${({ theme }) => theme.colors.white};
+      background-color: ${({ theme }) => theme.colors.green};
     }
   }
 
@@ -82,15 +48,4 @@ export const Container = styled.article`
     font-size: 0.825rem;
     font-family: ${({ theme }) => theme.font.secondary};
   }
-`;
-
-export const Overlay = styled.button`
-  cursor: default;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 25;
 `;

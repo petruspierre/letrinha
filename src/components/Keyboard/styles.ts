@@ -43,6 +43,13 @@ export const Container = styled.div`
         filter: brightness(0.8);
       }
     }
+
+    @media screen and (max-width: 768px) {
+      p {
+        visibility: hidden;
+        display: none;
+      }
+    }
   }
 
   .row {
@@ -78,7 +85,7 @@ export const KeyboardWrapper = styled.div<IKeyboardWrapperProps>`
   width: 100%;
   margin-bottom: 0rem;
 
-  transition: all 0.2s ease-in-out;
+  transition: all 0.3s ease-in-out;
 
   ${is("isVisible")`
     max-height: 12.5rem;

@@ -39,6 +39,7 @@ export const Content = styled.div`
   align-items: center;
   padding: 4rem 0;
   animation: ${fadeIn} 0.2s ease-in-out;
+  max-height: 100vh;
 
   background: ${({ theme }) => theme.colors.primary};
 
@@ -52,6 +53,7 @@ export const Content = styled.div`
 
   @media screen and (max-width: 768px) {
     padding: 2rem 0;
+    overflow-y: scroll;
 
     button + button {
       margin-top: 1rem;

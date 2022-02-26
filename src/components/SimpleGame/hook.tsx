@@ -270,6 +270,7 @@ const useGame = (dailyWord: string, wordList: string[]) => {
       }
 
       if (event.key === "ArrowLeft") {
+        playErase();
         if (selectedIndex > 0) {
           setSelectedIndex(selectedIndex - 1);
         }
@@ -277,6 +278,7 @@ const useGame = (dailyWord: string, wordList: string[]) => {
       }
 
       if (event.key === "ArrowRight") {
+        playErase();
         if (selectedIndex < gameState.wordLength - 1) {
           setSelectedIndex(selectedIndex + 1);
         }

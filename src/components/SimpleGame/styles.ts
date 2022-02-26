@@ -29,7 +29,6 @@ const shake = keyframes`
     transform: translate3d(-1px, 0, 0);
   }
 
-
   40%, 60% {
     transform: translate3d(0px, 0, 0);
   }
@@ -56,7 +55,7 @@ export const FieldsContainer = styled.section<FieldsContainerProps>`
 
   overflow-y: scroll;
   max-height: calc(100vh - 15.5rem);
-  transition: all 0.3s;
+  transition: all 0.3s ease-in-out;
   padding-right: 0.1rem;
   max-width: 553px;
 
@@ -132,7 +131,9 @@ export const Field = styled.button<FieldProps>`
 
   ${is("isActive")`
     padding-bottom: 0.5rem;
-    animation: ${shake} 0.2s ease-in-out both;
+    animation: ${shake} 0.2s cubic-bezier(.36,.07,.19,.97)  both;
+    backface-visibility: hidden;
+    perspective: 1000px;
     transform: translate3d(0, 0, 0);
 
     &::after {
@@ -179,6 +180,8 @@ export const Footer = styled.section`
   align-items: center;
   height: auto;
   padding-top: 1rem;
+  transition: background-color 0.2s;
+  background-color: ${({ theme }) => theme.colors.secondary};
 
   width: calc(100% - 2rem);
   position: fixed;

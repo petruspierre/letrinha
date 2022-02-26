@@ -60,8 +60,8 @@ export const FieldsContainer = styled.section<FieldsContainerProps>`
   max-width: 553px;
 
   ${isNot("isKeyboardVisible")`
-    max-height: calc(100vh - 6.5rem);
-    padding-right: 0;
+    max-height: calc(100vh - 6.5rem) !important;
+    padding-right: 0 !important;
   `}
 
   @media screen and (min-width: 768px) {

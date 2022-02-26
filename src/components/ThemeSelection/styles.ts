@@ -19,6 +19,7 @@ export const Overlay = styled.div`
   top: 0;
   right: 0;
   z-index: 2;
+  cursor: pointer;
 
   display: flex;
   align-items: center;
@@ -39,7 +40,8 @@ export const Content = styled.div`
   align-items: center;
   padding: 4rem 0;
   animation: ${fadeIn} 0.2s ease-in-out;
-  max-height: 100vh;
+  max-height: calc(100vh - 1rem);
+  overflow-y: scroll;
 
   background: ${({ theme }) => theme.colors.primary};
 
@@ -51,9 +53,22 @@ export const Content = styled.div`
     }
   }
 
+  &::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+    width: 0.25rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.colors.secondary};
+    border-radius: 1rem;
+  }
+
   @media screen and (max-width: 768px) {
     padding: 2rem 0;
-    overflow-y: scroll;
 
     button + button {
       margin-top: 1rem;

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { formatDistance } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import * as gtag from "~/services/gtag";
 
 import Keyboard from "../Keyboard";
 import useGame from "./hook";
@@ -69,6 +70,13 @@ const SimpleGame = ({ dailyWord, wordList }: SimpleGameProps) => {
     }
     navigator.clipboard.writeText(content.join("\n"));
     setCopied(true);
+
+    gtag.event({
+      action: "share",
+      category: "game",
+      label: "method",
+      value: 1,
+    });
   };
 
   const renderResult = () => {

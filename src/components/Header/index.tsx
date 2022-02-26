@@ -8,10 +8,15 @@ import { Button, Container, LogoButton } from "./styles";
 
 interface HeaderProps {
   toggleInstructions: () => void;
+  toggleSettings: () => void;
   showLogo?: boolean;
 }
 
-const Header = ({ toggleInstructions, showLogo = true }: HeaderProps) => {
+const Header = ({
+  toggleInstructions,
+  toggleSettings,
+  showLogo = true,
+}: HeaderProps) => {
   const { showThemeSelection } = useTheme();
   const router = useRouter();
 
@@ -21,13 +26,13 @@ const Header = ({ toggleInstructions, showLogo = true }: HeaderProps) => {
 
   return (
     <Container>
-      {/* <Button
+      <Button
         onClick={toggleInstructions}
         aria-label="Fazer doação"
         title="Fazer doação"
       >
         <img src="/assets/icons/donate.svg" alt="Ícone de cofre" />
-      </Button> */}
+      </Button>
       <Button
         onClick={toggleInstructions}
         aria-label="Como jogar?"
@@ -47,13 +52,13 @@ const Header = ({ toggleInstructions, showLogo = true }: HeaderProps) => {
       >
         <img src="/assets/icons/theme.svg" alt="Ícone de paleta" />
       </Button>
-      {/* <Button
-        onClick={showThemeSelection}
+      <Button
+        onClick={toggleSettings}
         aria-label="Configurações"
         title="Configurações"
       >
         <img src="/assets/icons/settings.svg" alt="Ícone de engrenagem" />
-      </Button> */}
+      </Button>
     </Container>
   );
 };

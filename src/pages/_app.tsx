@@ -12,11 +12,13 @@ import "react-toastify/dist/ReactToastify.min.css";
 import * as gtag from "~/services/gtag";
 import { storeWrapper } from "~/store";
 import Analytics from "~/components/Analytics";
+import Settings from "~/components/Settings";
 
 const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [showHowToPlay, setShowHowToPlay] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -33,12 +35,20 @@ function MyApp({ Component, pageProps }: AppProps) {
     setShowHowToPlay(!showHowToPlay);
   };
 
+  const toggleSettings = () => {
+    setShowSettings(!showSettings);
+  };
+
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider themes={themes}>
         <GlobalStyles />
         {showHowToPlay && <HowToPlay dismiss={toggleInstructions} />}
-        <Header toggleInstructions={toggleInstructions} />
+        {showSettings && <Settings dismiss={toggleSettings} />}
+        <Header
+          toggleInstructions={toggleInstructions}
+          toggleSettings={toggleSettings}
+        />
         <ToastContainer
           position="top-right"
           autoClose={1500}

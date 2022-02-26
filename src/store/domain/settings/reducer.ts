@@ -8,7 +8,7 @@ const loadedSettings = getStoragedSettings();
 const INITIAL_STATE: ISettingsState = {
   keyboardHidden: false,
   volume: {
-    soundEffects: 0.2,
+    soundEffects: 0.21,
   },
   ...loadedSettings,
 };

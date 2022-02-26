@@ -8,6 +8,7 @@ import { Header, HowToPlay } from "~/components";
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.min.css";
+import { storeWrapper } from "~/store";
 
 const queryClient = new QueryClient();
 
@@ -41,4 +42,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   );
 }
 
-export default MyApp;
+export default storeWrapper.withRedux(MyApp);

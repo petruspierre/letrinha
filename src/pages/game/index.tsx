@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import Head from "next/head";
 import { GetServerSideProps } from "next";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { useQuery } from "react-query";
 
 import { getDailyWord, getWordList } from "~/services/words";
@@ -9,6 +9,7 @@ import { SimpleGame } from "~/components";
 
 import { Container } from "./styles";
 import { decrypt } from "~/utils/crypt";
+import useSettings from "~/store/domain/settings";
 
 interface GameProps {
   dailyWord: { iv: string; content: string };
@@ -16,6 +17,7 @@ interface GameProps {
 
 const Game = ({ dailyWord }: GameProps) => {
   const decryptedWord = decrypt(dailyWord);
+  const { settings } = useSettings();
 
   const wordListQuery = useQuery<string[]>("wordList", () =>
     getWordList(decryptedWord.length)

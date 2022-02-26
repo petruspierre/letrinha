@@ -11,6 +11,7 @@ import {
   getStoragedGameState,
   setStoragedGameState,
 } from "~/repositories/GameState";
+import useSettings from "~/store/domain/settings";
 
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 
@@ -33,6 +34,7 @@ interface ISimpleGameHookProps {
 }
 
 const useGame = ({ dailyWord, wordList }: ISimpleGameHookProps) => {
+  const { settings } = useSettings();
   const [gameState, dispatchGame] = useReducer(gameReducer, {
     ...INITIAL_STATE,
     word: dailyWord,
@@ -44,13 +46,13 @@ const useGame = ({ dailyWord, wordList }: ISimpleGameHookProps) => {
     ),
   });
   const [playType] = useSound("/assets/sound/type.mp3", {
-    volume: 0.05,
+    volume: settings.volume.soundEffects,
   });
   const [playSubmit] = useSound("/assets/sound/submit.mp3", {
-    volume: 0.05,
+    volume: settings.volume.soundEffects,
   });
   const [playErase] = useSound("/assets/sound/erase.mp3", {
-    volume: 0.05,
+    volume: settings.volume.soundEffects,
   });
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedGuessIndex, setSelectedGuessIndex] = useState(0);

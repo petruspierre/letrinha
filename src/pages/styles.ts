@@ -52,7 +52,7 @@ const getAnimationDelay = () => {
 };
 
 export const Container = styled.div`
-  height: 100vh;
+  height: calc(100vh - 5rem);
   width: 100%;
 `;
 

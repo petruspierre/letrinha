@@ -9,12 +9,14 @@ import { Button, Container, LogoButton } from "./styles";
 interface HeaderProps {
   toggleInstructions: () => void;
   toggleSettings: () => void;
+  toggleDonate: () => void;
   showLogo?: boolean;
 }
 
 const Header = ({
   toggleInstructions,
   toggleSettings,
+  toggleDonate,
   showLogo = true,
 }: HeaderProps) => {
   const { showThemeSelection } = useTheme();
@@ -27,7 +29,7 @@ const Header = ({
   return (
     <Container>
       <Button
-        onClick={toggleInstructions}
+        onClick={toggleDonate}
         aria-label="Fazer doação"
         title="Fazer doação"
       >

@@ -13,12 +13,14 @@ import * as gtag from "~/services/gtag";
 import { storeWrapper } from "~/store";
 import Analytics from "~/components/Analytics";
 import Settings from "~/components/Settings";
+import Donate from "~/components/Donate";
 
 const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [showHowToPlay, setShowHowToPlay] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [showDonate, setShowDonate] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -39,15 +41,21 @@ function MyApp({ Component, pageProps }: AppProps) {
     setShowSettings(!showSettings);
   };
 
+  const toggleDonate = () => {
+    setShowDonate(!showDonate);
+  };
+
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider themes={themes}>
         <GlobalStyles />
         {showHowToPlay && <HowToPlay dismiss={toggleInstructions} />}
         {showSettings && <Settings dismiss={toggleSettings} />}
+        {showDonate && <Donate dismiss={toggleDonate} />}
         <Header
           toggleInstructions={toggleInstructions}
           toggleSettings={toggleSettings}
+          toggleDonate={toggleDonate}
         />
         <ToastContainer
           position="top-right"

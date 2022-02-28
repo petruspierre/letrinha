@@ -1,11 +1,11 @@
 import Modal from "../Modal";
 import { Container, Preview, PreviewWrapper } from "./styles";
 
-interface HowToPlayProps {
+interface IHowToPlayProps {
   dismiss: () => void;
 }
 
-const HowToPlay = ({ dismiss }: HowToPlayProps) => {
+const HowToPlay = ({ dismiss }: IHowToPlayProps) => {
   return (
     <Modal dismiss={dismiss} title="Como jogar?">
       <Container>

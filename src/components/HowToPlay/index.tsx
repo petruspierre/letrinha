@@ -1,5 +1,5 @@
 import Modal from "../Modal";
-import { Container } from "./styles";
+import { Container, Preview, PreviewWrapper } from "./styles";
 
 interface HowToPlayProps {
   dismiss: () => void;
@@ -7,45 +7,41 @@ interface HowToPlayProps {
 
 const HowToPlay = ({ dismiss }: HowToPlayProps) => {
   return (
-    <Modal dismiss={dismiss}>
+    <Modal dismiss={dismiss} title="Como jogar?">
       <Container>
-        <h2>Como jogar?</h2>
-
         <p>
-          Adivinha a palavra do dia acertando as <strong>letrinhas</strong> na
-          quantidade limite de tentativas (quantidade de letras + 1)
+          No letrinha, o seu objetivo é : acertar a palavra. E já que você não
+          tem uma bola de cristal , vai ter que ser de <span>letrinha</span> por{" "}
+          <span>letrinha</span> mesmo. Você fará isso através de dicas, que são
+          dadas por cores. São as situações abaixo:
         </p>
-
+        <p>letra “A” NÃO está na pálavra:</p>
+        <PreviewWrapper>
+          <Preview>A</Preview>
+        </PreviewWrapper>
+        <p>letra “A” na palavra, mas em outra posição:</p>
+        <PreviewWrapper>
+          <Preview>Q</Preview>
+          <Preview>U</Preview>
+          <Preview exists>A</Preview>
+          <Preview>S</Preview>
+          <Preview>E</Preview>
+        </PreviewWrapper>
+        <p>letra “A” na palavra e perfeitamente posicionada:</p>
+        <PreviewWrapper>
+          <Preview>S</Preview>
+          <Preview correctPlace>A</Preview>
+          <Preview>B</Preview>
+          <Preview>E</Preview>
+          <Preview>R</Preview>
+        </PreviewWrapper>
         <p>
-          Para saber se você está quente ou frio, observe como ficarão as
-          letrinhas após fazer sua tentativa:
+          No modo palavra do dia (a palavra muda 24h após a última troca), você
+          terá que acertar a palávra aleatória do dia, com um limite de
+          tentativas. Acerte todas as letras nas posições corretas e ganhe o
+          jogo. Lembrando: Serão consiferadas apenas palavras do{" "}
+          <span>dicionário</span>. Nada de inventar ein!!!
         </p>
-
-        <h3>
-          Cor <span className="yellow">amarela</span>:
-        </h3>
-        <p>
-          Quando sua letrinha ficar amarela, significa que ela está na palavra
-          do dia, porém cuidado, ela não está no local certo!
-        </p>
-
-        <h3>
-          Cor <span className="green">verde</span>:
-        </h3>
-        <p>
-          Quando sua letrinha ficar verde, significa que a letrinha existe na
-          palavra e já está no lugar certo!
-        </p>
-
-        <p>
-          Se sua letrinha não mudar de cor, pode descartar, pois ela não faz
-          parte da palavra.
-        </p>
-
-        <small>
-          Lembre-se: apenas são consideradas palavras do dicionário! Nada de
-          inventar nem usar nomes próprios.
-        </small>
       </Container>
     </Modal>
   );

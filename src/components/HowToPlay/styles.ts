@@ -1,4 +1,10 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
+import is from "styled-is";
+
+interface IPreviewProps {
+  exists?: boolean;
+  correctPlace?: boolean;
+}
 
 export const Container = styled.article`
   display: flex;
@@ -6,46 +12,53 @@ export const Container = styled.article`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  text-align: center;
+  padding: 0 2rem;
   color: ${({ theme }) => theme.colors.white};
 
   font-family: ${({ theme }) => theme.font.primary};
 
   p {
-    font-size: 1.225rem;
-    margin-top: 0.5rem;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
 
-    strong {
+    span {
       font-weight: 400;
-      color: ${({ theme }) => theme.colors.secondary};
+      color: ${({ theme }) => theme.colors.green};
+    }
+
+    &:first-child {
+      margin-bottom: 1.5rem;
     }
   }
+`;
 
-  h2 {
+export const PreviewWrapper = styled.div`
+  display: flex;
+  padding: 0.5rem 0.75rem;
+  gap: 0.5rem;
+  background: ${({ theme }) => theme.colors.secondary};
+  margin-bottom: 2rem;
+`;
+
+export const Preview = styled.div<IPreviewProps>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  height: 2.5rem;
+  width: 2.5rem;
+  background: ${({ theme }) => theme.colors.primary};
+  font-family: ${({ theme }) => theme.font.primary};
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.5);
+
+  ${is("exists")`
+    background: ${({ theme }) => theme.colors.yellow};
     color: ${({ theme }) => theme.colors.white};
-    font-size: 2rem;
-    font-weight: 400;
-  }
+  `}
 
-  h3 {
-    margin-top: 1rem;
-    font-weight: 400;
-
-    .yellow {
-      background-color: ${({ theme }) => theme.colors.yellow};
-    }
-
-    .green {
-      background-color: ${({ theme }) => theme.colors.green};
-    }
-  }
-
-  small {
-    display: block;
-    margin-top: 1rem;
-    font-weight: 300;
-    font-size: 0.825rem;
-    font-family: ${({ theme }) => theme.font.secondary};
-  }
+  ${is("correctPlace")`
+    background: ${({ theme }) => theme.colors.green};
+    color: ${({ theme }) => theme.colors.white};
+  `}
 `;

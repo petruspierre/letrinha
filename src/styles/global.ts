@@ -15,6 +15,13 @@ export default createGlobalStyle`
 
     background-color: ${({ theme }) => theme.colors.secondary};
 
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
     .toast .Toastify__toast {
       height: 5rem;
       background-color: ${({ theme }) => darken(0.05, theme.colors.primary)};

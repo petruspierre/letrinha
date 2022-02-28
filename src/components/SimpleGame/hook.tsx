@@ -74,6 +74,7 @@ const useGame = ({ dailyWord, wordList }: ISimpleGameHookProps) => {
   );
 
   const submitGuess = useCallback(() => {
+    playSubmit();
     try {
       const selectedGuess = gameState.guesses[selectedGuessIndex];
       if (
@@ -176,9 +177,10 @@ const useGame = ({ dailyWord, wordList }: ISimpleGameHookProps) => {
         type: toast.TYPE.ERROR,
       });
     }
-  }, [dailyWord, gameState, endGame, wordList, selectedGuessIndex]);
+  }, [dailyWord, gameState, endGame, wordList, selectedGuessIndex, playSubmit]);
 
   const popLetter = useCallback(() => {
+    playErase();
     try {
       dispatchGame({
         type: ActionTypes.PopLetter,
@@ -209,10 +211,11 @@ const useGame = ({ dailyWord, wordList }: ISimpleGameHookProps) => {
         type: toast.TYPE.ERROR,
       });
     }
-  }, [gameState, selectedIndex, selectedGuessIndex]);
+  }, [gameState, selectedIndex, selectedGuessIndex, playErase]);
 
   const appendLetter = useCallback(
     (letter: string) => {
+      playType();
       try {
         dispatchGame({
           type: ActionTypes.AppendLetter,
@@ -240,13 +243,11 @@ const useGame = ({ dailyWord, wordList }: ISimpleGameHookProps) => {
       if (gameState.isGameOver) return;
 
       if (event.key === "Backspace") {
-        playErase();
         popLetter();
         return;
       }
 
       if (event.key === "Enter") {
-        playSubmit();
         submitGuess();
         return;
       }
@@ -268,11 +269,10 @@ const useGame = ({ dailyWord, wordList }: ISimpleGameHookProps) => {
       }
 
       if (LETTERS.includes(event.key)) {
-        playType();
         appendLetter(event.key);
       }
     },
-    [submitGuess, appendLetter, popLetter, selectedIndex, gameState]
+    [submitGuess, appendLetter, popLetter, selectedIndex, gameState, playErase]
   );
 
   useEffect(() => {

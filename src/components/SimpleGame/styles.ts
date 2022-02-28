@@ -42,6 +42,7 @@ export const GameContainer = styled.div`
   min-width: 25rem;
   max-width: 100%;
   align-items: center;
+  height: calc(100vh - 5rem);
 
   @media screen and (min-width: 768px) {
     width: 100%;
@@ -52,14 +53,19 @@ export const FieldsContainer = styled.section<FieldsContainerProps>`
   display: flex;
   flex-direction: column;
   flex: 1;
+  align-items: center;
+  justify-content: center;
 
   overflow-y: scroll;
+  height: calc(100vh - 15.5rem);
   max-height: calc(100vh - 15.5rem);
   transition: all 0.3s ease-in-out;
   padding-right: 0.1rem;
   max-width: 553px;
+  margin-top: -2rem;
 
   ${isNot("isKeyboardVisible")`
+    height: calc(100vh - 6.5rem) !important;
     max-height: calc(100vh - 6.5rem) !important;
     padding-right: 0 !important;
   `}
@@ -157,21 +163,6 @@ export const Field = styled.button<FieldProps>`
     border: 0;
     background-color: ${({ theme }) => theme.colors.green};
   `}
-
-  @media screen and (min-width: 1367px) {
-    height: 4.5rem;
-    width: 4.5rem;
-    font-size: 3rem;
-
-    ${is("isActive")`
-      padding-bottom: 0.75rem;
-
-      &::after {
-        bottom: 0.5rem;
-        height: 0.5rem;
-      }
-    `}
-  }
 `;
 
 export const Footer = styled.section`

@@ -2,6 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import {
   AnimatedContainer,
+  AnimatedLetter,
   ButtonsContainer,
   Container,
   Content,
@@ -16,8 +17,12 @@ const Home = () => {
       <Container>
         <Content>
           <AnimatedContainer>
-            {"Letrinha".split("").map((letter) => {
-              return <span key={letter}>{letter}</span>;
+            {"Letrinha".split("").map((letter, index) => {
+              return (
+                <AnimatedLetter key={letter} isLast={index === 7}>
+                  {letter}
+                </AnimatedLetter>
+              );
             })}
           </AnimatedContainer>
 

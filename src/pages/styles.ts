@@ -1,4 +1,9 @@
-import styled, { keyframes, css } from "styled-components";
+import styled, { keyframes } from "styled-components";
+import is from "styled-is";
+
+interface IAnimatedLetterProps {
+  isLast?: boolean;
+}
 
 const active = keyframes`
   0% {
@@ -20,17 +25,57 @@ const active = keyframes`
   }
 `;
 
+const activeLast = keyframes`
+  0% {
+    bottom: 0rem;
+    height: 0rem;
+    transform: translate(-50%, 0%);
+  }
+  
+  50% {
+    bottom: 0.125rem;
+    height: 0.35rem;
+    transform: translate(-50%, 7.5%);
+  }
+
+  100% {
+    bottom: 0.125rem;
+    height: 0.35rem;
+    transform: translate(-50%, 7.5%);
+  }
+`;
+
 const move = keyframes`
   0% {
     transform: translateY(0%);
+    opacity: 0;
   }
   
   50% {
     transform: translateY(-7.5%);
+    opacity: 1;
   }
 
   100% {
     transform: translateY(0%);
+    opacity: 1;
+  }
+`;
+
+const moveLast = keyframes`
+  0% {
+    transform: translateY(0%);
+    opacity: 0;
+  }
+  
+  50% {
+    transform: translateY(-7.5%);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-7.5%);
+    opacity: 1;
   }
 `;
 
@@ -74,31 +119,45 @@ export const AnimatedContainer = styled.h1`
 
   display: flex;
 
-  span {
-    display: block;
-    position: relative;
-
-    animation: ${move} 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    ${getAnimationDelay()}
-
-    &:after {
-      animation: ${active} 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      content: "";
-      display: block;
-      width: 1.25rem;
-      height: 0rem;
-      background-color: ${({ theme }) => theme.colors.primary};
-      position: absolute;
-      bottom: 2rem;
-      left: 50%;
-      transform: translate(-50%, 0%);
-      transition: all 0.2s;
-    }
-  }
-
   @media screen and (max-width: 768px) {
     font-size: 5rem;
     line-height: 5rem;
+  }
+`;
+
+export const AnimatedLetter = styled.span<IAnimatedLetterProps>`
+  display: block;
+  position: relative;
+  opacity: 0;
+
+  animation: ${move} 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  -webkit-animation: ${move} 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+
+  ${is("isLast")`
+      animation: ${moveLast} 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      -webkit-animation: ${moveLast} 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    `}
+
+  ${getAnimationDelay()}
+
+  &:after {
+    animation: ${active} 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    -webkit-animation: ${active} 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    content: "";
+    display: block;
+    width: 1.25rem;
+    height: 0rem;
+    background-color: ${({ theme }) => theme.colors.primary};
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    transition: all 0.2s;
+
+    ${is("isLast")`
+      animation: ${activeLast} 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      -webkit-animation: ${activeLast} 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    `}
   }
 `;
 

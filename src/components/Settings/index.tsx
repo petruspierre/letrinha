@@ -4,7 +4,7 @@ import useSettings from "~/store/domain/settings";
 import Modal from "../Modal";
 import { Button, Content, FieldWrapper, Slider } from "./styles";
 
-const SCALE_RATIO = 1;
+const SCALE_RATIO = 0.5;
 
 interface ISettingsProps {
   dismiss: () => void;

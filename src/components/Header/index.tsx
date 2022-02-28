@@ -33,14 +33,22 @@ const Header = ({
         aria-label="Fazer doação"
         title="Fazer doação"
       >
-        <img src="/assets/icons/donate.svg" alt="Ícone de cofre" />
+        <img
+          draggable={false}
+          src="/assets/icons/donate.svg"
+          alt="Ícone de cofre"
+        />
       </Button>
       <Button
         onClick={toggleInstructions}
         aria-label="Como jogar?"
         title="Como jogar?"
       >
-        <img src="/assets/icons/help.svg" alt="Ícone de interrogação" />
+        <img
+          draggable={false}
+          src="/assets/icons/help.svg"
+          alt="Ícone de interrogação"
+        />
       </Button>
       {showLogo && (
         <LogoButton onClick={goHome} title="Letrinha - Voltar para início">
@@ -52,14 +60,22 @@ const Header = ({
         aria-label="Mudar tema"
         title="Mudar tema"
       >
-        <img src="/assets/icons/theme.svg" alt="Ícone de paleta" />
+        <img
+          draggable={false}
+          src="/assets/icons/theme.svg"
+          alt="Ícone de paleta"
+        />
       </Button>
       <Button
         onClick={toggleSettings}
         aria-label="Configurações"
         title="Configurações"
       >
-        <img src="/assets/icons/settings.svg" alt="Ícone de engrenagem" />
+        <img
+          draggable={false}
+          src="/assets/icons/settings.svg"
+          alt="Ícone de engrenagem"
+        />
       </Button>
     </Container>
   );

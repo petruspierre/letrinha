@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaBackspace, FaCheck, FaKeyboard } from "react-icons/fa";
 import { Arrow, Container, KeyboardButton, KeyboardWrapper } from "./styles";
 
@@ -31,6 +31,10 @@ const Keyboard = ({
   isVisible,
   onClick,
 }: KeyboardProps) => {
+  useEffect(() => {
+    console.log(isVisible);
+  }, [isVisible]);
+
   return (
     <Container>
       <KeyboardWrapper isVisible={isVisible} aria-hidden={!isVisible}>

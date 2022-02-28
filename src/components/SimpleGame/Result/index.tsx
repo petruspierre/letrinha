@@ -37,7 +37,7 @@ const Result = ({ gameState, dismiss }: IResultProps) => {
       "",
       `${totalGuesses}/${wordLength + 1}`,
       ...filteredGuesses.map((item, index) => {
-        if (index >= wordLength) return "";
+        if (index > wordLength) return "";
 
         return item
           .map((letter) => {

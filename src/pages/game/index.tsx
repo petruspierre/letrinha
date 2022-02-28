@@ -9,7 +9,6 @@ import { SimpleGame } from "~/components";
 
 import { Container } from "./styles";
 import { decrypt } from "~/utils/crypt";
-import useSettings from "~/store/domain/settings";
 
 interface GameProps {
   dailyWord: { iv: string; content: string };

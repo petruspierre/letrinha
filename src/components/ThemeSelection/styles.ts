@@ -22,14 +22,3 @@ export const Content = styled.div`
     }
   }
 `;
-
-export const Title = styled.h3`
-  font-family: ${({ theme }) => theme.font.primary};
-  font-size: 2.25rem;
-  font-style: italic;
-  font-weight: 400;
-  text-align: center;
-
-  color: ${({ theme }) => theme.colors.white};
-  margin-bottom: 2rem;
-`;

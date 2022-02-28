@@ -28,6 +28,7 @@ export default createGlobalStyle`
         background: ${({ theme }) => theme.colors.secondary};
       }
     }
+  }
 
   a {
     text-decoration: none;

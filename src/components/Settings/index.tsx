@@ -2,7 +2,7 @@ import { useState } from "react";
 import useSettings from "~/store/domain/settings";
 
 import Modal from "../Modal";
-import { Content, Slider } from "./styles";
+import { Button, Content, FieldWrapper, Slider } from "./styles";
 
 const SCALE_RATIO = 1;
 
@@ -15,6 +15,7 @@ const Settings = ({ dismiss }: ISettingsProps) => {
   const [volumeSfx, setVolumeSfx] = useState(
     Math.floor((settings.volume.soundEffects / SCALE_RATIO) * 100)
   );
+  const [keyboardHidden, setKeyboardHidden] = useState(settings.keyboardHidden);
 
   const scale = (number: number) => {
     return (number * SCALE_RATIO) / 100;
@@ -24,24 +25,26 @@ const Settings = ({ dismiss }: ISettingsProps) => {
     setVolumeSfx(e.target.value);
   };
 
+  const toggleKeyboard = () => {
+    setKeyboardHidden(!keyboardHidden);
+  };
+
   const onSubmit = () => {
     updateSettings({
       volume: {
         ...settings.volume,
         soundEffects: scale(volumeSfx),
       },
+      keyboardHidden,
     });
 
     dismiss();
   };
 
   return (
-    <Modal dismiss={dismiss}>
+    <Modal dismiss={onSubmit} title="Configurações">
       <Content>
-        <h1>Configurações</h1>
-
-        <div>
-          <label htmlFor="volumeSfx">Volume dos efeitos sonoros</label>
+        <FieldWrapper>
           <Slider>
             <input
               type="range"
@@ -52,12 +55,22 @@ const Settings = ({ dismiss }: ISettingsProps) => {
               id="volumeSfx"
             />
           </Slider>
-          <span>{volumeSfx}</span>
-        </div>
+          <label htmlFor="volumeSfx">
+            Volume dos efeitos sonoros: {volumeSfx}
+          </label>
+        </FieldWrapper>
 
-        <button type="submit" onClick={onSubmit}>
-          Salvar
-        </button>
+        <FieldWrapper>
+          <span>Teclado oculto por padrão:</span>
+          <Button
+            active={keyboardHidden}
+            onClick={toggleKeyboard}
+            aria-label="Teclado oculto por padrão?"
+            title="Teclado oculto por padrão?"
+          >
+            {keyboardHidden ? "Habilitado" : "Desabilitado"}
+          </Button>
+        </FieldWrapper>
       </Content>
     </Modal>
   );

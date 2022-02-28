@@ -1,6 +1,6 @@
 import { useTheme } from "~/styles/theme";
 
-import { Content, Title } from "./styles";
+import { Content } from "./styles";
 import Option from "./Option";
 import Modal from "../Modal";
 
@@ -12,10 +12,8 @@ const ThemeSelection = ({ dismiss }: ThemeSelecionProps) => {
   const { changeTheme, colorTheme, themes } = useTheme();
 
   return (
-    <Modal dismiss={dismiss}>
+    <Modal dismiss={dismiss} title="Temas">
       <Content>
-        <Title>Temas</Title>
-
         {Object.keys(themes).map((themeName) => {
           const theme = themes[themeName];
           const isActive = colorTheme === themeName;

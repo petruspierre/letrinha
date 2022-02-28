@@ -1,10 +1,11 @@
-import { CloseButton, Content, Overlay } from "./styles";
+import { CloseButton, Content, Overlay, Title } from "./styles";
 
 interface IModalProps {
   dismiss: () => void;
+  title?: string;
 }
 
-const Modal: React.FC<IModalProps> = ({ children, dismiss }) => {
+const Modal: React.FC<IModalProps> = ({ children, dismiss, title }) => {
   return (
     <>
       <Overlay role="button" onClick={dismiss}></Overlay>
@@ -16,6 +17,8 @@ const Modal: React.FC<IModalProps> = ({ children, dismiss }) => {
         >
           ✕
         </CloseButton>
+
+        {title && <Title>{title}</Title>}
         {children}
       </Content>
     </>

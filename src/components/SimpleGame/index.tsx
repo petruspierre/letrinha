@@ -11,6 +11,7 @@ import {
 } from "./styles";
 import useStatistics from "~/store/domain/statistics";
 import Result from "./Result";
+import useSettings from "~/store/domain/settings";
 
 interface SimpleGameProps {
   dailyWord: string;
@@ -27,9 +28,12 @@ const SimpleGame = ({ dailyWord, wordList }: SimpleGameProps) => {
     setSelectedIndex,
     selectedGuessIndex,
   } = useGame({ dailyWord, wordList });
-  const [dismissOverlay, setDismissOverlay] = useState(false);
-  const [isKeyboardVisible, setIsKeyboardVisible] = useState(true);
   const { statistics } = useStatistics();
+  const { settings } = useSettings();
+  const [dismissOverlay, setDismissOverlay] = useState(false);
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(
+    !settings.keyboardHidden
+  );
 
   return (
     <GameContainer>

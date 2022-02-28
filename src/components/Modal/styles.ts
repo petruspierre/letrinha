@@ -29,6 +29,7 @@ export const Overlay = styled.div`
 
 export const Content = styled.div`
   display: flex;
+  flex-direction: column;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -80,4 +81,15 @@ export const CloseButton = styled.button`
   :hover {
     opacity: 0.8;
   }
+`;
+
+export const Title = styled.h2`
+  font-family: ${({ theme }) => theme.font.primary};
+  font-size: 2rem;
+  font-style: italic;
+  font-weight: 400;
+  text-align: center;
+
+  color: ${({ theme }) => theme.colors.white};
+  margin-bottom: 2rem;
 `;

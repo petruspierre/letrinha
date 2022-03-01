@@ -39,7 +39,7 @@ const HowToPlay = ({ dismiss }: IHowToPlayProps) => {
           No modo palavra do dia (a palavra muda 24h após a última troca), você
           terá que acertar a palávra aleatória do dia, com um limite de
           tentativas. Acerte todas as letras nas posições corretas e ganhe o
-          jogo. Lembrando: Serão consiferadas apenas palavras do{" "}
+          jogo. Lembrando: Serão consideradas apenas palavras do{" "}
           <span>dicionário</span>. Nada de inventar ein!!!
         </p>
       </Container>

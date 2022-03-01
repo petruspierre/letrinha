@@ -13,6 +13,7 @@ import {
 } from "~/repositories/GameState";
 import useSettings from "~/store/domain/settings";
 import useStatistics from "~/store/domain/statistics";
+import { decrypt } from "~/utils/crypt";
 
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 
@@ -164,8 +165,8 @@ const useGame = ({ dailyWord, wordList }: ISimpleGameHookProps) => {
 
       if (!isWordCorrect) {
         if (gameState.attempts > 1) {
-          dispatchGame({ type: ActionTypes.NewGuess });
           setSelectedGuessIndex(selectedGuessIndex + 1);
+          dispatchGame({ type: ActionTypes.NewGuess });
         } else {
           endGame(false);
         }
@@ -235,7 +236,7 @@ const useGame = ({ dailyWord, wordList }: ISimpleGameHookProps) => {
         });
       }
     },
-    [gameState, selectedIndex, selectedGuessIndex]
+    [gameState, selectedIndex, selectedGuessIndex, playType]
   );
 
   const handleKeyDown = useCallback(
@@ -283,8 +284,11 @@ const useGame = ({ dailyWord, wordList }: ISimpleGameHookProps) => {
 
   useEffect(() => {
     const selectedGuess = gameState.guesses[selectedGuessIndex];
+    console.log(selectedGuessIndex, gameState.wordLength + 1, selectedGuess);
+
     if (selectedGuess) {
       if (selectedGuess.every((item) => item.correctPlace)) {
+        console.log("saving");
         setStoragedGameState(gameState);
         return;
       }
@@ -315,11 +319,15 @@ const useGame = ({ dailyWord, wordList }: ISimpleGameHookProps) => {
         );
         let lastGuessIndex = lastFilledGuess.length - 1;
 
-        if (lastFilledGuess[lastGuessIndex].every((letter) => letter.letter)) {
+        if (
+          lastGuessIndex < state.wordLength &&
+          lastFilledGuess[lastGuessIndex].every((letter) => letter.letter)
+        ) {
           lastGuessIndex = lastGuessIndex + 1;
         }
         const lastGuess = state.guesses[lastGuessIndex];
 
+        console.log(lastGuess);
         if (lastGuess) {
           const lastIndex = lastGuess.filter((item) => item.letter).length;
 

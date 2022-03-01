@@ -1,21 +1,13 @@
 import styled from "styled-components";
 
-export const GameOverWarning = styled.div`
+export const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  z-index: 10;
 
   padding: 2rem;
   text-align: center;
-
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
 
   h2,
   p {
@@ -23,27 +15,28 @@ export const GameOverWarning = styled.div`
   }
 
   h2 {
-    font-size: 2rem;
+    padding-bottom: 0 !important;
   }
 
   p {
     margin-top: 0.25rem;
-    font-size: 1.125rem;
+    font-size: 1.5rem;
   }
 
   span {
-    color: ${({ theme }) => theme.colors.secondary};
+    color: ${({ theme }) => theme.colors.green};
   }
 `;
 
 export const Button = styled.button`
   background-color: ${({ theme }) => theme.colors.secondary};
   color: ${({ theme }) => theme.colors.white};
-  font-size: 1.5rem;~
+  font-size: 1.5rem;
   font-family: ${({ theme }) => theme.font.primary};
-  padding: 0.5rem 1rem;
+  font-style: italic;
+  padding: 1rem 2rem;
+  width: 15rem;
   margin-top: 1rem;
-  border-radius: 8px;
 
   transition: all 0.2s;
 

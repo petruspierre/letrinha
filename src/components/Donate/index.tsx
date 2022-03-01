@@ -19,7 +19,7 @@ const Donate = ({ dismiss }: IDonateProps) => {
         <span>QR code do pix:</span>
         <QRContainer>
           <QRCode
-            value="00020126680014br.gov.bcb.pix0128ajude.letrinha@petrus.dev.br0214Ajude Letrinha5204000053039865802BR5901a6006CIDADE62070503***6304C038"
+            value="00020126500014BR.GOV.BCB.PIX0128ajude.letrinha@petrus.dev.br5204000053039865802BR5925Petrus Pierre Ormesino Be6011Joao Pessoa62170513AJUDELETRINHA63048F4F"
             title="Chave pix"
           />
         </QRContainer>

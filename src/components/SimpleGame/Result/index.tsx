@@ -5,7 +5,8 @@ import { ptBR } from "date-fns/locale";
 import * as gtag from "~/services/gtag";
 import useStatistics from "~/store/domain/statistics";
 import { IGameState } from "~/model/SimpleGame";
-import { Button, GameOverWarning } from "./styles";
+import { Button, Container } from "./styles";
+import Modal from "~/components/Modal";
 
 interface IResultProps {
   gameState: IGameState;
@@ -27,7 +28,7 @@ const Result = ({ gameState, dismiss }: IResultProps) => {
   })}`;
 
   const handleShare = () => {
-    const result = win ? "ganhei" : "perdi";
+    const result = win ? "ganhei!!" : "perdi :(";
 
     const filteredGuesses = gameState.guesses.filter((guess) =>
       guess.some(({ exists }) => exists)
@@ -48,7 +49,7 @@ const Result = ({ gameState, dismiss }: IResultProps) => {
           .join("");
       }),
       "",
-      "Jogue também em https://www.letrinha.xyz/",
+      "Jogue também em https://www.letrinha.xyz",
     ];
 
     if (typeof navigator.share !== "undefined") {
@@ -68,30 +69,29 @@ const Result = ({ gameState, dismiss }: IResultProps) => {
   };
 
   return (
-    <GameOverWarning>
-      <h2>
-        Você <span>{result}</span>
-      </h2>
-      <p>
-        Aguarde a nova palavra em{" "}
-        {formatDistance(new Date(), new Date(gameState.gameExpires), {
-          locale: ptBR,
-        })}
-      </p>
-      <p>
-        Completou o jogo em: <span>{time}</span>
-      </p>
-      <p>
-        em <span>{totalGuesses}</span> tentativas
-      </p>
-      <p>
-        com <span>{accuracy.toFixed(0)}%</span> de precisão
-      </p>
-      <Button onClick={handleShare}>
-        {copied ? "Copiado" : "Compartilhar"}
-      </Button>
-      <Button onClick={() => dismiss(true)}>Ver jogo</Button>
-    </GameOverWarning>
+    <Modal title={`Você ${result}`} dismiss={() => dismiss(true)}>
+      <Container>
+        <p>
+          Aguarde a nova palavra em{" "}
+          {formatDistance(new Date(), new Date(gameState.gameExpires), {
+            locale: ptBR,
+          })}
+        </p>
+        <p>
+          Completou o jogo em: <span>{time}</span>
+        </p>
+        <p>
+          em <span>{totalGuesses}</span> tentativas
+        </p>
+        <p>
+          com <span>{accuracy.toFixed(0)}%</span> de precisão
+        </p>
+        <Button onClick={handleShare}>
+          {copied ? "Copiado" : "Compartilhar"}
+        </Button>
+        <Button onClick={() => dismiss(true)}>Ver jogo</Button>
+      </Container>
+    </Modal>
   );
 };
 

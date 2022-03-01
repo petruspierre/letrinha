@@ -17,6 +17,8 @@ const INITIAL_STATE: IStatisticsState = {
       "4": 0,
       "5": 0,
       "6": 0,
+      "7": 0,
+      "8": 0,
     },
     lastWord: "",
     totalTimeSpent: 0,

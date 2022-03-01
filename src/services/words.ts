@@ -5,7 +5,7 @@ import { encrypt } from "~/utils/crypt";
 import api from "./api";
 import { fauna } from "./fauna";
 
-const FALLBACK_WORD = "papel";
+const FALLBACK_WORD = "testes";
 
 interface IDailyWordQueryResponse {
   data: {

@@ -1,3 +1,4 @@
+import { darken } from "polished";
 import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
@@ -5,10 +6,35 @@ export default createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
-    background-color: ${({ theme }) => theme.colors.background};
+    transition: all 0.2s;
+
+    background-color: ${({ theme }) => theme.colors.secondary};
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    .toast .Toastify__toast {
+      height: 5rem;
+      background-color: ${({ theme }) => darken(0.05, theme.colors.primary)};
+      color: ${({ theme }) => theme.colors.white};
+
+      button svg {
+        color: ${({ theme }) => theme.colors.white};
+      }
+
+      .Toastify__progress-bar {
+        background: ${({ theme }) => theme.colors.secondary};
+      }
+    }
   }
 
   a {
@@ -23,7 +49,8 @@ export default createGlobalStyle`
 
   h1, h2, label, a, p, span, input, li {
     font-family: ${(props) => props.theme.font.primary};
-    font-weight: 300;
+    font-weight: 900;
+    font-style: italic;
   }
 
   button {

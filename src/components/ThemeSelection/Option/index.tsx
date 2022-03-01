@@ -12,11 +12,11 @@ interface OptionProps {
 
 const Option = ({ name, colors, onClick, active }: OptionProps) => (
   <Container role="menuitem" active={active} onClick={onClick}>
-    <span>{name}</span>
     <div>
       <Preview data-testid="previewPrimary" color={colors.primary} />
       <Preview data-testid="previewSecondary" color={colors.secondary} />
     </div>
+    <span>{name}</span>
   </Container>
 );
 

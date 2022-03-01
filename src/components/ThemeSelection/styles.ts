@@ -1,43 +1,24 @@
 import styled from "styled-components";
 
-export const Overlay = styled.div`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  top: 0;
-  right: 0;
-  z-index: 2;
-
+export const Content = styled.div`
   display: flex;
+  flex: 1;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: ${({ theme }) => theme.colors.overlay};
-`;
+  width: 100%;
 
-export const Content = styled.div`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-55%, -50%);
-  -webkit-transform: translate(-55%, -50%);
-  z-index: 3;
-  width: calc(100% - 2rem);
-  max-width: 420px;
-  border-radius: 15px;
-  padding: 2rem;
-  margin: 0 1rem;
+  button {
+    max-width: 300px;
 
-  background: ${({ theme }) => theme.colors.white}; ;
-`;
+    + button {
+      margin-top: 2rem;
+    }
+  }
 
-export const Title = styled.h3`
-  font-family: ${({ theme }) => theme.font.primary};
-  font-size: 2.25rem;
-  font-weight: 400;
-  text-align: center;
-
-  color: ${({ theme }) => theme.colors.primary};
-  border-bottom: 2px solid ${({ theme }) => theme.colors.primary};
-  margin-bottom: 2rem;
-  padding-bottom: 0.75rem;
+  @media screen and (max-width: 768px) {
+    button + button {
+      margin-top: 1rem;
+    }
+  }
 `;

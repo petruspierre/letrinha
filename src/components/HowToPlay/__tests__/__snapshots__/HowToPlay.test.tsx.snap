@@ -1,6 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`HowToPlay component matches snapshot 1`] = `
+@media screen and (max-width:768px) {
+
+}
+
+@media screen and (max-width:768px) {
+
+}
+
 <div
   class="Toastify"
 />

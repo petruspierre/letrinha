@@ -18,7 +18,7 @@ describe("HowToPlay component", () => {
 
     const { getByTitle } = render(<HowToPlay {...defaultProps} dismiss={cb} />);
 
-    fireEvent.click(getByTitle("Fechar tutorial"));
+    fireEvent.click(getByTitle("Fechar janela"));
 
     expect(cb).toBeCalledTimes(1);
   });

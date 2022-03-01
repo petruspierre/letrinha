@@ -5,6 +5,7 @@
     "prettier"
   ],
   "rules": {
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "@next/next/no-img-element": "off"
   }
 }

@@ -39,24 +39,6 @@ describe("SimpleGame component", () => {
       });
     });
 
-    describe("render the correct amount of attempts", () => {
-      it("renders 6 attempts", () => {
-        const { getByText } = render(
-          <SimpleGame {...defaultProps} dailyWord="aaaaa" />
-        );
-
-        expect(getByText("Tentativas restantes: 6")).toBeInTheDocument();
-      });
-
-      it("renders 7 attempts", () => {
-        const { getByText } = render(
-          <SimpleGame {...defaultProps} dailyWord="aaaaaa" />
-        );
-
-        expect(getByText("Tentativas restantes: 7")).toBeInTheDocument();
-      });
-    });
-
     it("first index is selected", () => {
       const { getByTestId } = render(<SimpleGame {...defaultProps} />);
 
@@ -111,7 +93,9 @@ describe("SimpleGame component", () => {
         });
 
         it("can use backspace in the meantime", () => {
-          const { getByTestId } = render(<SimpleGame {...defaultProps} />);
+          const { getByTestId, debug } = render(
+            <SimpleGame {...defaultProps} />
+          );
 
           userEvent.keyboard(
             "d{Backspace}pap{Backspace}pec{Backspace}{Backspace}el"
@@ -143,7 +127,10 @@ describe("SimpleGame component", () => {
                 )
               ).toBeInTheDocument()
             );
-            expect(localStorage.setItem).not.toHaveBeenCalled();
+            expect(localStorage.setItem).not.toHaveBeenCalledWith(
+              "@LETRINHA:gameState",
+              expect.any
+            );
           });
         });
 
@@ -158,7 +145,10 @@ describe("SimpleGame component", () => {
                 getByText("Palavra não consta no dicionário, tente novamente.")
               ).toBeInTheDocument()
             );
-            expect(localStorage.setItem).not.toHaveBeenCalled();
+            expect(localStorage.setItem).not.toHaveBeenCalledWith(
+              "@LETRINHA:gameState",
+              expect.any
+            );
           });
         });
       });

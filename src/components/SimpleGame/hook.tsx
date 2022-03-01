@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useReducer, useState } from "react";
-import { endOfToday, intervalToDuration } from "date-fns";
+import { endOfToday } from "date-fns";
 import { toast } from "react-toastify";
+import useSound from "use-sound";
 
 import { ActionTypes } from "./types";
 import { gameReducer } from "./reducer";
@@ -10,6 +11,8 @@ import {
   getStoragedGameState,
   setStoragedGameState,
 } from "~/repositories/GameState";
+import useSettings from "~/store/domain/settings";
+import useStatistics from "~/store/domain/statistics";
 
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 
@@ -26,43 +29,36 @@ const INITIAL_STATE = {
   word: "",
 };
 
-const useGame = (dailyWord: string, wordList: string[]) => {
+interface ISimpleGameHookProps {
+  dailyWord: string;
+  wordList: string[];
+}
+
+const useGame = ({ dailyWord, wordList }: ISimpleGameHookProps) => {
+  const { settings } = useSettings();
+  const { calculateCurrentStatistics, calculateHistoryStatistics, statistics } =
+    useStatistics();
   const [gameState, dispatchGame] = useReducer(gameReducer, {
     ...INITIAL_STATE,
     word: dailyWord,
     gameStart: new Date(),
     wordLength: dailyWord.length,
     attempts: dailyWord.length + 1,
-    guesses: [new Array(dailyWord.length).fill({})],
+    guesses: new Array(dailyWord.length + 1).fill(
+      new Array(dailyWord.length).fill({})
+    ),
+  });
+  const [playType] = useSound("/assets/sound/type.mp3", {
+    volume: settings.volume.soundEffects,
+  });
+  const [playSubmit] = useSound("/assets/sound/submit.mp3", {
+    volume: settings.volume.soundEffects,
+  });
+  const [playErase] = useSound("/assets/sound/erase.mp3", {
+    volume: settings.volume.soundEffects,
   });
   const [selectedIndex, setSelectedIndex] = useState(0);
-
-  const getStatistics = useCallback(() => {
-    const { attempts, guesses, wordLength, gameStart, win } = gameState;
-
-    const totalGuesses = win ? wordLength + 2 - attempts : wordLength + 1;
-    const totalTimeSpent = intervalToDuration({
-      start: new Date(gameStart),
-      end: new Date(),
-    });
-    const totalCorrect = guesses.reduce((acc, cur) => {
-      return (
-        acc +
-        cur.reduce((_acc, _cur) => {
-          return _acc + (_cur.correctPlace ? 1 : 0);
-        }, 0)
-      );
-    }, 0);
-    const accuracy = (totalCorrect / (totalGuesses * wordLength)) * 100;
-
-    return {
-      totalGuesses,
-      totalCorrect,
-      totalTimeSpent,
-      accuracy,
-      correctWord: dailyWord,
-    };
-  }, [gameState, dailyWord]);
+  const [selectedGuessIndex, setSelectedGuessIndex] = useState(0);
 
   const endGame = useCallback(
     (win: boolean) => {
@@ -79,10 +75,12 @@ const useGame = (dailyWord: string, wordList: string[]) => {
   );
 
   const submitGuess = useCallback(() => {
+    playSubmit();
     try {
-      const lastGuess = gameState.guesses[gameState.guesses.length - 1];
+      const selectedGuess = gameState.guesses[selectedGuessIndex];
       if (
-        lastGuess.filter((item) => item.letter).length !== gameState.wordLength
+        selectedGuess.filter((item) => item.letter).length !==
+        gameState.wordLength
       ) {
         return;
       }
@@ -94,15 +92,17 @@ const useGame = (dailyWord: string, wordList: string[]) => {
         return;
       }
 
-      const lastGuessWord = lastGuess.map((item) => item.letter).join("");
+      const selectedGuessWord = selectedGuess
+        .map((item) => item.letter)
+        .join("");
 
-      if (!wordList.includes(lastGuessWord)) {
+      if (!wordList.includes(selectedGuessWord)) {
         toast("Palavra não consta no dicionário, tente novamente.");
         return;
       }
 
       const repeatedLetters = {};
-      const newGuess = lastGuess.reduce((acc, cur, index) => {
+      const newGuess = selectedGuess.reduce((acc, cur, index) => {
         const newLetter = { ...cur };
 
         if (dailyWord.includes(cur.letter)) {
@@ -150,7 +150,7 @@ const useGame = (dailyWord: string, wordList: string[]) => {
       dispatchGame({
         type: ActionTypes.UpdateGuesses,
         payload: {
-          guessId: gameState.guesses.length - 1,
+          guessId: selectedGuessIndex,
           guesses: newGuess,
         },
       });
@@ -165,6 +165,7 @@ const useGame = (dailyWord: string, wordList: string[]) => {
 
       if (!isWordCorrect) {
         if (gameState.attempts > 1) {
+          setSelectedGuessIndex(selectedGuessIndex + 1);
           dispatchGame({ type: ActionTypes.NewGuess });
         } else {
           endGame(false);
@@ -177,59 +178,56 @@ const useGame = (dailyWord: string, wordList: string[]) => {
         type: toast.TYPE.ERROR,
       });
     }
-  }, [dailyWord, gameState, endGame, wordList]);
+  }, [dailyWord, gameState, endGame, wordList, selectedGuessIndex, playSubmit]);
 
   const popLetter = useCallback(() => {
+    playErase();
     try {
-      const lastGuess = gameState.guesses.length - 1;
       dispatchGame({
         type: ActionTypes.PopLetter,
         payload: {
-          guessId: lastGuess,
+          guessId: selectedGuessIndex,
           letterId: selectedIndex,
         },
       });
 
-      const lastLetter = gameState.guesses[lastGuess][selectedIndex];
-      if (lastLetter) {
-        const selectedLetter =
-          gameState.guesses[lastGuess][selectedIndex].letter;
-        if (!selectedLetter) {
-          if (selectedIndex > 0) {
-            const newIndex = selectedIndex - 1;
-            setSelectedIndex(newIndex);
+      const selectedLetter =
+        gameState.guesses[selectedGuessIndex][selectedIndex]?.letter;
+      if (!selectedLetter) {
+        if (selectedIndex > 0) {
+          const newIndex = selectedIndex - 1;
+          setSelectedIndex(newIndex);
 
-            dispatchGame({
-              type: ActionTypes.PopLetter,
-              payload: {
-                guessId: lastGuess,
-                letterId: newIndex,
-              },
-            });
-          }
+          dispatchGame({
+            type: ActionTypes.PopLetter,
+            payload: {
+              guessId: selectedGuessIndex,
+              letterId: newIndex,
+            },
+          });
         }
       }
-    } catch {
+    } catch (err) {
       toast("Erro ao apagar a letra. Tente novamente", {
         type: toast.TYPE.ERROR,
       });
     }
-  }, [gameState, selectedIndex]);
+  }, [gameState, selectedIndex, selectedGuessIndex, playErase]);
 
   const appendLetter = useCallback(
     (letter: string) => {
+      playType();
       try {
-        const lastGuess = gameState.guesses.length - 1;
         dispatchGame({
           type: ActionTypes.AppendLetter,
           payload: {
             letter,
-            guessId: lastGuess,
+            guessId: selectedGuessIndex,
             letterId: selectedIndex,
           },
         });
 
-        if (selectedIndex < gameState.wordLength - 1) {
+        if (selectedIndex < gameState.wordLength) {
           setSelectedIndex(selectedIndex + 1);
         }
       } catch {
@@ -238,7 +236,7 @@ const useGame = (dailyWord: string, wordList: string[]) => {
         });
       }
     },
-    [gameState, selectedIndex]
+    [gameState, selectedIndex, selectedGuessIndex, playType]
   );
 
   const handleKeyDown = useCallback(
@@ -256,6 +254,7 @@ const useGame = (dailyWord: string, wordList: string[]) => {
       }
 
       if (event.key === "ArrowLeft") {
+        playErase();
         if (selectedIndex > 0) {
           setSelectedIndex(selectedIndex - 1);
         }
@@ -263,6 +262,7 @@ const useGame = (dailyWord: string, wordList: string[]) => {
       }
 
       if (event.key === "ArrowRight") {
+        playErase();
         if (selectedIndex < gameState.wordLength - 1) {
           setSelectedIndex(selectedIndex + 1);
         }
@@ -273,7 +273,7 @@ const useGame = (dailyWord: string, wordList: string[]) => {
         appendLetter(event.key);
       }
     },
-    [submitGuess, appendLetter, popLetter, selectedIndex, gameState]
+    [submitGuess, appendLetter, popLetter, selectedIndex, gameState, playErase]
   );
 
   useEffect(() => {
@@ -283,23 +283,36 @@ const useGame = (dailyWord: string, wordList: string[]) => {
   }, [handleKeyDown]);
 
   useEffect(() => {
-    if (gameState.attempts !== gameState.wordLength + 1) {
-      setStoragedGameState(gameState);
+    const selectedGuess = gameState.guesses[selectedGuessIndex];
+
+    if (selectedGuess) {
+      if (gameState.isGameOver) {
+        setStoragedGameState(gameState);
+        return;
+      }
+
+      if (gameState.attempts !== gameState.wordLength + 1) {
+        if (!selectedGuess.some((item) => item.letter)) {
+          setStoragedGameState(gameState);
+        }
+      }
     }
-  }, [gameState]);
+  }, [gameState, selectedGuessIndex]);
 
   useEffect(() => {
-    if (gameState.isGameOver && !gameState.statistics) {
-      const statistics = getStatistics();
-
-      dispatchGame({
-        type: ActionTypes.UpdateGame,
-        payload: {
-          statistics,
-        },
-      });
+    if (gameState.isGameOver) {
+      calculateCurrentStatistics(gameState, dailyWord);
     }
-  }, [gameState, getStatistics]);
+  }, [gameState, calculateCurrentStatistics, dailyWord]);
+
+  useEffect(() => {
+    if (
+      statistics.current &&
+      statistics.current.correctWord !== statistics.history.lastWord
+    ) {
+      calculateHistoryStatistics(gameState, dailyWord);
+    }
+  }, [statistics, calculateHistoryStatistics, dailyWord, gameState]);
 
   useEffect(() => {
     try {
@@ -308,11 +321,27 @@ const useGame = (dailyWord: string, wordList: string[]) => {
       if (state) {
         if (!state.word || state.word !== dailyWord) return;
 
-        const lastGuess = state.guesses[state.guesses.length - 1];
+        const lastFilledGuess = state.guesses.filter((guess) =>
+          guess.some((letter) => letter.letter)
+        );
+        let lastGuessIndex = lastFilledGuess.length - 1;
+
+        console.log(lastGuessIndex);
+
+        if (
+          lastGuessIndex < state.wordLength &&
+          lastFilledGuess[lastGuessIndex].every((letter) => letter.letter)
+        ) {
+          lastGuessIndex = lastGuessIndex + 1;
+        }
+        const lastGuess = state.guesses[lastGuessIndex];
+
+        console.log(lastGuessIndex, lastGuess);
 
         if (lastGuess) {
           const lastIndex = lastGuess.filter((item) => item.letter).length;
 
+          setSelectedGuessIndex(lastGuessIndex);
           setSelectedIndex(
             lastIndex >= state.wordLength ? state.wordLength - 1 : lastIndex
           );
@@ -339,6 +368,7 @@ const useGame = (dailyWord: string, wordList: string[]) => {
     appendLetter,
     selectedIndex,
     setSelectedIndex,
+    selectedGuessIndex,
   };
 };
 

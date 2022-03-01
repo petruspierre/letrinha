@@ -1,14 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaBackspace, FaCheck, FaKeyboard } from "react-icons/fa";
-import { Container, KeyboardButton, KeyboardWrapper } from "./styles";
+import { Arrow, Container, KeyboardButton, KeyboardWrapper } from "./styles";
 
-const KEYBOARD_KEYS = ["qwertyuiop", "asdfghjkl", "zxcvbnm"];
+const KEYBOARD_KEYS = ["qwertyuiop", "asdfghjkl-", "zxcvbnm]"];
 
 interface KeyboardProps {
   addLetter: (letter: string) => void;
   popLetter: () => void;
   submit: () => void;
   disable: boolean;
+  isVisible: boolean;
+  onClick: () => void;
   state: Record<
     string,
     {
@@ -26,48 +28,60 @@ const Keyboard = ({
   submit,
   state,
   disable,
+  isVisible,
+  onClick,
 }: KeyboardProps) => {
-  const [isVisible, setIsVisible] = useState(true);
-
   return (
     <Container>
-      <div className="actions">
-        <button
-          onClick={popLetter}
-          disabled={disable}
-          aria-label="Apagar letra"
-          title="Apagar letra"
-        >
-          <FaBackspace size="1.5rem" />
-        </button>
-        <button
-          onClick={() => setIsVisible(!isVisible)}
-          aria-label={`${isVisible ? "Esconder" : "Mostrar"} teclado`}
-          title={`${isVisible ? "Esconder" : "Mostrar"} teclado`}
-        >
-          <FaKeyboard size="1.5rem" />
-        </button>
-        <button
-          onClick={submit}
-          disabled={disable}
-          aria-label="Enviar palavra"
-          title="Enviar palavra"
-        >
-          <FaCheck size="1.5rem" />
-        </button>
-      </div>
       <KeyboardWrapper isVisible={isVisible} aria-hidden={!isVisible}>
         {KEYBOARD_KEYS.map((row, index) => (
           <div className="row" key={String(index)}>
             {row.split("").map((letter) => {
               const stateLetter = state[letter];
+              const defaultProps = {
+                exists: stateLetter && stateLetter.exists,
+                correctPlace: stateLetter && stateLetter.correctPlace,
+                used: stateLetter && stateLetter.used,
+              };
+
+              if (letter === "-") {
+                return (
+                  <KeyboardButton
+                    key={letter}
+                    {...defaultProps}
+                    onClick={popLetter}
+                    aria-label="Apagar letra"
+                    title="Apagar letra"
+                    disabled={disable}
+                  >
+                    <img
+                      src="assets/icons/chevron-left.svg"
+                      alt="Apagar letra"
+                    />
+                  </KeyboardButton>
+                );
+              }
+
+              if (letter === "]") {
+                return (
+                  <KeyboardButton
+                    key={letter}
+                    {...defaultProps}
+                    onClick={submit}
+                    disabled={disable}
+                    aria-label="Enviar palavra"
+                    title="Enviar palavra"
+                    className="dual"
+                  >
+                    enter
+                  </KeyboardButton>
+                );
+              }
 
               return (
                 <KeyboardButton
+                  {...defaultProps}
                   key={letter}
-                  exists={stateLetter && stateLetter.exists}
-                  correctPlace={stateLetter && stateLetter.correctPlace}
-                  used={stateLetter && stateLetter.used}
                   onClick={() => addLetter(letter)}
                   aria-label={`Letra ${letter}`}
                   title={`Letra ${letter}`}
@@ -80,7 +94,21 @@ const Keyboard = ({
           </div>
         ))}
       </KeyboardWrapper>
-      .
+      <div className="actions">
+        <button
+          onClick={onClick}
+          aria-label={`${isVisible ? "Esconder" : "Mostrar"} teclado`}
+          title={`${isVisible ? "Esconder" : "Mostrar"} teclado`}
+        >
+          <p>{isVisible ? "Esconder" : "Mostrar"} teclado</p>
+          <FaKeyboard size="1.5rem" />
+          <Arrow
+            src="/assets/icons/chevron-up.svg"
+            keyboardVisible={isVisible}
+            alt="Seta indicadora"
+          />
+        </button>
+      </div>
     </Container>
   );
 };

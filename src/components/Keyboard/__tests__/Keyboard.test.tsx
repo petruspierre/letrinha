@@ -9,6 +9,8 @@ const defaultProps = {
   submit: jest.fn(),
   disable: false,
   state: {},
+  isVisible: true,
+  onClick: jest.fn(),
 };
 
 describe("Keyboard component", () => {
@@ -45,9 +47,9 @@ describe("Keyboard component", () => {
 
       expect(getByTitle("Letra a")).toHaveStyleRule(
         "background-color",
-        "yellow"
+        "#F4AD23"
       );
-      expect(getByTitle("Letra a")).toHaveStyleRule("color", "black");
+      expect(getByTitle("Letra a")).toHaveStyleRule("color", "#fff");
     });
 
     it('letters that "correctPlace" to be green', () => {
@@ -62,7 +64,7 @@ describe("Keyboard component", () => {
 
       expect(getByTitle("Letra a")).toHaveStyleRule(
         "background-color",
-        "green"
+        "#27B15E"
       );
       expect(getByTitle("Letra a")).toHaveStyleRule("color", "#fff");
     });
@@ -81,7 +83,10 @@ describe("Keyboard component", () => {
         "background-color",
         "#F46036"
       );
-      expect(getByTitle("Letra a")).toHaveStyleRule("color", "#fff");
+      expect(getByTitle("Letra a")).toHaveStyleRule(
+        "color",
+        "rgba(255,255,255,0.5)"
+      );
     });
   });
 
@@ -109,13 +114,17 @@ describe("Keyboard component", () => {
 
   describe("action buttons", () => {
     it("toggle keyboard visibility", () => {
-      const { queryByTitle } = render(<Keyboard {...defaultProps} />);
+      const cb = jest.fn();
+
+      const { queryByTitle } = render(
+        <Keyboard {...defaultProps} onClick={cb} />
+      );
 
       expect(queryByTitle("Mostrar teclado")).not.toBeInTheDocument();
 
       fireEvent.click(queryByTitle("Esconder teclado"));
 
-      expect(queryByTitle("Mostrar teclado")).toBeInTheDocument();
+      expect(cb).toHaveBeenCalledTimes(1);
     });
 
     describe("actions fire callbacks", () => {

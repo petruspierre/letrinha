@@ -7,7 +7,6 @@ export const gameReducer = (state: IGameState, action: GameActions) => {
       return {
         ...state,
         attempts: state.attempts - 1,
-        guesses: [...state.guesses, []],
       };
     }
     case ActionTypes.UpdateGame: {

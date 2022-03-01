@@ -29,14 +29,16 @@ const removeAccents = (text) => [...accentsMap].reduce(reducer, text);
 
 const readInterface = readline.createInterface({
   input: fs.createReadStream(path.resolve(__dirname, "..", "dicio.txt")),
-  output: process.stdout,
   console: false,
 });
 
 readInterface.on("line", function (line) {
-  const wordLength = line.length;
+  const name = line.split(",")[0];
+  const wordLength = name.length;
   const category = result[wordLength];
-  const parsedWord = removeAccents(line);
+  const parsedWord = removeAccents(name).toLowerCase();
+
+  if (wordLength < 5 || wordLength > 6) return;
 
   if (!category) {
     result[wordLength] = [parsedWord];
@@ -47,7 +49,7 @@ readInterface.on("line", function (line) {
 
 readInterface.on("close", function () {
   fs.writeFile(
-    path.resolve(__dirname, "teste.txt"),
+    path.resolve(__dirname, "wordData.json"),
     JSON.stringify(result),
     { flag: "a+" },
     (err) => {}

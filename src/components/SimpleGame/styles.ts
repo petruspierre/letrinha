@@ -62,11 +62,10 @@ export const FieldsContainer = styled.section<FieldsContainerProps>`
   transition: all 0.3s ease-in-out;
   padding-right: 0.1rem;
   max-width: 553px;
-  margin-top: -2rem;
 
   ${isNot("isKeyboardVisible")`
-    height: calc(100vh - 6.5rem) !important;
-    max-height: calc(100vh - 6.5rem) !important;
+    height: calc(100vh - 9.5rem) !important;
+    max-height: calc(100vh - 9.5rem) !important;
     padding-right: 0 !important;
   `}
 

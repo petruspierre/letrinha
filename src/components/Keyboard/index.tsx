@@ -31,10 +31,6 @@ const Keyboard = ({
   isVisible,
   onClick,
 }: KeyboardProps) => {
-  useEffect(() => {
-    console.log(isVisible);
-  }, [isVisible]);
-
   return (
     <Container>
       <KeyboardWrapper isVisible={isVisible} aria-hidden={!isVisible}>

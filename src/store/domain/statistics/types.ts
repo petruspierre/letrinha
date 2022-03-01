@@ -8,6 +8,12 @@ export interface IHistory {
   numberOfTries: {
     [key: string]: number;
   };
+  lastWord: string;
+  totalTimeSpent: number;
+  averageAccuracy: number;
+  totalGuesses: number;
+  totalCorrect: number;
+  totalLetters: number;
 }
 
 export interface ICurrent {

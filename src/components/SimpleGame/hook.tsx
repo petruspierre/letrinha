@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useReducer, useState } from "react";
-import { endOfToday, intervalToDuration } from "date-fns";
+import { endOfToday } from "date-fns";
 import { toast } from "react-toastify";
 import useSound from "use-sound";
 
@@ -13,7 +13,6 @@ import {
 } from "~/repositories/GameState";
 import useSettings from "~/store/domain/settings";
 import useStatistics from "~/store/domain/statistics";
-import { decrypt } from "~/utils/crypt";
 
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 
@@ -37,7 +36,8 @@ interface ISimpleGameHookProps {
 
 const useGame = ({ dailyWord, wordList }: ISimpleGameHookProps) => {
   const { settings } = useSettings();
-  const { calculateCurrentStatistics } = useStatistics();
+  const { calculateCurrentStatistics, calculateHistoryStatistics, statistics } =
+    useStatistics();
   const [gameState, dispatchGame] = useReducer(gameReducer, {
     ...INITIAL_STATE,
     word: dailyWord,
@@ -284,11 +284,9 @@ const useGame = ({ dailyWord, wordList }: ISimpleGameHookProps) => {
 
   useEffect(() => {
     const selectedGuess = gameState.guesses[selectedGuessIndex];
-    console.log(selectedGuessIndex, gameState.wordLength + 1, selectedGuess);
 
     if (selectedGuess) {
       if (selectedGuess.every((item) => item.correctPlace)) {
-        console.log("saving");
         setStoragedGameState(gameState);
         return;
       }
@@ -306,6 +304,15 @@ const useGame = ({ dailyWord, wordList }: ISimpleGameHookProps) => {
       calculateCurrentStatistics(gameState, dailyWord);
     }
   }, [gameState, calculateCurrentStatistics, dailyWord]);
+
+  useEffect(() => {
+    if (
+      statistics.current &&
+      statistics.current.correctWord !== statistics.history.lastWord
+    ) {
+      calculateHistoryStatistics(gameState, dailyWord);
+    }
+  }, [statistics, calculateHistoryStatistics, dailyWord, gameState]);
 
   useEffect(() => {
     try {
@@ -327,7 +334,6 @@ const useGame = ({ dailyWord, wordList }: ISimpleGameHookProps) => {
         }
         const lastGuess = state.guesses[lastGuessIndex];
 
-        console.log(lastGuess);
         if (lastGuess) {
           const lastIndex = lastGuess.filter((item) => item.letter).length;
 

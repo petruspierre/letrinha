@@ -18,6 +18,12 @@ const INITIAL_STATE: IStatisticsState = {
       "5": 0,
       "6": 0,
     },
+    lastWord: "",
+    totalTimeSpent: 0,
+    averageAccuracy: 0,
+    totalGuesses: 0,
+    totalCorrect: 0,
+    totalLetters: 0,
   },
   ...loadedStatistics,
 };

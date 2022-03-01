@@ -19,7 +19,8 @@ export const FieldWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 70%;
+  width: 75%;
+  text-align: center;
   gap: 0.75rem;
   margin-top: 2rem;
 

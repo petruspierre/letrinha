@@ -41,7 +41,7 @@ const SimpleGame = ({ dailyWord, wordList }: SimpleGameProps) => {
         <Result gameState={state} dismiss={setDismissOverlay} />
       )}
 
-      <FieldsContainer isKeyboardVisible={isKeyboardVisible}>
+      <FieldsContainer>
         {state.guesses.map((guess, index) => (
           <FieldWrapper key={String(index)}>
             {Array(dailyWord.length)

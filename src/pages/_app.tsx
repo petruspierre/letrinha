@@ -14,6 +14,7 @@ import { storeWrapper } from "~/store";
 import Analytics from "~/components/Analytics";
 import Settings from "~/components/Settings";
 import Donate from "~/components/Donate";
+import useStatistics from "~/store/domain/statistics";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [showSettings, setShowSettings] = useState(false);
   const [showDonate, setShowDonate] = useState(false);
   const router = useRouter();
+
+  const { statistics } = useStatistics();
 
   useEffect(() => {
     const handleRouteChange = (url) => {
@@ -44,6 +47,14 @@ function MyApp({ Component, pageProps }: AppProps) {
   const toggleDonate = () => {
     setShowDonate(!showDonate);
   };
+
+  useEffect(() => {
+    if (router.asPath === "/game") {
+      if (statistics.history.totalGames === 0) {
+        setShowHowToPlay(true);
+      }
+    }
+  }, [router.asPath, statistics.history.totalGames]);
 
   return (
     <QueryClientProvider client={queryClient}>

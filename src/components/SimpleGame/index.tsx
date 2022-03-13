@@ -36,7 +36,7 @@ const SimpleGame = ({ dailyWord, wordList }: SimpleGameProps) => {
   );
 
   return (
-    <GameContainer>
+    <GameContainer isKeyboardVisible={isKeyboardVisible}>
       {state.isGameOver && statistics.current && !dismissOverlay && (
         <Result gameState={state} dismiss={setDismissOverlay} />
       )}
@@ -57,7 +57,7 @@ const SimpleGame = ({ dailyWord, wordList }: SimpleGameProps) => {
                     ? letterExists.correctPlace
                     : false,
                   onClick: isSelectedGuess
-                    ? () => setSelectedIndex(letterIndex)
+                    ? (e) => [setSelectedIndex(letterIndex), e.target.blur()]
                     : () => {},
                 };
 

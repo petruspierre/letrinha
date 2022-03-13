@@ -49,7 +49,7 @@ const Keyboard = ({
                   <KeyboardButton
                     key={letter}
                     {...defaultProps}
-                    onClick={popLetter}
+                    onClick={(e: any) => [popLetter(), e.target.blur()]}
                     aria-label="Apagar letra"
                     title="Apagar letra"
                     disabled={disable}
@@ -67,7 +67,7 @@ const Keyboard = ({
                   <KeyboardButton
                     key={letter}
                     {...defaultProps}
-                    onClick={submit}
+                    onClick={(e: any) => [submit(), e.target.blur()]}
                     disabled={disable}
                     aria-label="Enviar palavra"
                     title="Enviar palavra"
@@ -82,7 +82,7 @@ const Keyboard = ({
                 <KeyboardButton
                   {...defaultProps}
                   key={letter}
-                  onClick={() => addLetter(letter)}
+                  onClick={(e: any) => [addLetter(letter), e.target.blur()]}
                   aria-label={`Letra ${letter}`}
                   title={`Letra ${letter}`}
                   disabled={disable}
@@ -96,7 +96,7 @@ const Keyboard = ({
       </KeyboardWrapper>
       <div className="actions">
         <button
-          onClick={onClick}
+          onClick={(e: any) => [onClick(), e.target.blur()]}
           aria-label={`${isVisible ? "Esconder" : "Mostrar"} teclado`}
           title={`${isVisible ? "Esconder" : "Mostrar"} teclado`}
         >

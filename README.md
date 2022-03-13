@@ -1,22 +1,40 @@
-Letrinha é um jogo com desafios envolvendo palavras
+![Group 111](https://user-images.githubusercontent.com/39802870/156370919-11fdba8e-bfed-4e23-8dda-49abbe9fdb3f.png)
+<p align="center">Letrinha is a puzzle game about words and inspired in Wordle.</p>
 
-## Rodando o projeto
+Avaiable in production: https://letrinha.xyz/
 
-Instale as dependencias
+## Tech
+- NextJS
+- Firebase
+- FaunaDB
+- Styled Components
+- Jest
+- Testing Library
+
+## Roadmap
+- [ ] User auth
+- [ ] Move game to DDD
+- [ ] Custom themes
+- [ ] Ranking
+- [ ] Statistics page
+ 
+## Running
+
+Install depedencies
 ```bash
 yarn
 ```
 
-Copie e preencha as variáveis ambiente
+Copy and fill env variables
 
 ```bash
 cp .env.example .env
 ```
 
-Rode o servidor de desenvolvimento
+Run the development server
 
 ```bash
 yarn dev
 ```
 
-Vá até [http://localhost:3000](http://localhost:3000) e veja o jogo rodando na sua máquina.
+Go to [http://localhost:3000](http://localhost:3000) and start playing.

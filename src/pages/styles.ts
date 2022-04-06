@@ -174,9 +174,40 @@ export const ButtonsContainer = styled.nav`
     background-color: ${({ theme }) => theme.colors.primary};
     transition: filter 0.3s;
     font-size: 1.5rem;
+    width: 15rem;
+    text-align: center;
 
     &:hover {
       filter: brightness(0.8);
     }
+  }
+`;
+
+export const PreviewButton = styled.button`
+  padding: 1rem 2rem;
+  color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.primary};
+  transition: filter 0.3s;
+  font-size: 1.5rem;
+  width: 15rem;
+  text-align: center;
+  font-family: ${({ theme }) => theme.font.primary};
+  font-style: italic;
+  position: relative;
+
+  margin-top: 3rem;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+  }
+
+  &:after {
+    content: "EM BREVE!!";
+    position: absolute;
+    top: -0.5rem;
+    right: -2.5rem;
+    font-size: 1.25rem;
+    transform: rotate(15deg);
   }
 `;

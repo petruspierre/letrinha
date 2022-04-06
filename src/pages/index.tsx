@@ -6,6 +6,7 @@ import {
   ButtonsContainer,
   Container,
   Content,
+  PreviewButton,
 } from "./styles";
 
 const Home = () => {
@@ -30,6 +31,8 @@ const Home = () => {
             <Link href="/game">
               <a>Palavra do dia</a>
             </Link>
+            <PreviewButton disabled>Modo treino</PreviewButton>
+            <PreviewButton disabled>Modo duelo</PreviewButton>
           </ButtonsContainer>
         </Content>
       </Container>

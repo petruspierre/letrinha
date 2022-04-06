@@ -1,4 +1,4 @@
-import { IStatisticsState } from "~/store/domain/statistics/types";
+import { IStatisticsState } from "~/store/modules/statistics/types";
 
 const STORAGE_KEY = "@LETRINHA:statistics";
 

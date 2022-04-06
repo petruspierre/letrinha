@@ -11,8 +11,8 @@ import {
   getStoragedGameState,
   setStoragedGameState,
 } from "~/repositories/GameState";
-import useSettings from "~/store/domain/settings";
-import useStatistics from "~/store/domain/statistics";
+import useSettings from "~/store/modules/settings";
+import useStatistics from "~/store/modules/statistics";
 
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 

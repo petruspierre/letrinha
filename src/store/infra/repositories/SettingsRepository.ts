@@ -1,4 +1,4 @@
-import { ISettingsState } from "~/store/domain/settings/types";
+import { ISettingsState } from "~/store/modules/settings/types";
 
 const STORAGE_KEY = "@LETRINHA:settings";
 

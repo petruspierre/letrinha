@@ -2,10 +2,10 @@ import { createStore, combineReducers, applyMiddleware, Store } from "redux";
 import { createWrapper } from "next-redux-wrapper";
 import logger from "redux-logger";
 
-import settingsReducer from "./domain/settings/reducer";
-import { ISettingsState } from "./domain/settings/types";
-import statisticsReducer from "./domain/statistics/reducer";
-import { IStatisticsState } from "./domain/statistics/types";
+import settingsReducer from "./modules/settings/reducer";
+import { ISettingsState } from "./modules/settings/types";
+import statisticsReducer from "./modules/statistics/reducer";
+import { IStatisticsState } from "./modules/statistics/types";
 
 export interface IState {
   settings: ISettingsState;

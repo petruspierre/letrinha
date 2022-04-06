@@ -9,9 +9,9 @@ import {
   Footer,
   FieldsContainer,
 } from "./styles";
-import useStatistics from "~/store/domain/statistics";
+import useStatistics from "~/store/modules/statistics";
 import Result from "./Result";
-import useSettings from "~/store/domain/settings";
+import useSettings from "~/store/modules/settings";
 
 interface SimpleGameProps {
   dailyWord: string;

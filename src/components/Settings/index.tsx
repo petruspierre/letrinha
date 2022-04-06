@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useSettings from "~/store/domain/settings";
+import useSettings from "~/store/modules/settings";
 
 import Modal from "../Modal";
 import { Button, Content, FieldWrapper, Slider } from "./styles";

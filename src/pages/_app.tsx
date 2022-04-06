@@ -14,7 +14,7 @@ import { storeWrapper } from "~/store";
 import Analytics from "~/components/Analytics";
 import Settings from "~/components/Settings";
 import Donate from "~/components/Donate";
-import useStatistics from "~/store/domain/statistics";
+import useStatistics from "~/store/modules/statistics";
 
 const queryClient = new QueryClient();
 

@@ -46,7 +46,6 @@ export const Button = styled.button`
   font-family: ${({ theme }) => theme.font.primary};
   font-style: italic;
   padding: 1rem 2rem;
-  width: 13rem;
   margin-top: 1rem;
 
   transition: all 0.2s;
@@ -58,6 +57,11 @@ export const Button = styled.button`
 
   & :hover {
     filter: brightness(0.8);
+  }
+
+  @media screen and (max-width: 768px) {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.25rem;
   }
 `;
 

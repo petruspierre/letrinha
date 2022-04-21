@@ -27,6 +27,7 @@ export interface IPracticeGameState {
   word: string;
   selectedLetterIndex: number;
   selectedGuessIndex: number;
+  wordList: string[];
 }
 
 export interface IStoragedGameState extends Omit<IPracticeGameState, "word"> {

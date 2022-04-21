@@ -47,10 +47,27 @@ const usePracticeGame = () => {
     playSubmit();
 
     try {
-      const { guesses, selectedGuessIndex, wordLength, word } = practiceGame;
+      const { guesses, selectedGuessIndex, wordLength, word, wordList } =
+        practiceGame;
 
       const selectedGuess = guesses[selectedGuessIndex];
       if (selectedGuess.filter((item) => item.letter).length !== wordLength) {
+        return;
+      }
+
+      if (wordList.length === 0) {
+        toast(
+          "Carregando banco de palavras, por favor aguarde e tente novamente."
+        );
+        return;
+      }
+
+      const selectedGuessWord = selectedGuess
+        .map((item) => item.letter)
+        .join("");
+
+      if (!wordList.includes(selectedGuessWord)) {
+        toast("Palavra não consta no dicionário, tente novamente.");
         return;
       }
 
@@ -195,7 +212,7 @@ const usePracticeGame = () => {
   );
 
   const newGame = useCallback(
-    (word: string, attempts: number) => {
+    (word: string, attempts: number, wordList: string[]) => {
       dispatch(
         updateGame({
           word,
@@ -209,6 +226,7 @@ const usePracticeGame = () => {
           keyboard: {},
           isGameOver: false,
           win: false,
+          wordList,
         })
       );
     },

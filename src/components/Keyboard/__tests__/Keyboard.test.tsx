@@ -69,7 +69,7 @@ describe("Keyboard component", () => {
       expect(getByTitle("Letra a")).toHaveStyleRule("color", "#fff");
     });
 
-    it('letters that "used" to be primary color', () => {
+    it('letters that "used" to be red', () => {
       const { getByTitle } = render(
         <Keyboard
           {...defaultProps}
@@ -81,12 +81,9 @@ describe("Keyboard component", () => {
 
       expect(getByTitle("Letra a")).toHaveStyleRule(
         "background-color",
-        "#F46036"
+        "#DF2547"
       );
-      expect(getByTitle("Letra a")).toHaveStyleRule(
-        "color",
-        "rgba(255,255,255,0.5)"
-      );
+      expect(getByTitle("Letra a")).toHaveStyleRule("color", "#fff");
     });
   });
 

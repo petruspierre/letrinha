@@ -34,45 +34,44 @@ const shake = keyframes`
   }
 `;
 
-export const GameContainer = styled.div`
+export const GameContainer = styled.div<FieldsContainerProps>`
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding: 0 1rem;
   min-width: 25rem;
   max-width: 100%;
   align-items: center;
-  height: calc(100vh - 5rem);
+  justify-content: center;
+
+  height: calc(100vh - 18rem);
+  max-height: calc(100vh - 18rem);
+  transition: all 0.3s ease-in-out;
+
+  ${isNot("isKeyboardVisible")`
+    height: calc(100vh - 9rem) !important;
+    max-height: calc(100vh - 9rem) !important;
+  `}
 
   @media screen and (min-width: 768px) {
+    height: calc(100vh - 20.5rem);
+    max-height: calc(100vh - 20.5rem);
     width: 100%;
   }
 `;
 
-export const FieldsContainer = styled.section<FieldsContainerProps>`
+export const FieldsContainer = styled.section`
   display: flex;
   flex-direction: column;
   flex: 1;
-  align-items: center;
-  justify-content: center;
 
   overflow-y: scroll;
-  height: calc(100vh - 15.5rem);
-  max-height: calc(100vh - 15.5rem);
   transition: all 0.3s ease-in-out;
-  padding-right: 0.1rem;
   max-width: 553px;
-  margin-top: -2rem;
 
-  ${isNot("isKeyboardVisible")`
-    height: calc(100vh - 6.5rem) !important;
-    max-height: calc(100vh - 6.5rem) !important;
-    padding-right: 0 !important;
-  `}
+  height: fit-content;
+  max-height: 27.5rem;
 
   @media screen and (min-width: 768px) {
-    max-height: calc(100vh - 20.5rem);
-
     &::-webkit-scrollbar {
       width: 0.5rem;
     }

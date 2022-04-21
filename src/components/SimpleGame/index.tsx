@@ -9,9 +9,9 @@ import {
   Footer,
   FieldsContainer,
 } from "./styles";
-import useStatistics from "~/store/domain/statistics";
+import useStatistics from "~/store/modules/statistics";
 import Result from "./Result";
-import useSettings from "~/store/domain/settings";
+import useSettings from "~/store/modules/settings";
 
 interface SimpleGameProps {
   dailyWord: string;
@@ -36,12 +36,12 @@ const SimpleGame = ({ dailyWord, wordList }: SimpleGameProps) => {
   );
 
   return (
-    <GameContainer>
+    <GameContainer isKeyboardVisible={isKeyboardVisible}>
       {state.isGameOver && statistics.current && !dismissOverlay && (
         <Result gameState={state} dismiss={setDismissOverlay} />
       )}
 
-      <FieldsContainer isKeyboardVisible={isKeyboardVisible}>
+      <FieldsContainer>
         {state.guesses.map((guess, index) => (
           <FieldWrapper key={String(index)}>
             {Array(dailyWord.length)
@@ -57,7 +57,7 @@ const SimpleGame = ({ dailyWord, wordList }: SimpleGameProps) => {
                     ? letterExists.correctPlace
                     : false,
                   onClick: isSelectedGuess
-                    ? () => setSelectedIndex(letterIndex)
+                    ? (e) => [setSelectedIndex(letterIndex), e.target.blur()]
                     : () => {},
                 };
 

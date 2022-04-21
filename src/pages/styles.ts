@@ -114,8 +114,8 @@ export const Content = styled.main`
 
 export const AnimatedContainer = styled.h1`
   color: ${({ theme }) => theme.colors.white};
-  font-size: 7rem;
-  line-height: 6rem;
+  font-size: 8rem;
+  line-height: 7rem;
 
   display: flex;
 
@@ -168,15 +168,46 @@ export const ButtonsContainer = styled.nav`
   justify-content: center;
   margin-top: 3rem;
 
+  gap: 3rem;
+
   a {
     padding: 1rem 2rem;
     color: ${({ theme }) => theme.colors.white};
     background-color: ${({ theme }) => theme.colors.primary};
     transition: filter 0.3s;
     font-size: 1.5rem;
+    width: 15rem;
+    text-align: center;
 
     &:hover {
       filter: brightness(0.8);
     }
+  }
+`;
+
+export const PreviewButton = styled.button`
+  padding: 1rem 2rem;
+  color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.primary};
+  transition: filter 0.3s;
+  font-size: 1.5rem;
+  width: 15rem;
+  text-align: center;
+  font-family: ${({ theme }) => theme.font.primary};
+  font-style: italic;
+  position: relative;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+  }
+
+  &:after {
+    content: "EM BREVE!!";
+    position: absolute;
+    top: -0.5rem;
+    right: -2.5rem;
+    font-size: 1.25rem;
+    transform: rotate(15deg);
   }
 `;

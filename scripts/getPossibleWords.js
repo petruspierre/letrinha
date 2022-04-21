@@ -1,8 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 const readline = require("readline");
-const wordList = require("./wordData");
-const nameList = require("./nomesProprios");
+const wordList = require("../data/wordData.json");
+const nameList = require("../data/nomesProprios");
 
 const result = {};
 
@@ -30,11 +30,13 @@ const reducer = function (acc, [key]) {
 const removeAccents = (text) => [...accentsMap].reduce(reducer, text);
 
 const readInterface = readline.createInterface({
-  input: fs.createReadStream(path.resolve(__dirname, "..", "tf.csv")),
+  input: fs.createReadStream(path.resolve(__dirname, "..", "data", "tf.csv")),
 });
 
 readInterface.on("line", function (line) {
   const [word, freq] = line.split(",");
+
+  if (!word || typeof word !== "string") return;
 
   const wordLength = word.length;
   const category = result[wordLength];
@@ -42,15 +44,13 @@ readInterface.on("line", function (line) {
   if (wordLength < 5 || wordLength > 6) return;
 
   if (
-    (wordLength === 5 && freq < 1000000) ||
-    (wordLength === 6 && freq < 1000000)
+    (wordLength === 5 && freq < 500000) ||
+    (wordLength === 6 && freq < 500000)
   )
     return;
 
-  if (!wordList[wordLength].includes(word)) return;
+  if (!wordList["word-list"][wordLength].includes(word)) return;
   if (nameList[wordLength].includes(word)) return;
-
-  console.log(word);
 
   const parsedWord = removeAccents(word);
 

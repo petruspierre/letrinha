@@ -3,9 +3,15 @@ import { formatDistance } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 import * as gtag from "~/services/gtag";
-import useStatistics from "~/store/domain/statistics";
+import useStatistics from "~/store/modules/statistics";
 import { IGameState } from "~/model/SimpleGame";
-import { Button, Container } from "./styles";
+import {
+  Button,
+  ButtonWrapper,
+  Container,
+  Preview,
+  PreviewWrapper,
+} from "./styles";
 import Modal from "~/components/Modal";
 
 interface IResultProps {
@@ -20,7 +26,9 @@ const Result = ({ gameState, dismiss }: IResultProps) => {
   const { totalTimeSpent, totalGuesses, accuracy } = statistics.current;
   const { win, wordLength } = gameState;
 
-  const result = win ? "ganhou! 😄" : "perdeu. 😭";
+  const result = win
+    ? "Você ganhou, parabéns!!!"
+    : "Você perdeu, não foi dessa vez :(";
   const time = `${totalTimeSpent.minutes.toLocaleString("pt-BR", {
     minimumIntegerDigits: 2,
   })}:${totalTimeSpent.seconds.toLocaleString("pt-BR", {
@@ -69,27 +77,29 @@ const Result = ({ gameState, dismiss }: IResultProps) => {
   };
 
   return (
-    <Modal title={`Você ${result}`} dismiss={() => dismiss(true)}>
+    <Modal title="OBRIGADO POR JOGAR!" dismiss={() => dismiss(true)}>
       <Container>
-        <p>
-          Aguarde a nova palavra em{" "}
-          {formatDistance(new Date(), new Date(gameState.gameExpires), {
-            locale: ptBR,
-          })}
-        </p>
-        <p>
-          Completou o jogo em: <span>{time}</span>
-        </p>
-        <p>
-          em <span>{totalGuesses}</span> tentativas
-        </p>
-        <p>
-          com <span>{accuracy.toFixed(0)}%</span> de precisão
-        </p>
-        <Button onClick={handleShare}>
-          {copied ? "Copiado" : "Compartilhar"}
-        </Button>
-        <Button onClick={() => dismiss(true)}>Ver jogo</Button>
+        <p>a palavra do dia é:</p>
+        <PreviewWrapper>
+          {statistics.current.correctWord.split("").map((letter, index) => (
+            <Preview
+              exists={gameState.keyBoardState[letter]?.exists}
+              correctPlace={gameState.keyBoardState[letter]?.correctPlace}
+              key={`${letter}-${index}`}
+            >
+              {letter.toUpperCase()}
+            </Preview>
+          ))}
+        </PreviewWrapper>
+
+        <p>{result}</p>
+
+        <ButtonWrapper>
+          <Button onClick={handleShare}>
+            {copied ? "Copiado!" : "Compartilhar"}
+          </Button>
+          <Button onClick={() => dismiss(true)}>Ver jogo</Button>
+        </ButtonWrapper>
       </Container>
     </Modal>
   );

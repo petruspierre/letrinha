@@ -7,18 +7,11 @@ import { useTheme } from "~/styles/theme";
 import { Button, Container, LogoButton } from "./styles";
 
 interface HeaderProps {
-  toggleInstructions: () => void;
-  toggleSettings: () => void;
-  toggleDonate: () => void;
+  toggleModal: (modal: "HowToPlay" | "Settings" | "Donate") => void;
   showLogo?: boolean;
 }
 
-const Header = ({
-  toggleInstructions,
-  toggleSettings,
-  toggleDonate,
-  showLogo = true,
-}: HeaderProps) => {
+const Header = ({ toggleModal, showLogo = true }: HeaderProps) => {
   const { showThemeSelection } = useTheme();
   const router = useRouter();
 
@@ -29,7 +22,7 @@ const Header = ({
   return (
     <Container>
       <Button
-        onClick={toggleDonate}
+        onClick={() => toggleModal("Donate")}
         aria-label="Fazer doação"
         title="Fazer doação"
       >
@@ -40,7 +33,7 @@ const Header = ({
         />
       </Button>
       <Button
-        onClick={toggleInstructions}
+        onClick={() => toggleModal("HowToPlay")}
         aria-label="Como jogar?"
         title="Como jogar?"
       >
@@ -67,7 +60,7 @@ const Header = ({
         />
       </Button>
       <Button
-        onClick={toggleSettings}
+        onClick={() => toggleModal("Settings")}
         aria-label="Configurações"
         title="Configurações"
       >

@@ -11,8 +11,8 @@ import {
   getStoragedGameState,
   setStoragedGameState,
 } from "~/repositories/GameState";
-import useSettings from "~/store/domain/settings";
-import useStatistics from "~/store/domain/statistics";
+import useSettings from "~/store/modules/settings";
+import useStatistics from "~/store/modules/statistics";
 
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 
@@ -326,8 +326,6 @@ const useGame = ({ dailyWord, wordList }: ISimpleGameHookProps) => {
         );
         let lastGuessIndex = lastFilledGuess.length - 1;
 
-        console.log(lastGuessIndex);
-
         if (
           lastGuessIndex < state.wordLength &&
           lastFilledGuess[lastGuessIndex].every((letter) => letter.letter)
@@ -335,8 +333,6 @@ const useGame = ({ dailyWord, wordList }: ISimpleGameHookProps) => {
           lastGuessIndex = lastGuessIndex + 1;
         }
         const lastGuess = state.guesses[lastGuessIndex];
-
-        console.log(lastGuessIndex, lastGuess);
 
         if (lastGuess) {
           const lastIndex = lastGuess.filter((item) => item.letter).length;

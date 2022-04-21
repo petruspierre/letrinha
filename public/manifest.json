@@ -1,0 +1,32 @@
+{
+    "theme_color": "#423E4F",
+    "background_color": "#59657D",
+    "display": "browser",
+    "scope": "/",
+    "start_url": "/",
+    "name": "Letrinha",
+    "short_name": "Letrinha",
+    "description": "Jogo de palavras em portugu\u00eas para se divertir diariamente!",
+    "icons": [
+        {
+            "src": "/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon-256x256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon-384x384.png",
+            "sizes": "384x384",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

@@ -1,4 +1,11 @@
-module.exports = {
+const withPWA = require("next-pwa");
+
+module.exports = withPWA({
   reactStrictMode: true,
-  pageExtensions: ["tsx"],
-};
+  pageExtensions: ["page.tsx", "page.jsx"],
+  pwa: {
+    dest: "public",
+    register: true,
+    skipWaiting: true,
+  },
+});

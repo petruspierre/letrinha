@@ -64,6 +64,9 @@ export default class MyDocument extends Document {
             content="Letrinha é um jogo online de palavras, venha se desafiar diariamente!"
           />
 
+          <link rel="manifest" href="/manifest.json" />
+          <meta name="theme-color" content="#423E4F" />
+
           <link
             rel="apple-touch-icon"
             sizes="180x180"

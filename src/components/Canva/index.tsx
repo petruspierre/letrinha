@@ -59,7 +59,7 @@ const Canva = ({
                       ]}
                       disabled={!isSelectedGuess && !isGameOver}
                       key={String(letterIndex)}
-                      data-testid={`field-${index}-${letterIndex}`}
+                      data-testid={`field-${index}-${guessIndex}-${letterIndex}`}
                     >
                       {existingLetter?.letter ?? ""}
                     </Field>

@@ -10,6 +10,8 @@ import {
   Error,
   Footer,
   GameFrame,
+  Preview,
+  PreviewWrapper,
   Result,
   Title,
 } from "./styles";
@@ -54,6 +56,7 @@ const Game = () => {
 
   const {
     practiceGame: {
+      word,
       wordLength,
       selectedGuessIndex,
       selectedLetterIndex,
@@ -132,6 +135,19 @@ const Game = () => {
         <Modal dismiss={() => setShowResult(false)} title="Treino finalizado!">
           <Result>
             <p>Você {win ? "venceu!" : "perdeu."}</p>
+
+            <PreviewWrapper>
+              {word.split("").map((letter, index) => (
+                <Preview
+                  exists={keyboard[letter]?.exists}
+                  correctPlace={keyboard[letter]?.correctPlace}
+                  key={`${letter}-${index}`}
+                >
+                  {letter.toUpperCase()}
+                </Preview>
+              ))}
+            </PreviewWrapper>
+
             <p>Deseja tentar novamente?</p>
             <ButtonWrapper>
               <Button onClick={router.reload}>Treinar</Button>

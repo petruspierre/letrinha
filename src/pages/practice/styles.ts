@@ -1,4 +1,10 @@
 import styled from "styled-components";
+import is from "styled-is";
+
+interface IPreviewProps {
+  exists?: boolean;
+  correctPlace?: boolean;
+}
 
 export const Container = styled.div`
   display: flex;
@@ -99,4 +105,36 @@ export const Button = styled.button`
     padding: 0.75rem 1.5rem;
     font-size: 1.25rem;
   }
+`;
+
+export const PreviewWrapper = styled.div`
+  display: flex;
+  padding: 0.5rem 0.75rem;
+  gap: 0.5rem;
+  background: ${({ theme }) => theme.colors.secondary};
+  margin-bottom: 2rem;
+  margin-top: 1rem;
+`;
+
+export const Preview = styled.div<IPreviewProps>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  height: 2.5rem;
+  width: 2.5rem;
+  background: ${({ theme }) => theme.colors.primary};
+  font-family: ${({ theme }) => theme.font.primary};
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.5);
+
+  ${is("exists")`
+    background: ${({ theme }) => theme.colors.yellow};
+    color: ${({ theme }) => theme.colors.white};
+  `}
+
+  ${is("correctPlace")`
+    background: ${({ theme }) => theme.colors.green};
+    color: ${({ theme }) => theme.colors.white};
+  `}
 `;

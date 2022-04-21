@@ -1,4 +1,5 @@
 import axios from "axios";
+import { letrinhaApi } from "./letrinhaApi";
 
 interface IRandomPracticeWordResponse {
   data: {
@@ -11,10 +12,6 @@ interface IRandomPracticeWordParams {
   sampleSize?: number;
 }
 
-const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_LETRINHA_API_BASE_URL,
-});
-
 const getRandomPracticeWord = async ({
   wordLength = 5,
   sampleSize = 1,
@@ -25,7 +22,7 @@ const getRandomPracticeWord = async ({
       sampleSize,
     };
 
-    const response = (await api.get("/practice/random", {
+    const response = (await letrinhaApi.get("/practice/random", {
       params,
     })) as IRandomPracticeWordResponse;
 

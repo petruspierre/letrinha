@@ -14,7 +14,13 @@ import { storeWrapper } from "~/store";
 import Analytics from "~/components/Analytics";
 import { HeaderProvider } from "~/contexts/HeaderContext";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();

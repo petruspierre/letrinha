@@ -20,7 +20,7 @@ const practiceGameReducer: Reducer<IPracticeGameState> = (
   action
 ) => {
   switch (action.type) {
-    case "PRACTICE_GAME_DECREASE_ATTEMPTS": {
+    case "PRACTICE_GAME_NEW_GUESS": {
       return {
         ...state,
         attempts: state.attempts - 1,

@@ -15,7 +15,7 @@ export interface IState {
   practiceGame: IPracticeGameState;
 }
 
-const middleware = [logger];
+const middleware = process.env.NODE_ENV === "development" ? [logger] : [];
 
 const rootReducer = combineReducers({
   settings: settingsReducer,

@@ -119,8 +119,8 @@ export const KeyboardButton = styled.button<IKeyboardButtonProps>`
   }
 
   ${is("used")`
-    background-color: ${({ theme }) => theme.colors.primary};
-    color: rgba(255, 255, 255, 0.5);
+    background-color: ${({ theme }) => theme.colors.red};
+    color: ${({ theme }) => theme.colors.white};
   `}
 
   ${is("exists")`

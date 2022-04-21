@@ -10,6 +10,7 @@ interface ICanvaProps {
   index: number;
   onLetterClick: (letter: number) => void;
   guesses: IGuess[];
+  isGameOver: boolean;
 }
 
 const Canva = ({
@@ -20,6 +21,7 @@ const Canva = ({
   onLetterClick,
   index,
   guesses,
+  isGameOver,
 }: ICanvaProps) => {
   return (
     <Container>
@@ -42,7 +44,9 @@ const Canva = ({
                         !isSelectedGuess && !letterExists && !letterCorrectPlace
                       }
                       isActive={
-                        selectedLetter === letterIndex && isSelectedGuess
+                        selectedLetter === letterIndex &&
+                        isSelectedGuess &&
+                        !isGameOver
                       }
                       exists={letterExists}
                       correctPlace={letterCorrectPlace}
@@ -50,7 +54,7 @@ const Canva = ({
                         onLetterClick(letterIndex),
                         e.target.blur(),
                       ]}
-                      disabled={!isSelectedGuess}
+                      disabled={!isSelectedGuess && !isGameOver}
                       key={String(letterIndex)}
                       data-testid={`field-${index}-${letterIndex}`}
                     >

@@ -114,8 +114,8 @@ export const Content = styled.main`
 
 export const AnimatedContainer = styled.h1`
   color: ${({ theme }) => theme.colors.white};
-  font-size: 7rem;
-  line-height: 6rem;
+  font-size: 8rem;
+  line-height: 7rem;
 
   display: flex;
 

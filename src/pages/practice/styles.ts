@@ -52,3 +52,51 @@ export const Footer = styled.section`
     max-width: 553px;
   }
 `;
+
+export const Result = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  p {
+    font-size: 1.25rem;
+    color: ${({ theme }) => theme.colors.white};
+  }
+`;
+
+export const ButtonWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const Button = styled.button`
+  background-color: ${({ theme }) => theme.colors.secondary};
+  color: ${({ theme }) => theme.colors.white};
+  font-size: 1.5rem;
+  font-family: ${({ theme }) => theme.font.primary};
+  font-style: italic;
+  padding: 1rem 2rem;
+  margin-top: 1rem;
+
+  transition: all 0.2s;
+
+  & + button {
+    a {
+      color: ${({ theme }) => theme.colors.secondary};
+    }
+    background-color: ${({ theme }) => theme.colors.white};
+  }
+
+  & :hover {
+    filter: brightness(0.8);
+  }
+
+  @media screen and (max-width: 768px) {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.25rem;
+  }
+`;

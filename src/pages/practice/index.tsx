@@ -3,12 +3,24 @@ import { GetServerSideProps } from "next";
 
 import { getRandomPracticeWord } from "~/services/practice";
 
-import { Container, Error, Footer, GameFrame, Title } from "./styles";
+import {
+  Button,
+  ButtonWrapper,
+  Container,
+  Error,
+  Footer,
+  GameFrame,
+  Result,
+  Title,
+} from "./styles";
 import { Canva, Keyboard } from "~/components";
 import usePracticeGame from "~/store/modules/practiceGame";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useToggle } from "~/hooks/useToogle";
 import useSettings from "~/store/modules/settings";
+import Modal from "~/components/Modal";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 interface PracticeProps {
   words: {
@@ -17,8 +29,18 @@ interface PracticeProps {
 }
 
 const Game = ({ words }: PracticeProps) => {
+  const [showResult, setShowResult] = useState(false);
   const {
-    practiceGame,
+    practiceGame: {
+      word,
+      wordLength,
+      attempts,
+      selectedGuessIndex,
+      selectedLetterIndex,
+      guesses,
+      isGameOver,
+      keyboard,
+    },
     onAppendLetter,
     onPopLetter,
     onSubmitGuess,
@@ -26,6 +48,7 @@ const Game = ({ words }: PracticeProps) => {
     selectLetter,
   } = usePracticeGame();
   const { settings } = useSettings();
+  const router = useRouter();
 
   const { value: keyboardVisible, toggle: toggleKeyboard } = useToggle(
     !settings.keyboardHidden
@@ -37,34 +60,48 @@ const Game = ({ words }: PracticeProps) => {
     }
   }, [newGame, words]);
 
+  useEffect(() => {
+    if (isGameOver) {
+      setShowResult(true);
+    }
+  }, [isGameOver]);
+
   return (
     <>
       <Head>
         <title>Modo treino | Letrinha</title>
       </Head>
-      {practiceGame.word ? (
+      {showResult && (
+        <Modal dismiss={() => setShowResult(false)} title="Treino finalizado!">
+          <Result>
+            <p>Deseja tentar novamente?</p>
+            <ButtonWrapper>
+              <Button onClick={router.reload}>Treinar</Button>
+              <Button>
+                <Link href="/">
+                  <a>Pagina inicial</a>
+                </Link>
+              </Button>
+            </ButtonWrapper>
+          </Result>
+        </Modal>
+      )}
+      {word ? (
         <Container>
           <Title>Modo treino</Title>
           <GameFrame>
             {words.map(({ word }, index) => {
-              const {
-                wordLength,
-                attempts,
-                selectedGuessIndex,
-                selectedLetterIndex,
-                guesses,
-              } = practiceGame;
-
               return (
                 <Canva
                   wordLength={wordLength}
-                  attempts={attempts}
+                  attempts={guesses.length}
                   selectedGuess={selectedGuessIndex}
                   selectedLetter={selectedLetterIndex}
                   onLetterClick={(letter) => selectLetter(letter)}
                   guesses={guesses}
                   index={index}
                   key={word}
+                  isGameOver={isGameOver}
                 />
               );
             })}
@@ -74,9 +111,9 @@ const Game = ({ words }: PracticeProps) => {
               addLetter={onAppendLetter}
               popLetter={onPopLetter}
               submit={onSubmitGuess}
-              state={practiceGame.keyboard}
+              state={keyboard}
               isVisible={keyboardVisible}
-              disable={false}
+              disable={isGameOver}
               onClick={toggleKeyboard}
             />
           </Footer>

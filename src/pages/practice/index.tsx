@@ -13,7 +13,7 @@ import {
   Result,
   Title,
 } from "./styles";
-import { Canva, Keyboard } from "~/components";
+import { Canva, Keyboard, Loading } from "~/components";
 import usePracticeGame from "~/store/modules/practiceGame";
 import { useEffect, useState } from "react";
 import { useToggle } from "~/hooks/useToogle";
@@ -21,21 +21,32 @@ import useSettings from "~/store/modules/settings";
 import Modal from "~/components/Modal";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useQuery } from "react-query";
 
-interface PracticeProps {
-  words: {
-    word: string;
-  }[];
-}
+type PracticeWordResponse = Array<{
+  word: string;
+}>;
 
-const Game = ({ words }: PracticeProps) => {
+const Game = () => {
   const [showResult, setShowResult] = useState(false);
   const [gameInitiated, setGameInitiated] = useState(false);
+
+  const {
+    data: words,
+    isLoading,
+    isError,
+  } = useQuery<PracticeWordResponse>(
+    "practice-word",
+    () => getRandomPracticeWord({}),
+    {
+      cacheTime: 0,
+    }
+  );
+
   const {
     practiceGame: {
       word,
       wordLength,
-      attempts,
       selectedGuessIndex,
       selectedLetterIndex,
       guesses,
@@ -49,6 +60,7 @@ const Game = ({ words }: PracticeProps) => {
     newGame,
     selectLetter,
   } = usePracticeGame();
+
   const { settings } = useSettings();
   const router = useRouter();
 
@@ -57,17 +69,48 @@ const Game = ({ words }: PracticeProps) => {
   );
 
   useEffect(() => {
-    if (words.length > 0) {
-      newGame(words[0].word, 6);
-      setGameInitiated(true);
+    if (!isLoading && !isError) {
+      if (words.length > 0) {
+        newGame(words[0].word, 6);
+        setGameInitiated(true);
+      }
     }
-  }, [newGame, words]);
+  }, [isLoading, isError, newGame, words]);
 
   useEffect(() => {
     if (isGameOver && gameInitiated) {
       setShowResult(true);
     }
   }, [isGameOver, gameInitiated]);
+
+  if (isLoading) {
+    return (
+      <>
+        <Head>
+          <title>Modo treino | Letrinha</title>
+        </Head>
+        <Container>
+          <Loading message="Carregando palavra..." />
+        </Container>
+      </>
+    );
+  }
+
+  if (isError) {
+    return (
+      <>
+        <Head>
+          <title>Modo treino | Letrinha</title>
+        </Head>
+        <Container>
+          <Error>
+            Não foi possível carregar esse modo de jogo. Tente novamente mais
+            tarde.
+          </Error>
+        </Container>
+      </>
+    );
+  }
 
   return (
     <>
@@ -90,71 +133,39 @@ const Game = ({ words }: PracticeProps) => {
           </Result>
         </Modal>
       )}
-      {word ? (
-        <Container>
-          <Title>Modo treino</Title>
-          <GameFrame>
-            {words.map(({ word }, index) => {
-              return (
-                <Canva
-                  wordLength={wordLength}
-                  attempts={guesses.length}
-                  selectedGuess={selectedGuessIndex}
-                  selectedLetter={selectedLetterIndex}
-                  onLetterClick={(letter) => selectLetter(letter)}
-                  guesses={guesses}
-                  index={index}
-                  key={word}
-                  isGameOver={isGameOver}
-                />
-              );
-            })}
-          </GameFrame>
-          <Footer>
-            <Keyboard
-              addLetter={onAppendLetter}
-              popLetter={onPopLetter}
-              submit={onSubmitGuess}
-              state={keyboard}
-              isVisible={keyboardVisible}
-              disable={isGameOver}
-              onClick={toggleKeyboard}
-            />
-          </Footer>
-        </Container>
-      ) : (
-        <Container>
-          <Error>
-            Esse modo de jogo está indisponível no momento! Tente novamente mais
-            tarde
-          </Error>
-        </Container>
-      )}
+      <Container>
+        <Title>Modo treino</Title>
+        <GameFrame>
+          {words.map(({ word }, index) => {
+            return (
+              <Canva
+                wordLength={wordLength}
+                attempts={guesses.length}
+                selectedGuess={selectedGuessIndex}
+                selectedLetter={selectedLetterIndex}
+                onLetterClick={(letter) => selectLetter(letter)}
+                guesses={guesses}
+                index={index}
+                key={word}
+                isGameOver={isGameOver}
+              />
+            );
+          })}
+        </GameFrame>
+        <Footer>
+          <Keyboard
+            addLetter={onAppendLetter}
+            popLetter={onPopLetter}
+            submit={onSubmitGuess}
+            state={keyboard}
+            isVisible={keyboardVisible}
+            disable={isGameOver}
+            onClick={toggleKeyboard}
+          />
+        </Footer>
+      </Container>
     </>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  try {
-    const { length } = query;
-
-    const words = await getRandomPracticeWord({
-      wordLength: (length as string) ?? 5,
-      sampleSize: 1,
-    });
-
-    return {
-      props: {
-        words,
-      },
-    };
-  } catch {
-    return {
-      props: {
-        words: [],
-      },
-    };
-  }
 };
 
 export default Game;

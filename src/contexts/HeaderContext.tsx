@@ -48,6 +48,7 @@ const HeaderProvider = ({ children }) => {
     switch (router.asPath) {
       case "/": {
         newConfig.showLogo = false;
+        break;
       }
       case "/game": {
         if (statistics.history.totalGames === 0) {

@@ -13,6 +13,7 @@ const INITIAL_STATE: IPracticeGameState = {
   wordLength: WORD_LENGTH,
   selectedGuessIndex: 0,
   selectedLetterIndex: 0,
+  wordList: [],
 };
 
 const practiceGameReducer: Reducer<IPracticeGameState> = (

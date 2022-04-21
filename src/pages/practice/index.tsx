@@ -22,6 +22,7 @@ import Modal from "~/components/Modal";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
+import { getWordList } from "~/services/words";
 
 type PracticeWordResponse = Array<{
   word: string;
@@ -33,8 +34,8 @@ const Game = () => {
 
   const {
     data: words,
-    isLoading,
-    isError,
+    isLoading: loadingPracticeWord,
+    isError: errorPracticeWord,
   } = useQuery<PracticeWordResponse>(
     "practice-word",
     () => getRandomPracticeWord({}),
@@ -44,8 +45,15 @@ const Game = () => {
   );
 
   const {
+    data: wordList,
+    isLoading: loadingWordList,
+    isError: errorWordList,
+  } = useQuery<string[]>("wordList", () => getWordList(5), {
+    cacheTime: 24 * 60 * 60 * 1000,
+  });
+
+  const {
     practiceGame: {
-      word,
       wordLength,
       selectedGuessIndex,
       selectedLetterIndex,
@@ -68,14 +76,17 @@ const Game = () => {
     !settings.keyboardHidden
   );
 
+  const isLoading = loadingPracticeWord || loadingWordList;
+  const isError = errorPracticeWord || errorWordList;
+
   useEffect(() => {
     if (!isLoading && !isError) {
       if (words.length > 0) {
-        newGame(words[0].word, 6);
+        newGame(words[0].word, 6, wordList);
         setGameInitiated(true);
       }
     }
-  }, [isLoading, isError, newGame, words]);
+  }, [isLoading, isError, newGame, words, wordList]);
 
   useEffect(() => {
     if (isGameOver && gameInitiated) {

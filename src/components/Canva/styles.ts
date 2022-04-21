@@ -102,10 +102,12 @@ export const Field = styled.button<FieldProps>`
   ${is("exists")`
     border: 0;
     background-color: ${({ theme }) => theme.colors.yellow};
+    color: ${({ theme }) => theme.colors.white};
   `}
 
   ${is("correctPlace")`
     border: 0;
     background-color: ${({ theme }) => theme.colors.green};
+    color: ${({ theme }) => theme.colors.white};
   `}
 `;

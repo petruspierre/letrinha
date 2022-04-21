@@ -41,7 +41,10 @@ const Canva = ({
                   return (
                     <Field
                       blur={
-                        !isSelectedGuess && !letterExists && !letterCorrectPlace
+                        (!isSelectedGuess &&
+                          !letterExists &&
+                          !letterCorrectPlace) ||
+                        isGameOver
                       }
                       isActive={
                         selectedLetter === letterIndex &&

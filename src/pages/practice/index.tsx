@@ -3,7 +3,7 @@ import { GetServerSideProps } from "next";
 
 import { getRandomPracticeWord } from "~/services/practice";
 
-import { Container, Footer, GameFrame, Title } from "./styles";
+import { Container, Error, Footer, GameFrame, Title } from "./styles";
 import { Canva, Keyboard } from "~/components";
 import usePracticeGame from "~/store/modules/practiceGame";
 import { useEffect } from "react";
@@ -32,7 +32,9 @@ const Game = ({ words }: PracticeProps) => {
   );
 
   useEffect(() => {
-    newGame(words[0].word, 6);
+    if (words.length > 0) {
+      newGame(words[0].word, 6);
+    }
   }, [newGame, words]);
 
   return (
@@ -40,7 +42,7 @@ const Game = ({ words }: PracticeProps) => {
       <Head>
         <title>Modo treino | Letrinha</title>
       </Head>
-      {practiceGame.word && (
+      {practiceGame.word ? (
         <Container>
           <Title>Modo treino</Title>
           <GameFrame>
@@ -79,24 +81,39 @@ const Game = ({ words }: PracticeProps) => {
             />
           </Footer>
         </Container>
+      ) : (
+        <Container>
+          <Error>
+            Esse modo de jogo está indisponível no momento! Tente novamente mais
+            tarde
+          </Error>
+        </Container>
       )}
     </>
   );
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const { length } = query;
+  try {
+    const { length } = query;
 
-  const words = await getRandomPracticeWord({
-    wordLength: (length as string) ?? 5,
-    sampleSize: 1,
-  });
+    const words = await getRandomPracticeWord({
+      wordLength: (length as string) ?? 5,
+      sampleSize: 1,
+    });
 
-  return {
-    props: {
-      words,
-    },
-  };
+    return {
+      props: {
+        words,
+      },
+    };
+  } catch {
+    return {
+      props: {
+        words: [],
+      },
+    };
+  }
 };
 
 export default Game;

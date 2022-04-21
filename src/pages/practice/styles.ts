@@ -16,6 +16,13 @@ export const Title = styled.h1`
   color: ${({ theme }) => theme.colors.white};
 `;
 
+export const Error = styled.p`
+  font-size: 1.5rem;
+  font-family: ${({ theme }) => theme.font.primary};
+  color: ${({ theme }) => theme.colors.white};
+  text-align: center;
+`;
+
 export const GameFrame = styled.div`
   display: flex;
   flex-wrap: wrap;

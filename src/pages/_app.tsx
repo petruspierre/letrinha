@@ -12,19 +12,12 @@ import "react-toastify/dist/ReactToastify.min.css";
 import * as gtag from "~/services/gtag";
 import { storeWrapper } from "~/store";
 import Analytics from "~/components/Analytics";
-import Settings from "~/components/Settings";
-import Donate from "~/components/Donate";
-import useStatistics from "~/store/modules/statistics";
+import { HeaderProvider } from "~/contexts/HeaderContext";
 
 const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [showHowToPlay, setShowHowToPlay] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
-  const [showDonate, setShowDonate] = useState(false);
   const router = useRouter();
-
-  const { statistics } = useStatistics();
 
   useEffect(() => {
     const handleRouteChange = (url) => {
@@ -36,51 +29,25 @@ function MyApp({ Component, pageProps }: AppProps) {
     };
   }, [router.events]);
 
-  const toggleInstructions = () => {
-    setShowHowToPlay(!showHowToPlay);
-  };
-
-  const toggleSettings = () => {
-    setShowSettings(!showSettings);
-  };
-
-  const toggleDonate = () => {
-    setShowDonate(!showDonate);
-  };
-
-  useEffect(() => {
-    if (router.asPath === "/game") {
-      if (statistics.history.totalGames === 0) {
-        setShowHowToPlay(true);
-      }
-    }
-  }, [router.asPath, statistics.history.totalGames]);
-
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider themes={themes}>
-        <GlobalStyles />
-        {showHowToPlay && <HowToPlay dismiss={toggleInstructions} />}
-        {showSettings && <Settings dismiss={toggleSettings} />}
-        {showDonate && <Donate dismiss={toggleDonate} />}
-        <Header
-          toggleInstructions={toggleInstructions}
-          toggleSettings={toggleSettings}
-          toggleDonate={toggleDonate}
-        />
-        <ToastContainer
-          position="top-right"
-          autoClose={1500}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          className="toast"
-          draggable
-          pauseOnHover
-        />
-        <Component {...pageProps} />
-        <Analytics />
+        <HeaderProvider>
+          <GlobalStyles />
+          <ToastContainer
+            position="top-right"
+            autoClose={1500}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            className="toast"
+            draggable
+            pauseOnHover
+          />
+          <Component {...pageProps} />
+          <Analytics />
+        </HeaderProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );

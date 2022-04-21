@@ -30,6 +30,7 @@ interface PracticeProps {
 
 const Game = ({ words }: PracticeProps) => {
   const [showResult, setShowResult] = useState(false);
+  const [gameInitiated, setGameInitiated] = useState(false);
   const {
     practiceGame: {
       word,
@@ -40,6 +41,7 @@ const Game = ({ words }: PracticeProps) => {
       guesses,
       isGameOver,
       keyboard,
+      win,
     },
     onAppendLetter,
     onPopLetter,
@@ -57,14 +59,15 @@ const Game = ({ words }: PracticeProps) => {
   useEffect(() => {
     if (words.length > 0) {
       newGame(words[0].word, 6);
+      setGameInitiated(true);
     }
   }, [newGame, words]);
 
   useEffect(() => {
-    if (isGameOver) {
+    if (isGameOver && gameInitiated) {
       setShowResult(true);
     }
-  }, [isGameOver]);
+  }, [isGameOver, gameInitiated]);
 
   return (
     <>
@@ -74,6 +77,7 @@ const Game = ({ words }: PracticeProps) => {
       {showResult && (
         <Modal dismiss={() => setShowResult(false)} title="Treino finalizado!">
           <Result>
+            <p>Você {win ? "venceu!" : "perdeu."}</p>
             <p>Deseja tentar novamente?</p>
             <ButtonWrapper>
               <Button onClick={router.reload}>Treinar</Button>

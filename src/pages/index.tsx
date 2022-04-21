@@ -31,7 +31,9 @@ const Home = () => {
             <Link href="/game">
               <a>Palavra do dia</a>
             </Link>
-            <PreviewButton disabled>Modo treino</PreviewButton>
+            <Link href="/practice">
+              <a>Modo treino</a>
+            </Link>
             <PreviewButton disabled>Modo duelo</PreviewButton>
           </ButtonsContainer>
         </Content>

@@ -168,6 +168,8 @@ export const ButtonsContainer = styled.nav`
   justify-content: center;
   margin-top: 3rem;
 
+  gap: 3rem;
+
   a {
     padding: 1rem 2rem;
     color: ${({ theme }) => theme.colors.white};
@@ -194,8 +196,6 @@ export const PreviewButton = styled.button`
   font-family: ${({ theme }) => theme.font.primary};
   font-style: italic;
   position: relative;
-
-  margin-top: 3rem;
 
   &:disabled {
     cursor: not-allowed;

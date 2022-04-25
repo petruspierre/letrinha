@@ -7,3 +7,4 @@ export { default as Canva } from "./Canva";
 export { default as Settings } from "./Settings";
 export { default as Donate } from "./Donate";
 export { default as Loading } from "./Loading";
+export { default as PracticeDifficulty } from "./PracticeDifficulty";

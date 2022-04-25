@@ -218,9 +218,7 @@ const usePracticeGame = () => {
           word,
           attempts,
           wordLength: word.length,
-          guesses: new Array(word.length + 1).fill(
-            new Array(word.length).fill({})
-          ),
+          guesses: new Array(attempts).fill(new Array(word.length).fill({})),
           selectedGuessIndex: 0,
           selectedLetterIndex: 0,
           keyboard: {},

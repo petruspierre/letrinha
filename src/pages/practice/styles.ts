@@ -42,7 +42,7 @@ export const Footer = styled.section`
   flex-direction: column;
   align-items: center;
   height: auto;
-  padding: 1rem 0 0.5rem;
+  padding: 1rem 0 2rem;
   transition: background-color 0.2s;
   background-color: ${({ theme }) => theme.colors.secondary};
 

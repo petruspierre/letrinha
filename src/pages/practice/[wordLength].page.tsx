@@ -35,12 +35,19 @@ const Game = () => {
   const [gameInitiated, setGameInitiated] = useState(false);
 
   const {
+    query: { wordLength: queryWordLength },
+  } = useRouter();
+
+  const {
     data: words,
     isLoading: loadingPracticeWord,
     isError: errorPracticeWord,
   } = useQuery<PracticeWordResponse>(
-    "practice-word",
-    () => getRandomPracticeWord({}),
+    ["practice-word", queryWordLength],
+    () =>
+      getRandomPracticeWord({
+        wordLength: queryWordLength as string,
+      }),
     {
       cacheTime: 0,
     }
@@ -50,9 +57,13 @@ const Game = () => {
     data: wordList,
     isLoading: loadingWordList,
     isError: errorWordList,
-  } = useQuery<string[]>("wordList", () => getWordList(5), {
-    cacheTime: 24 * 60 * 60 * 1000,
-  });
+  } = useQuery<string[]>(
+    `wordList-${queryWordLength}`,
+    () => getWordList(parseInt(queryWordLength as string) ?? 5),
+    {
+      cacheTime: 24 * 60 * 60 * 1000,
+    }
+  );
 
   const {
     practiceGame: {
@@ -85,7 +96,9 @@ const Game = () => {
   useEffect(() => {
     if (!isLoading && !isError) {
       if (words.length > 0) {
-        newGame(words[0].word, 6, wordList);
+        const practiceWord = words[0].word;
+
+        newGame(practiceWord, practiceWord.length + 1, wordList);
         setGameInitiated(true);
       }
     }

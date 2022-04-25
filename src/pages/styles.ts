@@ -168,8 +168,6 @@ export const ButtonsContainer = styled.nav`
   justify-content: center;
   margin-top: 3rem;
 
-  gap: 3rem;
-
   a {
     padding: 1rem 2rem;
     color: ${({ theme }) => theme.colors.white};
@@ -182,10 +180,15 @@ export const ButtonsContainer = styled.nav`
     &:hover {
       filter: brightness(0.8);
     }
+
+    & + a,
+    & + button {
+      margin-top: 3rem;
+    }
   }
 `;
 
-export const PreviewButton = styled.button`
+export const Button = styled.button`
   padding: 1rem 2rem;
   color: ${({ theme }) => theme.colors.white};
   background-color: ${({ theme }) => theme.colors.primary};
@@ -197,17 +200,26 @@ export const PreviewButton = styled.button`
   font-style: italic;
   position: relative;
 
+  & + a,
+  & + button {
+    margin-top: 3rem;
+  }
+
+  :not(&:disabled):hover {
+    filter: brightness(0.8);
+  }
+
   &:disabled {
     cursor: not-allowed;
     opacity: 0.8;
-  }
 
-  &:after {
-    content: "EM BREVE!!";
-    position: absolute;
-    top: -0.5rem;
-    right: -2.5rem;
-    font-size: 1.25rem;
-    transform: rotate(15deg);
+    &:after {
+      content: "EM BREVE!!";
+      position: absolute;
+      top: -0.5rem;
+      right: -2.5rem;
+      font-size: 1.25rem;
+      transform: rotate(15deg);
+    }
   }
 `;

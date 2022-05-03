@@ -20,6 +20,7 @@ export const Title = styled.h1`
   font-size: 2rem;
   font-family: ${({ theme }) => theme.font.primary};
   color: ${({ theme }) => theme.colors.white};
+  margin-bottom: 0.5rem;
 `;
 
 export const Error = styled.p`
@@ -35,6 +36,24 @@ export const GameFrame = styled.div`
   flex: 1;
   align-items: center;
   overflow: auto;
+  padding-right: 2px;
+
+  @media screen and (min-width: 768px) {
+    &::-webkit-scrollbar {
+      width: 0.5rem;
+      right: -1px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: transparent;
+      width: 0.25rem;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: ${({ theme }) => theme.colors.primary};
+      border-radius: 1rem;
+    }
+  }
 `;
 
 export const Footer = styled.section`
@@ -56,6 +75,7 @@ export const Footer = styled.section`
 
   @media screen and (min-width: 768px) {
     max-width: 553px;
+    padding: 1rem 0 0.5rem;
   }
 `;
 

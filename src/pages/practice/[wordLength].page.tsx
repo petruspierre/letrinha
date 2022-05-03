@@ -174,7 +174,7 @@ const Game = () => {
         </Modal>
       )}
       <Container>
-        <Title>Modo treino</Title>
+        {/* <Title>Modo treino</Title> */}
         <GameFrame>
           {words.map(({ word }, index) => {
             return (

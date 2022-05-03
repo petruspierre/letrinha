@@ -39,7 +39,7 @@ const Result = ({ gameState, dismiss }: IResultProps) => {
     const result = win ? "ganhei!!" : "perdi :(";
 
     const filteredGuesses = gameState.guesses.filter((guess) =>
-      guess.some(({ exists }) => exists)
+      guess.some(({ letter }) => letter)
     );
     const content = [
       `Eu acabei de jogar Letrinha e ${result}`,

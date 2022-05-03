@@ -114,8 +114,8 @@ export const Content = styled.main`
 
 export const AnimatedContainer = styled.h1`
   color: ${({ theme }) => theme.colors.white};
-  font-size: 7rem;
-  line-height: 6rem;
+  font-size: 8rem;
+  line-height: 7rem;
 
   display: flex;
 
@@ -180,10 +180,15 @@ export const ButtonsContainer = styled.nav`
     &:hover {
       filter: brightness(0.8);
     }
+
+    & + a,
+    & + button {
+      margin-top: 3rem;
+    }
   }
 `;
 
-export const PreviewButton = styled.button`
+export const Button = styled.button`
   padding: 1rem 2rem;
   color: ${({ theme }) => theme.colors.white};
   background-color: ${({ theme }) => theme.colors.primary};
@@ -195,19 +200,26 @@ export const PreviewButton = styled.button`
   font-style: italic;
   position: relative;
 
-  margin-top: 3rem;
+  & + a,
+  & + button {
+    margin-top: 3rem;
+  }
+
+  :not(&:disabled):hover {
+    filter: brightness(0.8);
+  }
 
   &:disabled {
     cursor: not-allowed;
     opacity: 0.8;
-  }
 
-  &:after {
-    content: "EM BREVE!!";
-    position: absolute;
-    top: -0.5rem;
-    right: -2.5rem;
-    font-size: 1.25rem;
-    transform: rotate(15deg);
+    &:after {
+      content: "EM BREVE!!";
+      position: absolute;
+      top: -0.5rem;
+      right: -2.5rem;
+      font-size: 1.25rem;
+      transform: rotate(15deg);
+    }
   }
 `;

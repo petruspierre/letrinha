@@ -10,6 +10,7 @@ export type Theme = {
     white: string;
     green: string;
     yellow: string;
+    red: string;
   };
   font: {
     primary: string;
@@ -33,29 +34,29 @@ export type ColorTheme = {
 const themes: Record<string, ColorTheme> = {
   barbie: {
     colors: {
-      primary: "#A64071",
-      secondary: "#DB73BE",
+      primary: "#9D4972",
+      secondary: "#D27BBA",
     },
     name: "Barbie",
   },
   grass: {
     colors: {
       primary: "#2F4A22",
-      secondary: "#598028",
+      secondary: "#5A7638",
     },
     name: "Mato",
   },
   tomatoes: {
     colors: {
       primary: "#732929",
-      secondary: "#CF324E",
+      secondary: "#AF4848",
     },
     name: "Tomate",
   },
   concrete: {
     colors: {
       primary: "#3A3A40",
-      secondary: "#91999D",
+      secondary: "#697780",
     },
     name: "Concreto",
   },
@@ -76,6 +77,7 @@ const defaultTheme: DefaultTheme = {
     overlay: "rgba(0, 0, 0, 0.3)",
     green: "#27B15E",
     yellow: "#F4AD23",
+    red: "#DF2547",
     ...themes.default.colors,
   },
   font: {

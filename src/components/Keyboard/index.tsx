@@ -55,7 +55,7 @@ const Keyboard = ({
                     disabled={disable}
                   >
                     <img
-                      src="assets/icons/chevron-left.svg"
+                      src="/assets/icons/chevron-left.svg"
                       alt="Apagar letra"
                     />
                   </KeyboardButton>

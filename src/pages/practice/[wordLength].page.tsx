@@ -81,6 +81,7 @@ const Game = () => {
     onSubmitGuess,
     newGame,
     selectLetter,
+    handleKeyDown,
   } = usePracticeGame();
 
   const { settings } = useSettings();
@@ -109,6 +110,12 @@ const Game = () => {
       setShowResult(true);
     }
   }, [isGameOver, gameInitiated]);
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [handleKeyDown]);
 
   if (isLoading) {
     return (

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import useSound from "use-sound";
@@ -293,12 +293,6 @@ const usePracticeGame = () => {
     ]
   );
 
-  useEffect(() => {
-    document.addEventListener("keydown", handleKeyDown);
-
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [handleKeyDown]);
-
   return {
     practiceGame,
     onSubmitGuess,
@@ -306,6 +300,7 @@ const usePracticeGame = () => {
     onAppendLetter,
     newGame,
     selectLetter,
+    handleKeyDown,
   };
 };
 

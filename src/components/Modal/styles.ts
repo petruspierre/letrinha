@@ -36,9 +36,9 @@ export const Content = styled.div`
   transform: translate(-50%, -50%);
   z-index: 3;
   width: calc(100% - 2rem);
-  max-width: 600px;
+  max-width: 500px;
   align-items: center;
-  padding: 4rem 0;
+  padding: 2rem 0;
   animation: ${fadeIn} 0.2s ease-in-out;
   max-height: calc(100vh - 1rem);
   overflow-y: scroll;
@@ -68,7 +68,7 @@ export const CloseButton = styled.button`
   font-size: 1rem;
   position: absolute;
   right: 1rem;
-  top: 1rem;
+  top: 1.5rem;
   border-radius: 4px;
   border: 1px solid white;
   color: white;
@@ -85,7 +85,7 @@ export const CloseButton = styled.button`
 
 export const Title = styled.h2`
   font-family: ${({ theme }) => theme.font.primary};
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-style: italic;
   font-weight: 400;
   text-align: center;

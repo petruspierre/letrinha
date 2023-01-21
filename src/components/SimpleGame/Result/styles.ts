@@ -12,7 +12,7 @@ export const Container = styled.div`
   justify-content: center;
   flex-direction: column;
 
-  padding: 0 2rem 2rem;
+  padding: 0 1rem 1rem;
   text-align: center;
 
   h2,
@@ -25,8 +25,9 @@ export const Container = styled.div`
   }
 
   p {
-    margin-top: 0.25rem;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
+    font-style: normal;
+    margin-top: 2rem;
   }
 
   span {
@@ -95,4 +96,31 @@ export const Preview = styled.div<IPreviewProps>`
     background: ${({ theme }) => theme.colors.green};
     color: ${({ theme }) => theme.colors.white};
   `}
+`;
+
+export const History = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0.5rem;
+
+  h3 {
+    color: ${({ theme }) => theme.colors.white};
+    font-size: 1.5rem;
+    font-family: ${({ theme }) => theme.font.primary};
+    font-style: italic;
+  }
+
+  table {
+    width: 100%;
+    color: ${({ theme }) => theme.colors.white};
+    font-size: 1rem;
+    font-family: ${({ theme }) => theme.font.primary};
+    margin-bottom: 1rem;
+
+    tr {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
 `;

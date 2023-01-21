@@ -9,6 +9,7 @@ import {
   Button,
   ButtonWrapper,
   Container,
+  History,
   Preview,
   PreviewWrapper,
 } from "./styles";
@@ -23,20 +24,22 @@ const Result = ({ gameState, dismiss }: IResultProps) => {
   const { statistics } = useStatistics();
   const [copied, setCopied] = useState(false);
 
-  const { totalTimeSpent, totalGuesses, accuracy } = statistics.current;
+  const { totalGuesses } = statistics.current;
+  const {
+    longestStreak,
+    totalVictories,
+    totalGames,
+    averageAccuracy,
+    currentStreak,
+  } = statistics.history;
   const { win, wordLength } = gameState;
 
   const result = win
-    ? "Você ganhou, parabéns!!!"
+    ? "Você ganhou, parabéns!"
     : "Você perdeu, não foi dessa vez :(";
-  const time = `${totalTimeSpent.minutes.toLocaleString("pt-BR", {
-    minimumIntegerDigits: 2,
-  })}:${totalTimeSpent.seconds.toLocaleString("pt-BR", {
-    minimumIntegerDigits: 2,
-  })}`;
 
   const handleShare = () => {
-    const result = win ? "ganhei!!" : "perdi :(";
+    const result = win ? "ganhei!" : "perdi :(";
 
     const filteredGuesses = gameState.guesses.filter((guess) =>
       guess.some(({ letter }) => letter)
@@ -57,6 +60,7 @@ const Result = ({ gameState, dismiss }: IResultProps) => {
           .join("");
       }),
       "",
+      `🔥 ${currentStreak}`,
       "Jogue também em https://www.letrinha.xyz",
     ];
 
@@ -77,9 +81,10 @@ const Result = ({ gameState, dismiss }: IResultProps) => {
   };
 
   return (
-    <Modal title="OBRIGADO POR JOGAR!" dismiss={() => dismiss(true)}>
+    <Modal title="RESULTADOS" dismiss={() => dismiss(true)}>
       <Container>
-        <p>a palavra do dia é:</p>
+        <h2>{result}</h2>
+        <p>A palavra do dia foi</p>
         <PreviewWrapper>
           {statistics.current.correctWord.split("").map((letter, index) => (
             <Preview
@@ -92,7 +97,33 @@ const Result = ({ gameState, dismiss }: IResultProps) => {
           ))}
         </PreviewWrapper>
 
-        <p>{result}</p>
+        <History>
+          <h3>Suas estatísticas</h3>
+          <table>
+            <tbody>
+              <tr>
+                <td>Maior sequência</td>
+                <td>{longestStreak}</td>
+              </tr>
+              <tr>
+                <td>Sequência atual</td>
+                <td>{currentStreak}</td>
+              </tr>
+              <tr>
+                <td>Palavras jogadas</td>
+                <td>{totalGames}</td>
+              </tr>
+              <tr>
+                <td>Palavras acertadas</td>
+                <td>{totalVictories}</td>
+              </tr>
+              <tr>
+                <td>Precisão média</td>
+                <td>{averageAccuracy.toFixed(2)}%</td>
+              </tr>
+            </tbody>
+          </table>
+        </History>
 
         <ButtonWrapper>
           <Button onClick={handleShare}>

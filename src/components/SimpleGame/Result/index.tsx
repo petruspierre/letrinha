@@ -61,7 +61,7 @@ const Result = ({ gameState, dismiss }: IResultProps) => {
       }),
       "",
       `🔥 ${currentStreak}`,
-      "Jogue também em https://www.letrinha.xyz",
+      "Jogue também em https://letrinha.petrus.dev.br",
     ];
 
     if (typeof navigator.share !== "undefined") {

@@ -1,7 +1,7 @@
 ![Group 111](https://user-images.githubusercontent.com/39802870/156370919-11fdba8e-bfed-4e23-8dda-49abbe9fdb3f.png)
 <p align="center">Letrinha is a puzzle game about words and inspired in Wordle.</p>
 
-Avaiable in production: https://letrinha.xyz/
+Avaiable in production: https://letrinha.petrus.dev.br/
 
 ## Tech
 - NextJS

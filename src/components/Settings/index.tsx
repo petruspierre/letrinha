@@ -2,7 +2,7 @@ import { useState } from "react";
 import useSettings from "~/store/modules/settings";
 
 import Modal from "../Modal";
-import { Button, Content, FieldWrapper, Slider } from "./styles";
+import { Checkbox, Content, Slider } from "./styles";
 
 const SCALE_RATIO = 0.5;
 
@@ -44,33 +44,43 @@ const Settings = ({ dismiss }: ISettingsProps) => {
   return (
     <Modal dismiss={onSubmit} title="Configurações">
       <Content>
-        <FieldWrapper>
-          <Slider>
-            <input
-              type="range"
-              min="0"
-              max="100"
-              value={volumeSfx}
-              onChange={onChangeVolume}
-              id="volumeSfx"
-            />
-          </Slider>
-          <label htmlFor="volumeSfx">
-            Volume dos efeitos sonoros: {volumeSfx}
-          </label>
-        </FieldWrapper>
-
-        <FieldWrapper>
-          <span>Teclado oculto por padrão:</span>
-          <Button
-            active={keyboardHidden}
-            onClick={toggleKeyboard}
-            aria-label="Teclado oculto por padrão?"
-            title="Teclado oculto por padrão?"
-          >
-            {keyboardHidden ? "Habilitado" : "Desabilitado"}
-          </Button>
-        </FieldWrapper>
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <label htmlFor="volumeSfx">
+                  Volume dos efeitos sonoros: {volumeSfx}
+                </label>
+              </td>
+              <td>
+                <Slider>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={volumeSfx}
+                    onChange={onChangeVolume}
+                    id="volumeSfx"
+                  />
+                </Slider>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="hiddenKeyboard">
+                  Teclado oculto por padrão
+                </label>
+              </td>
+              <td>
+                <Checkbox
+                  id="hiddenKeyboard"
+                  checked={keyboardHidden}
+                  onChange={toggleKeyboard}
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </Content>
     </Modal>
   );

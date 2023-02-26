@@ -98,22 +98,22 @@ export default class MyDocument extends Document {
           <link rel="shortcut icon" href="/assets/logo/favicon.ico" />
 
           <meta name="twitter:card" content="summary" />
-          <meta name="twitter:url" content="https://letrinha.xyz" />
+          <meta name="twitter:url" content="https://letrinha.petrus.dev.br/" />
           <meta name="twitter:title" content={APP_NAME} />
           <meta name="twitter:description" content={APP_DESCRIPTION} />
           <meta
             name="twitter:image"
-            content="https://letrinha.xyz/assets/logo/android-chrome-192x192.png"
+            content="https://letrinha.petrus.dev.br/assets/logo/android-chrome-192x192.png"
           />
           <meta name="twitter:creator" content="@petruscrf" />
           <meta property="og:type" content="website" />
           <meta property="og:title" content={APP_NAME} />
           <meta property="og:description" content={APP_DESCRIPTION} />
           <meta property="og:site_name" content={APP_NAME} />
-          <meta property="og:url" content="https://letrinha.xyz" />
+          <meta property="og:url" content="https://letrinha.petrus.dev.br/" />
           <meta
             property="og:image"
-            content="https://letrinha.xyz/assets/logo/apple-touch-icon.png"
+            content="https://letrinha.petrus.dev.br/assets/logo/apple-touch-icon.png"
           />
         </Head>
         <body>

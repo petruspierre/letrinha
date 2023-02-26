@@ -5,7 +5,8 @@ import {
   StyledCheckbox,
 } from "./styles";
 
-export interface CheckboxProps extends HTMLInputElement {
+export interface CheckboxProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   checked: boolean;
 }
 

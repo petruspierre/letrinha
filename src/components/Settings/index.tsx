@@ -2,7 +2,8 @@ import { useState } from "react";
 import useSettings from "~/store/modules/settings";
 
 import Modal from "../Modal";
-import { Checkbox, Content, Slider } from "./styles";
+import { Content, Slider } from "./styles";
+import Checkbox from "../Checkbox";
 
 const SCALE_RATIO = 0.5;
 
@@ -48,9 +49,7 @@ const Settings = ({ dismiss }: ISettingsProps) => {
           <tbody>
             <tr>
               <td>
-                <label htmlFor="volumeSfx">
-                  Volume dos efeitos sonoros: {volumeSfx}
-                </label>
+                <label htmlFor="volumeSfx">Volume: {volumeSfx}</label>
               </td>
               <td>
                 <Slider>
@@ -65,7 +64,7 @@ const Settings = ({ dismiss }: ISettingsProps) => {
                 </Slider>
               </td>
             </tr>
-            <tr>
+            {/* <tr>
               <td>
                 <label htmlFor="hiddenKeyboard">
                   Teclado oculto por padrão
@@ -78,7 +77,7 @@ const Settings = ({ dismiss }: ISettingsProps) => {
                   onChange={toggleKeyboard}
                 />
               </td>
-            </tr>
+            </tr> */}
           </tbody>
         </table>
       </Content>

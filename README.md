@@ -13,7 +13,6 @@ Avaiable in production: https://letrinha.petrus.dev.br/
 
 ## Roadmap
 - [ ] User auth
-- [ ] Move game to DDD
 - [ ] Custom themes
 - [ ] Ranking
 - [ ] Statistics page
